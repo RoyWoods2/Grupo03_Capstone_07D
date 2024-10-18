@@ -1,0 +1,55 @@
+     
+       
+        /* Estilos del contenedor del video */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Ajusta el video a la pantalla completa */
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Contenedor de contenido */
+        .content {
+            position: relative;
+            z-index: 1;
+            padding-top: 80px; /* Ajusta según la altura de la navbar */
+            padding: 50px;
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: 10px;
+        }
+
+        /* Cambia el fondo al hacer scroll */
+        .scroll-background {
+            position: relative;
+            height: 100vh;
+            background-color: #333; /* Cambia a un color sólido */
+            transition: background-color 1s;
+        }
+
+        /* Sección larga para poder hacer scroll */
+        .long-section {
+            height: 200vh;
+            background-color: #e0e0e0;
+        }
+
+        /* Video desaparece gradualmente con el scroll */
+        .fade-video {
+            opacity: 1;
+            transition: opacity 1s;
+        }
+
+        .hidden {
+            opacity: 0;
+        }

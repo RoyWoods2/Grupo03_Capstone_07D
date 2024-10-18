@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ocultar {
+    display: none;
+}
+
+.mostrar {
+    display: block;
+}
+
+.fas {
+    color: #fff;
+}
+
+.box-prom {
+    margin: 10px;
+    background: #fff;
+    height: 500px;
+    width: 100%;
+    position: relative;
+    border: 5px solid #000000;
+    text-align: center;
+}
+
+.box-prom2 {
+    margin: 10px;
+    background: #fff;
+    height: 500px;
+    width: 100%;
+    position: relative;
+    border: 5px solid #000000;
+    text-align: center;
+}
+
+.box-text {
+    background: gray;
+    border-bottom: 5px solid black;
+    color: #FFFF00;
+}
+
+
+
+.far {
+    color: #fff;
+    text-decoration: none;
+    padding: .7rem;
+    display: flex;
+    transition: all .5s;
+}
+
+.fa-arrow-alt-circle-up {
+    color: #FFC30F;
+}
+
+.go-up:hover {
+    opacity: 1;
+}
+
+
+
+
+img {
+	max-width: 100%;
+}
+
+p {
+	line-height: 1.5em;
+}
+
+
+
+table {
+	border-collapse: collapse;
+}
+
+a {
+	color: #bf2000;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+
+
+a:hover {
+	color: #f22800;
+	text-decoration: none;
+}
+
+/* Main Index Styling */
+
+a.titlelink, a.titlelink:visited {
+	color: #222!important;
+	transition: 0.1s;
+}
+
+a.titlelink:hover {
+	color: #444!important;
+	border-bottom: 2px solid #444!important;
+	transition: 0.1s;
+}
+
+
+
+.siteinfo {
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+.siteinfo a {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.twittericon {
+	background: url('../img/twitter.svg') center no-repeat;
+	background-size: 70%;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: inline-block;
+	transition: 0.2s;
+	transition-timing-function: ease-in-out;
+	background-color: #eee;
+	border-radius: 20px;
+	margin:0 0.4em 0 0;
+}
+
+.twittericon:hover {
+	background-color: #fff;
+	transition: 0.2s;
+	transition-timing-function: ease-in-out;
+}
+
+.abouticon {
+	background: url('../img/about.svg') center no-repeat;
+	background-size: 32%;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: inline-block;
+	transition: 0.2s;
+	transition-timing-function: ease-in-out;
+	background-color: #eee;
+	border-radius: 20px;
+	margin:0 0 0 0;
+}
+
+.abouticon:hover {
+	background-color: #fff;
+	transition: 0.2s;
+	transition-timing-function: ease-in-out;
+}
+
+.themeicon {
+	background: url('../img/bulb.svg') center no-repeat;
+	background-size: 75%;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: inline-block;
+	transition: 0.2s;
+	transition-timing-function: ease-in-out;
+	background-color: #eee;
+	border-radius: 20px;
+	margin:0 0 0 0;
+}
+
+.themeicon:hover {
+	background-color: #fff;
+	transition: 0.2s;
+	transition-timing-function: ease-in-out;
+}
+
+.appstorelink {
+	padding: 0.5em 0.5em 0.5em 0em; 
+	width: 100%; 
+	/*margin-bottom: -1.25em;*/
+}
+
+.appstorelink a img {
+	transition: 0.1s;
+	border-bottom: 1px solid transparent;
+}
+
+.appstorelink a img:hover {
+	transition: 0.1s;
+	border-bottom: 1px solid #555;
+}
+
+.topannounce a, .topannounce a:visited {
+	color: #ffc640;
+} 
+
+.topannounce a:hover {
+	color:#ff9a40;
+}
+
+.characternav {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 0.6em;
+	background: #333;
+}
+
+#searchlabel {
+	font-size:0.1%; 
+	color: #333; 
+	user-select: none; 
+	margin-bottom:-1.25em;
+}
+
+
+#searchbox {
+	display: block;
+	margin: auto;
+	flex-grow: 1;
+	padding: 0.75em;
+	margin: 1em 0.7em;
+	font-size: 11pt;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 800;
+	width: 100%;
+}
+
+.charactericon {
+	width: 300px;
+	flex-grow: 1;
+	border: 1px solid #222;
+	border-bottom: 3px solid #111;
+	padding: 0;
+	text-align: center;
+	margin: 0.33em;
+	user-select: none;
+	background-color: #333;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 15%;
+	color: #fff;
+	text-shadow: 1px 1px 6px #111;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 800;
+	font-size: 22pt;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: 0.1s;
+	transition-timing-function: ease-in-out;
+}
+
+.charactericon:hover, .charactericon:active {
+	border-color: #ffc640;
+	border-bottom-color: #ff9a40;
+	transition: 0.1s;
+	transition-timing-function: ease-in-out;
+}
+
+.charactericon a, .charactericon a:visited {
+	padding: 0.66em 0em;
+	width: 100%;
+	color: #fff;
+	text-shadow: 1px 1px 6px #111;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 800;
+	font-size: 22pt;
+	text-decoration: none;
+}
+
+.character {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+
+.dbfz {
+	background-image: url('logo/dbfzLogo.png');
+	background-position: center 50%;
+	background-size: contain!important;
+	max-width: 560px!important;
+	min-height: 240px!important;
+}
+
+.sf6 {
+	background-image: url('logo/SF6Logo.webp');
+	background-position: center 55%;
+	background-size: 75%;
+	max-width: 560px!important;
+	min-height: 240px!important;
+}
+.tekken8 {
+	background-image: url('logo/tekken8.jpg');
+	background-position: center 55%;
+	background-size: 75%;
+	max-width: 560px!important;
+	min-height: 240px!important;
+}
+.kof {
+	background-image: url('logo/kofLogo.png');
+	background-position: center 55%;
+	background-size: 75%;
+	max-width: 560px!important;
+	min-height: 240px!important;
+}
+.bayonetta {
+	background-image: url('logo/kofLogo.png');
+	background-position: center 55%;
+
+}
+
+.cd-container {
+  /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
+  width: 90%;
+  max-width: 1170px;
+  margin: 0 auto;
+}
+.cd-container::after {
+  /* clearfix */
+  content: '';
+  display: table;
+  clear: both;
+}
+

@@ -1,0 +1,39 @@
+{% extends "polls/base.html" %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    
+<head>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'polls/css/polls.css' %}">
+        <title>Mi Proyecto</title>
+    </head>
+    
+</head>
+    {% block content %}
+
+    <body>
+        <nav class="navbar" id="navbar">
+            <div class="logo">
+                <a href="">MiSitio</a>
+            </div>
+            <ul class="menu">
+                <li><a href="">Home</a></li>
+                <li><a href="">About</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </nav>
+    
+        <div class="content">
+            <!-- Aquí va el contenido de cada página -->
+            {% endblock %}
+        </div>
+    
+    
+    </body>
+    
+
+
+</html>

@@ -1,0 +1,24 @@
+# Python
+*.pyc
+__pycache__/
+
+# Entorno virtual
+/env/
+.venv/
+
+# Base de datos SQLite
+db.sqlite3
+
+# Archivos estáticos y media
+/static/
+/media/
+
+# Configuraciones de VSCode
+.vscode/
+
+# Archivos de configuración locales
+*.env
+
+# Archivos de migración de Django
+*/migrations/__pycache__/
+*/migrations/*.py

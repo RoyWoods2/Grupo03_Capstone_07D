@@ -1,0 +1,79 @@
+body, html {
+    color: azure;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.content {
+   color: #fff;
+
+    display: flex; /* Hace que los contenedores estén en fila */
+    justify-content: space-between; /* Espacio entre los contenedores */
+}
+
+.h1 {
+color: #fff;
+font-size: 2rem;
+text-align: center;
+}
+
+.box1, .box2 {
+    width: 45%; /* Ajusta el ancho de cada contenedor */
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.subtitulo{
+        width: 100%;
+    margin-bottom: 10px;
+    color: var(--color-base--emphasized);
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+    border-bottom: 2px solid;
+    border-color: #333;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: min-content min-content 1fr min-content;
+    grid-template-areas:
+        "Summary Summary"
+        "Pros-Header Cons-Header"
+        "Pros Cons"
+        "Notes Notes";
+    font-size: 0.875em;/
+}
+
+.grid-item {
+    background-color: #ccc;
+    padding: 20px;
+    text-align: center;
+}
+.Pros-Header {
+grid-area: Pros-Header;
+border-bottom: 1px solid var(--border-color-base);
+color:mediumspringgreen;
+text-align: center;
+font-size: 1rem;
+font-weight: bold;
+}
+
+.Cons-Header {
+    grid-area: Cons-Header;
+    border-bottom: 1px solid var(--border-color-base);
+    color:crimson;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.Summary {
+    grid-area: Summary;
+    text-align: center;
+}
+
+.Notes {
+    padding-top: 0.33em;
+    grid-area: Notes;
+}

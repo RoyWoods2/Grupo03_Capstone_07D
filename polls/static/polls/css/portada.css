@@ -1,0 +1,472 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:800');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav.sticky {
+  background-color: #222;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+}
+
+
+
+
+
+.social-bar {
+    position: fixed;
+    right: 0;
+    top: 35%;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+}
+
+.fab {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    transition: all .5s;
+}
+
+.fa-volver {
+    background: #a533ff;
+    padding: 0.7rem 1.3rem 0.7rem 1.1rem;
+}
+
+.fa-google-plus-g {
+    background: #db4a39;
+    padding: 0.7rem;
+}
+
+.fa-twitter {
+    background: #339DC5;
+    padding: 0.7rem 1rem 0.7rem 0.7rem;
+}
+
+.go-up {
+    position: fixed;
+    right: 2%;
+    bottom: 2%;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+    opacity: 0.4;
+}
+
+.far {
+    color: #fff;
+    text-decoration: none;
+    padding: .7rem;
+    display: flex;
+    transition: all .5s;
+}
+
+.fa-arrow-alt-circle-up {
+    color: #FFC30F;
+}
+
+.go-up:hover {
+    opacity: 1;
+}
+
+.Encabezado {
+    background: #ffc640;
+    border-bottom: 1px solid #ff9a40;
+    margin: auto;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding: 0.66em 0.33em;
+}
+
+.Pie {
+    background: #ffc640;
+    margin: auto;
+    text-align: center;
+}
+
+.Pie h1 {
+    font-size: 8pt;
+    padding: 0 0.2em 0 0;
+    margin: 0;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.Encabezado h1 {
+    font-size: 18pt;
+    padding: 0 0.2em 0 0;
+    margin: 0;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.Portrait {
+    padding: 0.75em 4em;
+    margin: auto;
+    display: block;
+}
+
+
+/* -------------------------------- 
+
+		Main Menu components 
+
+		-------------------------------- */
+
+		#cd-nav ul {
+            /* mobile first */
+            border: 1px solid #777;
+            position: fixed;
+            width: 90%;
+            max-width: 400px;
+            right: 5%;
+            bottom: 20px;
+            border-radius: 0em;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+            background: #111;
+            visibility: hidden;
+            /* remove overflow:hidden if you want to create a drop-down menu - but then remember to fix/eliminate the list items animation */
+            overflow: hidden;
+            z-index: 1;
+            /* Force Hardware Acceleration in WebKit */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: scale(0);
+            -moz-transform: scale(0);
+            -ms-transform: scale(0);
+            -o-transform: scale(0);
+            transform: scale(0);
+            -webkit-transform-origin: 100% 100%;
+            -moz-transform-origin: 100% 100%;
+            -ms-transform-origin: 100% 100%;
+            -o-transform-origin: 100% 100%;
+            transform-origin: 100% 100%;
+            -webkit-transition: -webkit-transform 0.3s, visibility 0s 0.3s;
+            -moz-transition: -moz-transform 0.3s, visibility 0s 0.3s;
+            transition: transform 0.3s, visibility 0s 0.3s;
+            padding: 0;
+            list-style-type: none;
+          }
+          #cd-nav ul li {
+            /* Force Hardware Acceleration in WebKit */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+          }
+          #cd-nav ul.is-visible {
+            visibility: visible;
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            transform: scale(1);
+            -webkit-transition: -webkit-transform 0.3s, visibility 0s 0s;
+            -moz-transition: -moz-transform 0.3s, visibility 0s 0s;
+            transition: transform 0.3s, visibility 0s 0s;
+          }
+          #cd-nav ul.is-visible li:nth-child(1) {
+            /* list items animation */
+            -webkit-animation: cd-slide-in 0.2s;
+            -moz-animation: cd-slide-in 0.2s;
+            animation: cd-slide-in 0.2s;
+          }
+          #cd-nav ul.is-visible li:nth-child(2) {
+            -webkit-animation: cd-slide-in 0.3s;
+            -moz-animation: cd-slide-in 0.3s;
+            animation: cd-slide-in 0.3s;
+          }
+          #cd-nav ul.is-visible li:nth-child(3) {
+            -webkit-animation: cd-slide-in 0.4s;
+            -moz-animation: cd-slide-in 0.4s;
+            animation: cd-slide-in 0.4s;
+          }
+          #cd-nav ul.is-visible li:nth-child(4) {
+            -webkit-animation: cd-slide-in 0.5s;
+            -moz-animation: cd-slide-in 0.5s;
+            animation: cd-slide-in 0.5s;
+          }
+          #cd-nav ul.is-visible li:nth-child(5) {
+            -webkit-animation: cd-slide-in 0.6s;
+            -moz-animation: cd-slide-in 0.6s;
+            animation: cd-slide-in 0.6s;
+          }
+  
+          #cd-nav li a {
+            display: block;
+            padding: 2.75vh 1.6em;
+            border-bottom: 1px solid #222;
+          }
+          #cd-nav li:last-child a {
+            border-bottom: none;
+          }
+  
+           #cd-nav li a, #cd-nav li a:visited  {
+              color: #fcfcfc;
+              font-family: 'Poppins', sans-serif;
+              font-weight: 800;
+              text-decoration: none;
+          }
+          #cd-nav li a:hover {
+              color: #ececec;
+              background: #777;
+          }
+          
+          .cd-nav-trigger {
+            background: #111;
+            border: 2px solid #fcfcfc;
+          }
+          
+          @media only screen and (min-width: 1170px) {
+              
+          #topcharbg {
+              padding: 0 0 1em 0;
+          }
+              
+            #cd-nav ul {
+              /* the navigation moves to the top */
+              border: 0px;
+              position: relative;
+              width: auto;
+              max-width: none;
+              bottom: auto;
+              top: 0;
+              margin-top: 0;
+              background: transparent;
+              visibility: visible;
+              box-shadow: none;
+              -webkit-transform: scale(1);
+              -moz-transform: scale(1);
+              -ms-transform: scale(1);
+              -o-transform: scale(1);
+              transform: scale(1);
+              -webkit-transition: all 0s;
+              -moz-transition: all 0s;
+              transition: all 0s;
+              width: 100%;
+              padding: 1.25em;
+              right: 0;
+              text-align: center;
+              user-select: none;
+            }
+            #cd-nav li {
+              display: inline-block;
+            }
+            #cd-nav li a, #cd-nav li a:visited  {
+              opacity: 1;
+              padding: .66em;
+              margin-left: 1.6em;
+              border-bottom: none;
+              transition: 0.2s;
+            }
+            #cd-nav.is-fixed ul {
+              /* when the user scrolls down, the navigation moves to the bottom right in Fixed position - as on touch devices */
+                border: 1px solid #777;
+              position: fixed;
+              width: 90%;
+              max-width: 400px;
+              bottom: 20px;
+              top: auto;
+              background: #111;
+              visibility: hidden;
+              box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+              -webkit-transform: scale(0);
+              -moz-transform: scale(0);
+              -ms-transform: scale(0);
+              -o-transform: scale(0);
+              transform: scale(0);
+              padding: 0;
+               list-style-type: none;
+            }
+            #cd-nav.is-fixed ul li {
+              display: block;
+            }
+            #cd-nav.is-fixed ul li a {
+              padding: 1.6em;
+              margin-left: 0;
+              border-bottom: 1px solid #222;
+            }
+            #cd-nav ul.has-transitions {
+              /* this class is used to bring back transitions when the navigation moves at the bottom right */
+              -webkit-transition: -webkit-transform 0.3s, visibility 0s 0.3s;
+              -moz-transition: -moz-transform 0.3s, visibility 0s 0.3s;
+              transition: transform 0.3s, visibility 0s 0.3s;
+            }
+            #cd-nav ul.is-visible {
+              /* this class is used to bring back the navigation animation - as on touch devices */
+              visibility: visible;
+              -webkit-transform: scale(1);
+              -moz-transform: scale(1);
+              -ms-transform: scale(1);
+              -o-transform: scale(1);
+              transform: scale(1);
+              -webkit-transition: -webkit-transform 0.3s, visibility 0s 0s;
+              -moz-transition: -moz-transform 0.3s, visibility 0s 0s;
+              transition: transform 0.3s, visibility 0s 0s;
+            }
+            #cd-nav ul.is-hidden {
+              /* this class is used to animate the scale down the navigation when the user scrolls down with the navigation still open */
+              -webkit-transform: scale(0);
+              -moz-transform: scale(0);
+              -ms-transform: scale(0);
+              -o-transform: scale(0);
+              transform: scale(0);
+              -webkit-transition: -webkit-transform 0.3s;
+              -moz-transition: -moz-transform 0.3s;
+              transition: transform 0.3s;
+            }
+          }
+  
+          .cd-nav-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 5%;
+            width: 52px;
+            height: 52px;
+            background: #111;
+            border-radius: 0em;
+            border: 2px solid #fcfcfc;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+            /* image replacement */
+            overflow: hidden;
+            text-indent: 100%;
+            white-space: nowrap;
+            z-index: 2;
+          }
+          .cd-nav-trigger span {
+            /* the span element is used to create the menu icon */
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: #fcfcfc;
+            top: 50%;
+            margin-top: -1px;
+            left: 50%;
+            margin-left: -10px;
+            -webkit-transition: background 0.3s;
+            -moz-transition: background 0.3s;
+            transition: background 0.3s;
+          }
+          .cd-nav-trigger span::before, .cd-nav-trigger span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            background: inherit;
+            width: 100%;
+            height: 100%;
+            /* Force Hardware Acceleration in WebKit */
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transition: -webkit-transform 0.3s, background 0s;
+            -moz-transition: -moz-transform 0.3s, background 0s;
+            transition: transform 0.3s, background 0s;
+          }
+          .cd-nav-trigger span::before {
+            top: -6px;
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -ms-transform: rotate(0);
+            -o-transform: rotate(0);
+            transform: rotate(0);
+          }
+          .cd-nav-trigger span::after {
+            bottom: -6px;
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -ms-transform: rotate(0);
+            -o-transform: rotate(0);
+            transform: rotate(0);
+          }
+          .cd-nav-trigger.menu-is-open {
+            box-shadow: none;
+          }
+          .cd-nav-trigger.menu-is-open span {
+            background: rgba(250, 250, 250, 0);
+          }
+          .cd-nav-trigger.menu-is-open span::before, .cd-nav-trigger.menu-is-open span::after {
+            background: #fcfcfc;
+          }
+          .cd-nav-trigger.menu-is-open span::before {
+            top: 0;
+            -webkit-transform: rotate(135deg);
+            -moz-transform: rotate(135deg);
+            -ms-transform: rotate(135deg);
+            -o-transform: rotate(135deg);
+            transform: rotate(135deg);
+          }
+          .cd-nav-trigger.menu-is-open span::after {
+            bottom: 0;
+            -webkit-transform: rotate(225deg);
+            -moz-transform: rotate(225deg);
+            -ms-transform: rotate(225deg);
+            -o-transform: rotate(225deg);
+            transform: rotate(225deg);
+          }
+          @media only screen and (min-width: 1170px) {
+            .cd-nav-trigger {
+              /* the the menu triger is hidden by default on desktop devices */
+              visibility: hidden;
+              -webkit-transform: scale(0);
+              -moz-transform: scale(0);
+              -ms-transform: scale(0);
+              -o-transform: scale(0);
+              transform: scale(0);
+              -webkit-transition: -webkit-transform 0.3s, visibility 0s 0.3s;
+              -moz-transition: -moz-transform 0.3s, visibility 0s 0.3s;
+              transition: transform 0.3s, visibility 0s 0.3s;
+            }
+            .is-fixed .cd-nav-trigger {
+              visibility: visible;
+              -webkit-transition: all 0s;
+              -moz-transition: all 0s;
+              transition: all 0s;
+              -webkit-transform: scale(1);
+              -moz-transform: scale(1);
+              -ms-transform: scale(1);
+              -o-transform: scale(1);
+              transform: scale(1);
+              -webkit-animation: cd-bounce-in 0.3s linear;
+              -moz-animation: cd-bounce-in 0.3s linear;
+              animation: cd-bounce-in 0.3s linear;
+              right: 1%;
+            }
+          }
+  
+          #cd-gallery-items li {
+            margin-bottom: 1.5em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            border-radius: 0em;
+          }
+          #cd-gallery-items li img {
+            width: 100%;
+            display: block;
+            border-radius: 0em;
+          }
+  

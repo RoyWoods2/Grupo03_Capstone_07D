@@ -1,0 +1,94 @@
+{% extends "polls/base.html" %}
+
+
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+{% block content %}
+
+<body>
+
+    <h2>Crear una nueva cuenta</h2>
+
+<div class="content">
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <p>
+            {{ form.username.label_tag }} <br>
+            {{ form.username }} <br>
+            {% if form.username.errors %}
+                <span style="color:red;">{{ form.username.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+            <!-- No renderizamos el form.username.help_text -->
+        </p>
+
+        <p>
+            {{ form.nick.label_tag }} <br>
+            {{ form.nick }} <br>
+            {% if form.nick.errors %}
+                <span style="color:red;">{{ form.nick.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+        </p>
+
+        <p>
+            {{ form.nombre.label_tag }} <br>
+            {{ form.nombre }} <br>
+            {% if form.nombre.errors %}
+                <span style="color:red;">{{ form.nombre.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+        </p>
+
+        <p>
+            {{ form.apellido.label_tag }} <br>
+            {{ form.apellido }} <br>
+            {% if form.apellido.errors %}
+                <span style="color:red;">{{ form.apellido.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+        </p>
+
+        <p>
+            {{ form.email.label_tag }} <br>
+            {{ form.email }} <br>
+            {% if form.email.errors %}
+                <span style="color:red;">{{ form.email.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+        </p>
+
+        <p>
+            {{ form.password1.label_tag }} <br>
+            {{ form.password1 }} <br>
+            {% if form.password1.errors %}
+                <span style="color:red;">{{ form.password1.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+        </p>
+
+        <p>
+            {{ form.password2.label_tag }} <br>
+            {{ form.password2 }} <br>
+            {% if form.password2.errors %}
+                <span style="color:red;">{{ form.password2.errors }}</span> <!-- Mostrar errores -->
+            {% endif %}
+        </p>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+{% endblock %}
