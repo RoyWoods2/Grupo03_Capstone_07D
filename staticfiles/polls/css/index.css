@@ -1,55 +1,135 @@
-     
-       
-        /* Estilos del contenedor del video */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
+body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    background-size: auto;
+    background-color: #22223B;
 
-        /* Ajusta el video a la pantalla completa */
-        .video-background video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
 
-        /* Contenedor de contenido */
-        .content {
-            position: relative;
-            z-index: 1;
-            padding-top: 80px; /* Ajusta según la altura de la navbar */
-            padding: 50px;
-            background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
-            max-width: 800px;
-            margin: 50px auto;
-            border-radius: 10px;
-        }
 
-        /* Cambia el fondo al hacer scroll */
-        .scroll-background {
-            position: relative;
-            height: 100vh;
-            background-color: #333; /* Cambia a un color sólido */
-            transition: background-color 1s;
-        }
+}
 
-        /* Sección larga para poder hacer scroll */
-        .long-section {
-            height: 200vh;
-            background-color: #e0e0e0;
-        }
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 50px 0;
+}
 
-        /* Video desaparece gradualmente con el scroll */
-        .fade-video {
-            opacity: 1;
-            transition: opacity 1s;
-        }
+.card {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    background-color: #c9ada7;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-        .hidden {
-            opacity: 0;
-        }
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 40px;
+    border-left: 4px solid #007bff;
+    margin: 40px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background-color: #007bff;
+    border-radius: 50%;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Video de fondo */
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 1s ease; /* Transición de opacidad */
+}
+
+#backgroundVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 2;
+}
+
+/* Contenido principal de la página */
+.main-content {
+    opacity: 0; /* Oculto inicialmente */
+    transition: opacity 1s ease; /* Transición de opacidad */
+    margin-top: 100vh;
+    z-index: 3;
+    position: relative;
+}
+
+/* Estilos de clase para la transición */
+.fade-out {
+    opacity: 0;
+}
+
+.show-content {
+    opacity: 1; /* Muestra el contenido principal */
+}
+
+/* Estilos iniciales del header */
+.top-navbar {
+    opacity: 1; /* Comienza oculto */
+    transition: opacity 1s ease; /* Transición gradual */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 4;
+}
+
+.header{
+    opacity: 1; /* Comienza oculto */
+
+}
+
+
+/* Clase para hacer que el header aparezca */
+.show-header {
+    opacity: 1;
+}
+
+/* Contenedor del carrusel */
+.carousel-item {
+    justify-content: center;
+    align-items: center;
+    height: 400px; /* Altura fija para todas las imágenes */
+}
+
+/* Imágenes del carrusel */
+.carousel-item img {
+    width: auto;
+    height: 100%; /* Ajusta la altura fija */
+    max-width: 100%; /* Evita que las imágenes se salgan del contenedor */
+    object-fit: cover; /* Asegura que las imágenes mantengan la proporción */
+    display: block;
+    margin: 0 auto;
+}

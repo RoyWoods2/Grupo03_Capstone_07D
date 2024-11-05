@@ -1,0 +1,10 @@
+{% extends 'polls/detail.html' %}
+
+{% block content %}
+<h2>Crear Nueva Noticia</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Publicar Noticia</button>
+</form>
+{% endblock %}

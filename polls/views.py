@@ -9,16 +9,30 @@ from django.contrib import messages
 import requests
 from django.conf import settings
 from .forms import CustomUserCreationForm
+from django.shortcuts import render, get_object_or_404
+from .models import Juego, Personaje
+import json
 
-
-
-from .models import Choice, Question
+from eventos.models import Evento
 
 # Create your views here.
 from django.shortcuts import render, redirect
 from .forms import ComentarioForm
 from .models import Comentario
 from django.contrib.auth.decorators import login_required
+def lista_juegos(request):
+    juegos = Juego.objects.all()
+    return render(request, "polls/lista_juegos.html", {'juegos': juegos})
+
+def lista_personajes(request, juego_slug):
+    juego = get_object_or_404(Juego, slug=juego_slug)
+    personajes = juego.personajes.all()
+    return render(request, 'polls/lista_personajes.html', {'juego': juego, 'personajes': personajes})
+
+def detalle_personaje(request,juego_slug, personaje_slug):
+    juego = get_object_or_404(Juego, slug=juego_slug)
+    personaje = get_object_or_404(Personaje, slug=personaje_slug, juego=juego) 
+    return render(request, "polls/detalle_personaje.html", {'personaje': personaje})
 
 @login_required (login_url="/login")
 def comentarios_vista(request):
@@ -119,14 +133,11 @@ class IndexView(generic.ListView):
     
 
 
-class DetailView(generic.DetailView):
-    model = Question
-    template_name = "polls/detail.html"
+def detailView (request):  
+    return render(request, 'polls/detail.html')  
 
 
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = "polls/results.html"
+
 
 def juegos(request):
     return render(request, "polls/juegos.html")
@@ -138,8 +149,8 @@ def prueba(request):
 
     
 def index(request):
-   
-    return render(request, "polls/index.html")
+    eventos = Evento.objects.all()  # Confirma que este QuerySet incluye todos los eventos
+    return render(request, "polls/index.html" , {'eventos': eventos})
 
 
 def detail(request, question_id):

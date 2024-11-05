@@ -9,6 +9,39 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+from django.db import models
+
+class Juego(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+    imagen_url =  models.ImageField(upload_to='polls/')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super(Juego, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.nombre
+
+class Personaje(models.Model):
+    nombre = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
+    descripcion = models.TextField(blank=True)
+    juego = models.ForeignKey(Juego, on_delete=models.CASCADE, related_name='personajes')
+    pros = models.JSONField(default=dict, blank=True)
+    cons = models.JSONField(default=dict, blank=True)
+    imagen = models.ImageField(upload_to='personajes/', blank=True, null=True)
+    icono_url =  models.ImageField(upload_to='personajes/')
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super(Personaje, self).save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f"{self.nombre} ({self.juego.nombre})"
+
 class Comentario(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     contenido = models.TextField()
@@ -29,20 +62,6 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.nick
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField("date published")
-    def __str__(self):
-        return self.question_text
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-    def __str__(self):
-        return self.choice_text
     
     

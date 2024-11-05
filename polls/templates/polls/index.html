@@ -1,58 +1,107 @@
-{% extends "polls/base.html" %}
+{% extends 'polls/detail.html' %}
 
 {% load static %}
 
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'polls/css/index.css' %}">
-    <div class="content">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'polls/css/index.css' %}"> 
 
-        <h1>Bienvenido</h1>
-        <p>Todo lo que esta a punto de ver esta en producccion todavia</p>
-        <p>De momento, esta todo desordenado por tema de test.</p>
-      </div>
-    
-
-    <!-- Contenedor de fondo de imagen -->
-    <div class="video-background fade-video" id="video-container">
-        <video autoplay muted loop>
-            <source src="static/polls/css/video/index.mp4" type="video/mp4">
-            Tu navegador no soporta video.
-        </video>
+<body>
+ <!-- Contenedor del video -->
+ <div class="video-container" id="videoContainer">
+    <video autoplay muted loop id="backgroundVideo">
+        <source src="{% static 'polls\css\video\index.mp4' %}" type="video/mp4">
+        <!-- Añadir otras fuentes o texto de fallback aquí si es necesario -->
+    </video>
+    <div class="overlay-text">
+        <h1>Bienvenido a Nuestra Página</h1>
+        <p>Explora nuestros contenidos y conoce más sobre nosotros</p>
     </div>
-    <!-- Contenedor de contenido sobrepuesto -->
-    <div class="content">
-      <div class="content">
-
-        <h3>Placeholder de Notas de Parche (Widget de Instagram)</h3>
-      </div>
- 
-        <div data-behold-id="bEpUcA69bJfFngrFjkmt"></div>
-        <script>
-          (() => {
-            const d=document,s=d.createElement("script");s.type="module";
-            s.src="https://w.behold.so/widget.js";d.head.append(s);
-          })();
-        </script>
-    </div>
-
-    <!-- Sección larga para hacer scroll -->
-    
-    <div class="long-section scroll-background">
-
-      <div class="content">
-     
-
-        <h3>Placeholder para proximos eventos</h3>
-     
+</div>
+<div class="main-content" id="mainContent">
+    <header class="header">
+        <div  class="stack" style="--stacks: 3;">
+            <span  href='' style="--index: 0;"><a href=''>FIGHTERCHILE </a></span>
+            <span  href='' style="--index: 1;"><a href=''>FIGHTERCHILE </a></span>
+            <span  href='' style="--index: 2;"><a href=''>FIGHTERCHILE </a></span>
+          </div>
+    </header>
+    <div class="container">
+        <div class="timeline">
+            <div class="card">
+                <h3>Bienvenida</h3>
+                <p>Una breve introducción sobre nuestra página.</p>
+            </div>
+        </div>
+      
     </div>
 
-    
-    
+    <div class="card">
+        <h3>Próximos Eventos</h3>
+        <p>Información sobre los eventos importantes en nuestro calendario.</p>
 
+        <div id="carouselEventos" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% for evento in eventos %}
+                <li data-target="#carouselEventos" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% for evento in eventos %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    {% if evento.imagen %}
+                    <img src="{{ evento.imagen.url }}" class="d-block w-100" alt="Imagen del evento">
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5><a href="{% url 'eventos:detalle_evento' evento.id %}" class="text-white text-decoration-none">{{ evento.titulo }}</a></h5>
+                        <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+                        <p><strong>Dirección:</strong> {{ evento.direccion }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carouselEventos" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselEventos" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </div>
+    </div>       
+</div>
 
-    <script src="{% static 'polls/js/index.js' %}"></script>
+<!-- Sección de Bienvenida -->
 
+<!-- Contenedor principal para FullPage.js -->
+
+<!-- Bootstrap y jQuery para el carrusel -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'polls/js/scroll.js' %}"></script>
+
+<script>
+    // Función para detectar cuando las tarjetas están en la vista
+    function handleScroll() {
+        const cards = document.querySelectorAll('.card');
+        const triggerBottom = window.innerHeight / 5 * 4;
+
+        cards.forEach(card => {
+            const cardTop = card.getBoundingClientRect().top;
+
+            if (cardTop < triggerBottom) {
+                card.classList.add('visible');
+            } else {
+                card.classList.remove('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll);
+</script>
 </body>
 {% endblock %}

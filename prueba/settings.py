@@ -35,15 +35,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)5#$d$w-ta14wxvoj3a0w7de_ngti-k3!c&_pnu%#jbhlm7-i6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['fighterChileProject.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']
 
 import django_heroku
 
 # Application definition
 
 INSTALLED_APPS = [
+    'noticias.apps.NoticiasConfig',
+    'sass_processor',
+   'eventos.apps.EventosConfig',
     'crispy_forms',
     'polls.apps.PollsConfig',  # your app's config module
     'tekken8.apps.Tekken8Config',  # your app's config module
@@ -137,8 +140,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# Directorio base del proyecto
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Configuración de archivos de medios
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Configuración para Django Sass Processor
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',  # Agregar el finder de Sass Processor
+]
+SASS_PROCESSOR_ROOT = STATIC_ROOT  # Ruta donde se guardarán los archivos compilados
+
 
 
 # Default primary key field type

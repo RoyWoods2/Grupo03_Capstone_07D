@@ -1,0 +1,17 @@
+/* estilos.css */
+.noticia-detalle {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.noticia-detalle .contenido {
+    max-width: 800px;
+    text-align: center;
+}
+
+.noticia-detalle img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}

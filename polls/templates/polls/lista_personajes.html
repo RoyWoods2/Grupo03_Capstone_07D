@@ -1,0 +1,24 @@
+{% extends 'polls/detail.html'%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content%}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'polls/css/styleListado.css' %}"> 
+    <title>{{ juego.nombre }} - Personajes</title>
+</head>
+<body>
+    <h1>Personajes en {{ juego.nombre }}</h1>
+    <ul>
+        {% for personaje in personajes %}
+             
+
+            <li><a href="{% url 'polls:detalle_personaje' juego.slug personaje.slug %}"><img src="{{ personaje.icono_url.url }}" alt="{{ personaje.nombre }}" class="personaje-icono"></a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'polls:lista_juegos' %}">Volver a la lista de juegos</a>
+</body>
+
+{% endblock %}
+</html>

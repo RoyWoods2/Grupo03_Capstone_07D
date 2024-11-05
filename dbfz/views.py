@@ -17,9 +17,16 @@ def notasParche (request):
     return render(request, "dbfz/notasParche.html")
 
 def personajes(request):
+    
     return render(request, "dbfz/personajes.html")
 
 def goku (request):
     return render(request, "dbfz/goku.html")
 
+from django.shortcuts import render, get_object_or_404
+from polls.models import Juego, Personaje
 
+def personajes_por_juego(request, juego_id):
+    juego = get_object_or_404(Juego, id=juego_id)
+    personajes = juego.personajes.all()  # Accede a los personajes relacionados
+    return render(request, 'personajes_template.html', {'juego': juego, 'personajes': personajes})

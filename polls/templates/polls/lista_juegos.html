@@ -1,0 +1,28 @@
+{% extends 'polls/detail.html'%}
+
+{% load static %}
+
+<html lang="en">
+
+{% block content%}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'polls/css/styleListado.css' %}"> 
+
+    <title>Lista de Juegos</title>
+</head>
+<body>
+    <h1>Lista de Juegos</h1>
+
+    <div class="juegos-grid">
+        {% for juego in juegos %}
+            <div class="juego-card">
+                <a href="{% url 'polls:lista_personajes' juego.slug %}">
+                    <img src="{{ juego.imagen_url.url }}" alt="{{ juego.nombre }}" class="juego-imagen">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}
+</html>

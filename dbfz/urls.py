@@ -9,6 +9,8 @@ urlpatterns = [
     path("noticia", views.noticia, name="noticia"),
     path ("notasParche", views.notasParche, name="notasParche"),
     path ("goku", views.goku, name="goku"),
+    path('juego/<int:juego_id>/personajes/', views.personajes, name='personajes'),
+
 
     
 ]

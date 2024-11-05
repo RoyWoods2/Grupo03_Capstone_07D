@@ -1,0 +1,45 @@
+/* Grid para juegos */
+.juegos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.juego-card {
+    background-color: #1a1a1a;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.juego-card:hover {
+    transform: scale(1.05);
+}
+
+.juego-imagen {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Grid para personajes */
+.personajes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.personaje-card {
+    text-align: center;
+}
+
+.personaje-icono {
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.personaje-icono:hover {
+    transform: scale(1.1);
+}

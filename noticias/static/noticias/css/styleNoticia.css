@@ -1,0 +1,24 @@
+.detalle-noticia-container {
+    max-width: 800px; /* Ajusta el ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    text-align: center; /* Centra el contenido dentro del contenedor */
+    padding: 20px;
+}
+
+.noticia-meta {
+    font-size: 14px;
+    color: #666; /* Color gris para la meta información */
+    margin-bottom: 20px;
+}
+
+.noticia-imagen {
+    width: 70%; /* Reduce la imagen al 70% de su tamaño original */
+    margin: 20px 0; /* Espaciado superior e inferior */
+}
+
+.noticia-contenido {
+    text-align: left; /* Alinea el contenido a la izquierda para mejor legibilidad */
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+}

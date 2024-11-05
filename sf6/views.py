@@ -2,7 +2,6 @@
 # Create your views here.
 from django.shortcuts import render
 from django.views import generic
-from polls.models import Choice, Question
 
 
 
