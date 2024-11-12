@@ -22,10 +22,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("polls.urls")),
-    path("dbfz/", include("dbfz.urls")),
-    path("kof/", include("kof.urls")),
-    path("sf6/", include("sf6.urls")),
-    path("tekken8/", include("tekken8.urls")),
     path("eventos/", include("eventos.urls")),
     path('noticias/', include('noticias.urls')),
     

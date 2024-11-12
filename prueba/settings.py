@@ -44,15 +44,12 @@ import django_heroku
 # Application definition
 
 INSTALLED_APPS = [
+    'social_django', 
     'noticias.apps.NoticiasConfig',
     'sass_processor',
-   'eventos.apps.EventosConfig',
+    'eventos.apps.EventosConfig',
     'crispy_forms',
     'polls.apps.PollsConfig',  # your app's config module
-    'tekken8.apps.Tekken8Config',  # your app's config module
-    'sf6.apps.Sf6Config',  # your app's config module
-    'kof.apps.KofConfig',  # your app's config module
-    'dbfz.apps.DbfzConfig',  # your app's config module
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+AUTH_USER_MODEL = 'polls.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -157,10 +156,12 @@ STATICFILES_FINDERS = [
 ]
 SASS_PROCESSOR_ROOT = STATIC_ROOT  # Ruta donde se guardarán los archivos compilados
 
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-django_heroku.settings(locals())
+
+# Configuraciones de las URLs de redirección post-login/logout
+LOGIN_REDIRECT_URL = '/'  # Redirigir al home después de iniciar sesión
+LOGOUT_REDIRECT_URL = '/'  # Redirigir al home después de cerrar sesión
+

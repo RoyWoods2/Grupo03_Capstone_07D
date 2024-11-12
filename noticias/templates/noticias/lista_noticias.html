@@ -11,7 +11,7 @@
         <div class="noticias-grid">
             {% for noticia in noticias %}
                 <div class="noticia-card">
-                    <a href="{% url 'detalle_noticia' noticia.id %}">
+                    <a href="{% url 'noticias:detalle_noticia' noticia.id %}">
                         {% if noticia.imagen_encabezado %}
                             <img src="{{ noticia.imagen_encabezado.url }}" alt="{{ noticia.titulo }}" class="noticia-imagen">
                         {% else %}
@@ -20,11 +20,15 @@
                     </a>
                     <div class="noticia-info">
                         <p class="noticia-fecha">Hace {{ noticia.fecha|timesince }} </p>
-                        <a href="{% url 'eventos:detalle_evento' noticia.id %}" class="noticia-titulo">{{ noticia.titulo }}</a>
+                        <a href="{% url 'noticias:detalle_noticia' noticia.slug %}" class="noticia-titulo">{{ noticia.titulo }}</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
+        
+        {% if user.is_staff %}
+            <a href="{% url 'noticias:crear_noticia' %}" class="btn btn-secondary mt-3">Crear Evento</a>
+        {% endif %}
     </div>
     {% endblock %}
 

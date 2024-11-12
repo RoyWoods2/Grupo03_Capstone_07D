@@ -1,73 +1,34 @@
+{% extends 'polls/detail.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Eventos</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'eventos\css\eventos.css' %}">
+{% block content %}
 
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Eventos</h1>
-  <!-- Carrusel de eventos -->
-  <div class="custom-carousel-container">
-    <div id="carouselEventos" class="carousel slide" data-ride="carousel">
-        <!-- Indicadores -->
-        <ol class="carousel-indicators">
-            {% for evento in eventos %}
-            <li data-target="#carouselEventos" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
-            {% endfor %}
-        </ol>
+<link rel="stylesheet" href="{% static 'noticias/css/styleListado.css' %}">
 
-        <!-- Slides -->
-        <div class="carousel-inner">
-            {% for evento in eventos %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Título del evento como enlace a la página de detalles -->
-                        <h3 class="card-title">
-                            <a href="{% url 'eventos:detalle_evento' evento.id %}" class="text-decoration-none">
-                                {{ evento.titulo }}
-                            </a>
-                        </h3>
-                        
-                        <!-- Imagen del evento -->
-                        {% if evento.imagen %}
-                        <img src="{{ evento.imagen.url }}" class="d-block w-100 mb-3" alt="Imagen del evento">
-                        {% endif %}
-                        
-                        <!-- Fecha del evento -->
-                        <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
-                        
-                        <!-- Dirección del evento -->
-                        <p><strong>Dirección:</strong> {{ evento.direccion }}</p>
-                    </div>
+<div class="eventos-main-container">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="eventos-grid">
+        {% for evento in eventos %}
+            <div class="evento-card">
+                <a href="{% url 'eventos:detalle_evento' evento.id %}">
+                    {% if evento.imagen %}
+                        <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="evento-imagen">
+                    {% else %}
+                        <img src="{% static 'images/placeholder.png' %}" alt="No image available" class="evento-imagen">
+                    {% endif %}
+                </a>
+                <div class="evento-info">
+                    <p class="evento-fecha">{{ evento.fecha|date:"F j, Y" }}</p>
+                    <a href="{% url 'eventos:detalle_evento' evento.id %}" class="evento-titulo">{{ evento.titulo }}</a>
+                    <p class="evento-ubicacion">{{ evento.ubicacion }}</p>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-
-        <!-- Controles de navegación -->
-        <a class="carousel-control-prev" href="#carouselEventos" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Anterior</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselEventos" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Siguiente</span>
-        </a>
+        {% endfor %}
     </div>
+    
+    {% if user.is_staff %}
+        <a href="{% url 'eventos:crear_evento' %}" class="btn btn-secondary mt-3">Crear Evento</a>
+    {% endif %}
 </div>
-</div>
- <!-- Bootstrap y jQuery para el carrusel -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-<!-- Scripts necesarios para Bootstrap -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -15,4 +15,44 @@
         <p>{{ noticia.contenido }}</p>
     </div>
 </div>
+
+    <!-- Formulario para agregar un nuevo comentario -->
+    {% if user.is_authenticated %}
+        <h4>Agregar un comentario</h4>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Comentar</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'polls:login' %}">Inicia sesión</a> para comentar.</p>
+    {% endif %}
+</div>
+
+<div class="comentarios">
+    {% for comentario in comentarios %}
+        <div class="comentario">
+            <img src="{{ comentario.usuario.userprofile.avatar.url }}" alt="Avatar de {{ comentario.usuario.username }}" class="avatar">
+            <strong>{{ comentario.usuario.userprofile.nick }}</strong> - {{ comentario.fecha_creacion }}
+            <p>{{ comentario.contenido }}</p>
+            
+            <!-- Formulario para Responder -->
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="respuesta_id" value="{{ comentario.id }}">
+                <button type="submit">Responder</button>
+            </form>
+
+            <!-- Mostrar Respuestas -->
+            {% for respuesta in comentario.respuestas.all %}
+                <div class="respuesta">
+                    <img src="{{ respuesta.usuario.userprofile.avatar.url }}" alt="Avatar de {{ respuesta.usuario.username }}" class="avatar">
+                    <strong>{{ respuesta.usuario.userprofile.nick }}</strong> - {{ respuesta.fecha_creacion }}
+                    <p>{{ respuesta.contenido }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

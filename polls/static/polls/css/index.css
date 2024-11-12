@@ -127,9 +127,8 @@ body {
 /* Imágenes del carrusel */
 .carousel-item img {
     width: auto;
-    height: 100%; /* Ajusta la altura fija */
-    max-width: 100%; /* Evita que las imágenes se salgan del contenedor */
-    object-fit: cover; /* Asegura que las imágenes mantengan la proporción */
+    height: 90%; /* Ajusta la altura fija */
+    max-width: 70%; /* Evita que las imágenes se salgan del contenedor */
     display: block;
     margin: 0 auto;
 }

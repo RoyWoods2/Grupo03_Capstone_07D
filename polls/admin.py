@@ -1,9 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from django.contrib import admin
 from .models import Comentario
 from .models import Juego, Personaje
+from .models import CustomUser
+from django.contrib.auth.admin import UserAdmin
 
 
 @admin.register(Comentario)
@@ -17,5 +18,15 @@ class JuegoAdmin(admin.ModelAdmin):
 class PersonajeAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('nombre',)}
 
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('nick', 'avatar', 'juegos_competencia', 'user_type', 'tipo_usuario_solicitado')}),
+    )
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (None, {'fields': ('nick', 'avatar', 'juegos_competencia', 'user_type', 'tipo_usuario_solicitado')}),
+    )
+
 admin.site.register(Juego, JuegoAdmin)
 admin.site.register(Personaje, PersonajeAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)

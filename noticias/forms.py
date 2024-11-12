@@ -10,3 +10,4 @@ class NoticiaForm(forms.ModelForm):
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'contenido': forms.Textarea(attrs={'class': 'form-control'}),
         }
+

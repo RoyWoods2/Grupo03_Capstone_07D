@@ -1,8 +1,10 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
-
+from django.contrib.auth.models import AbstractUser
+from noticias.models import Noticia
+from django.conf import settings  # Importa settings para usar AUTH_USER_MODEL
+from eventos.models import Evento
 
 
 
@@ -10,6 +12,41 @@ from django.contrib.auth.models import User
 
 
 from django.db import models
+class EventoInteresado(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    fecha_interesado = models.DateTimeField(auto_now_add=True)
+    
+class CustomUser(AbstractUser):
+    nick = models.CharField(max_length=30, unique=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    juegos_competencia = models.TextField(blank=True)  # Lista de juegos en los que compite
+    user_type = models.CharField(max_length=50, default='normal')
+    tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)  # Para solicitud de cambio
+
+    def __str__(self):
+        return self.username
+class UserProfile(models.Model):
+    USER_TYPE_CHOICES = [
+        ('normal', 'Normal'),
+        ('admin', 'Admin'),
+        ('redactor', 'Redactor'),
+    ]
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nick = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='normal')
+    juegos_competencia = models.TextField(blank=True)  # Lista de juegos
+    tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)  # Solicitud pendiente
+
+    def __str__(self):
+        return self.user.username
+
+
+
 
 class Juego(models.Model):
     nombre = models.CharField(max_length=100)
@@ -43,25 +80,18 @@ class Personaje(models.Model):
         return f"{self.nombre} ({self.juego.nombre})"
 
 class Comentario(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name="comentarios")
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='respuestas', on_delete=models.CASCADE)
+    respuesta_a = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name="respuestas")
 
 
     def __str__(self):
-        return f'{self.usuario} - {self.contenido[:20]}'
+        return f"Comentario de {self.usuario.username} en {self.noticia}"
     def es_respuesta(self):
         """ Verifica si el comentario es una respuesta a otro comentario """
         return self.parent is not None
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nick = models.CharField(max_length=30, unique=True)
-
-    def __str__(self):
-        return self.nick
-
 
     
     

@@ -21,9 +21,9 @@
 </head>
     <header class="header">
         <div  class="stack" style="--stacks: 3;">
-            <span  href='' style="--index: 0;"><a href=''>FIGHTERCHILE </a></span>
-            <span  href='' style="--index: 1;"><a href=''>FIGHTERCHILE </a></span>
-            <span  href='' style="--index: 2;"><a href=''>FIGHTERCHILE </a></span>
+            <span  href={% url 'polls:' %} style="--index: 0;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
+            <span  href={% url 'polls:' %} style="--index: 1;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
+            <span  href={% url 'polls:' %} style="--index: 2;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
           </div>
     </header>
 
@@ -58,11 +58,20 @@
 
             </div>
             <ul>
-                <li><a href='/'>Inicio</a></li>
+                {% if user.is_authenticated %}
+                <li><a href={% url 'polls:' %}>Inicio</a></li>
                 <li><a href={% url 'eventos:lista_eventos' %}>Eventos</a></li>
-                <li><a href="juegos">Lista de juegos</a></li>
-                <li><a href="#contact">Contacto</a></li>
-               
+                <li><a href={% url 'polls:lista_juegos'%}>Lista de juegos</a></li>
+                <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
+                <li><a href={% url 'polls:perfil_usuario'%}>PERFIL</a></li>
+                {% else %}
+                <li><a href={% url 'polls:' %}>Inicio</a></li>
+                <li><a href={% url 'eventos:lista_eventos' %}>Eventos</a></li>
+                <li><a href={% url 'polls:lista_juegos'%}>Lista de juegos</a></li>
+                <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
+
+                {% endif %}
+
             </ul>
         </nav>
     </div>

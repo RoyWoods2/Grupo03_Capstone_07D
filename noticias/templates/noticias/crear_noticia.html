@@ -1,10 +1,36 @@
 {% extends 'polls/detail.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Crear Nueva Noticia</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Publicar Noticia</button>
-</form>
+{% load custom_filters %}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Crear Nueva Noticia</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="titulo">Título</label>
+                {{ form.titulo}}
+            </div>
+            <div class="form-group">
+                <label for="contenido">Contenido</label>
+                {{ form.contenido.as_widget }}
+            </div>
+            <div class="form-group">
+                <label for="imagen_encabezado">Imagen de Encabezado</label>
+                {{ form.imagen_encabezado.as_widget }}
+            </div>
+            <button type="submit" class="btn btn-primary">Publicar Noticia</button>
+        </form>
+    </div>
+</div>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 {% endblock %}

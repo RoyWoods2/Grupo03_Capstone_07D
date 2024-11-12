@@ -1,0 +1,58 @@
+{% extends 'polls/detail.html'%}
+{% load static%}
+{% block content%}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="{% static 'polls/css/styleProfile.css' %}"> 
+
+</head>
+<body>
+    <div class="container">
+        <h1>Perfil de {{ user.username }}</h1>
+
+        <div class="tab-container">
+            <button class="tab-button active" onclick="openTab(event, 'profile')">Editar Perfil</button>
+            <button class="tab-button" onclick="openTab(event, 'comments')">Historial de Comentarios</button>
+            <button class="tab-button" onclick="openTab(event, 'events')">Eventos Registrados</button>
+        </div>
+
+        <div id="profile" class="tab-content" style="display: block;">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+
+        <div id="comments" class="tab-content">
+            <h2>Historial de Comentarios</h2>
+            {% for comentario in comentarios %}
+                <p><strong>{{ comentario.usuario.nick }}</strong>: {{ comentario.texto }}</p>
+            {% endfor %}
+        </div>
+
+        <div id="events" class="tab-content">
+            <h2>Eventos Registrados</h2>
+            <!-- Futuro: Lista de eventos de usuario -->
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            let tabContent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            let tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+{% endblock %}
+</html>

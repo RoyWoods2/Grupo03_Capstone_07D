@@ -8,18 +8,48 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import requests
 from django.conf import settings
-from .forms import CustomUserCreationForm
-from django.shortcuts import render, get_object_or_404
-from .models import Juego, Personaje
+from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm
+from .models import Juego, Personaje, UserProfile , CustomUser 
 import json
-
 from eventos.models import Evento
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from .forms import ComentarioForm
+from .forms import ComentarioForm,UserProfileForm  
 from .models import Comentario
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+def perfil_usuario(request):
+    profile = request.user.userprofile
+    comentarios = Comentario.objects.filter(usuario=request.user)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            # Manejo de solicitud de cambio de tipo de usuario
+            if 'tipo_usuario' in form.changed_data:
+                profile.tipo_usuario_solicitado = form.cleaned_data['user_type']
+                profile.save()
+            return redirect('polls:perfil_usuario')
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    return render(request, 'polls/perfil_usuario.html', {
+        'form': form,
+        'comentarios': comentarios,
+        'profile': profile,
+    })
+
 def lista_juegos(request):
     juegos = Juego.objects.all()
     return render(request, "polls/lista_juegos.html", {'juegos': juegos})
@@ -77,17 +107,11 @@ def behold_data_view(request):
     data = get_behold_data()
     return render(request, 'behold_data.html', {'data': data})
 def registro_view(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()  # Recarga el perfil para capturar los datos "nick"
-            user.userprofile.nick = form.cleaned_data.get('nick')
-            user.userprofile.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"Cuenta creada para {username}")
-            login(request, user)
-            return redirect('/')  # Cambia 'home' por la URL a la que quieres redirigir
+            form.save()
+            return redirect('polls:login')  # Cambia 'login' por el nombre de la URL de login
     else:
         form = CustomUserCreationForm()
     return render(request, 'polls/registro.html', {'form': form})
@@ -102,21 +126,15 @@ def logout_view(request):
 
 # Vista de inicio de sesión
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        
-        if user is not None:
+    if request.method == "POST":
+        form = CustomLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
-            if user.is_superuser:
-                return redirect('/juegos')  # Redirigir al dashboard de administrador
-            else:
-                return redirect('/')  # Redirigir al dashboard de usuario normal
-        else:
-            messages.error(request, 'Credenciales inválidas. Por favor intenta nuevamente.')
-    
-    return render(request, 'polls/login.html')
+            return redirect('/')  # Cambia 'home' por la URL de inicio después del login
+    else:
+        form = CustomLoginForm()
+    return render(request, 'polls/login.html', {'form': form})
 
 
 
@@ -156,31 +174,3 @@ def index(request):
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, "polls/detail.html", {"question": question})
-
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/results.html", {"question": question})
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST["choice"])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(
-            request,
-            "polls/detail.html",
-            {
-                "question": question,
-                "error_message": "You didn't select a choice.",
-            },
-        )
-    else:
-        selected_choice.votes = F("votes") + 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/results.html", {"question": question})

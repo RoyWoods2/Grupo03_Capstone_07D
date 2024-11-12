@@ -1,94 +1,87 @@
-{% extends "polls/base.html" %}
-
-
-<!-- register.html -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-</head>
+{% extends "polls/detail.html" %}
+{% load static %}
 {% block content %}
 
+<!-- register.html -->
+
+<head>
+    
+    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}"> 
+</head>
+
 <body>
+    <div class="content">
+        <h2>Crear una nueva cuenta</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
-    <h2>Crear una nueva cuenta</h2>
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.help_text %}
+                    <small class="help-text">{{ form.username.help_text }}</small>
+                {% endif %}
+                {% if form.username.errors %}
+                    <span class="error-text">{{ form.username.errors }}</span>
+                {% endif %}
+            </div>
 
-<div class="content">
+            <div class="form-group">
+                {{ form.nick.label_tag }}
+                {{ form.nick }}
+                {% if form.nick.help_text %}
+                    <small class="help-text">{{ form.nick.help_text }}</small>
+                {% endif %}
+                {% if form.nick.errors %}
+                    <span class="error-text">{{ form.nick.errors }}</span>
+                {% endif %}
+            </div>
 
-    <form method="POST">
-        {% csrf_token %}
+            <div class="form-group">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <span class="error-text">{{ form.name.errors }}</span>
+                {% endif %}
+            </div>
 
-        <p>
-            {{ form.username.label_tag }} <br>
-            {{ form.username }} <br>
-            {% if form.username.errors %}
-                <span style="color:red;">{{ form.username.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-            <!-- No renderizamos el form.username.help_text -->
-        </p>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <span class="error-text">{{ form.email.errors }}</span>
+                {% endif %}
+            </div>
 
-        <p>
-            {{ form.nick.label_tag }} <br>
-            {{ form.nick }} <br>
-            {% if form.nick.errors %}
-                <span style="color:red;">{{ form.nick.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-        </p>
+            <div class="form-group">
+                {{ form.avatar.label_tag }}
+                {{ form.avatar }}
+                {% if form.avatar.errors %}
+                    <span class="error-text">{{ form.avatar.errors }}</span>
+                {% endif %}
+            </div>
 
-        <p>
-            {{ form.nombre.label_tag }} <br>
-            {{ form.nombre }} <br>
-            {% if form.nombre.errors %}
-                <span style="color:red;">{{ form.nombre.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-        </p>
+            <div class="form-group">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <span class="error-text">{{ form.password1.errors }}</span>
+                {% endif %}
+            </div>
 
-        <p>
-            {{ form.apellido.label_tag }} <br>
-            {{ form.apellido }} <br>
-            {% if form.apellido.errors %}
-                <span style="color:red;">{{ form.apellido.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-        </p>
+            <div class="form-group">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <span class="error-text">{{ form.password2.errors }}</span>
+                {% endif %}
+            </div>
 
-        <p>
-            {{ form.email.label_tag }} <br>
-            {{ form.email }} <br>
-            {% if form.email.errors %}
-                <span style="color:red;">{{ form.email.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-        </p>
-
-        <p>
-            {{ form.password1.label_tag }} <br>
-            {{ form.password1 }} <br>
-            {% if form.password1.errors %}
-                <span style="color:red;">{{ form.password1.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-        </p>
-
-        <p>
-            {{ form.password2.label_tag }} <br>
-            {{ form.password2 }} <br>
-            {% if form.password2.errors %}
-                <span style="color:red;">{{ form.password2.errors }}</span> <!-- Mostrar errores -->
-            {% endif %}
-        </p>
-        <button type="submit" class="btn btn-primary">Registrarse</button>
-    </form>
-
-</div>
-
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+    </div>
 
 </body>
-</html>
 {% endblock %}
+
+</html>

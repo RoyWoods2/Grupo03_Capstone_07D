@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -14,6 +14,9 @@ urlpatterns = [
     path('juegos/', views.lista_juegos, name='lista_juegos'),
     path('juegos/<slug:juego_slug>/personajes/', views.lista_personajes, name='lista_personajes'),
     path('juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/', views.detalle_personaje, name='detalle_personaje'),
+    path('social-auth/', include('social_django.urls', namespace='social')),
+    path('perfil/', views.perfil_usuario, name='perfil_usuario'),
+ 
 
 ]
 

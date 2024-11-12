@@ -1,4 +1,52 @@
-.custom-carousel-container {
-    width: 70%; /* Cambia este valor a 60% o 80% según prefieras */
-    margin: 0 auto; /* Centra el carrusel */
+/* Contenedor del grid */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding: 20px;
+}
+
+/* Tarjeta de cada evento */
+.event-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: scale(1.05); /* Efecto de zoom */
+}
+
+/* Imagen del logo */
+.event-logo {
+    width: 100%;
+    height: auto;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    display: block;
+}
+
+/* Overlay para el efecto blur */
+.event-card:hover .event-logo {
+    filter: blur(4px);
+    transform: scale(1.1);
+}
+
+/* Overlay de título del evento */
+.event-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.event-card:hover .event-overlay {
+    opacity: 1;
 }
