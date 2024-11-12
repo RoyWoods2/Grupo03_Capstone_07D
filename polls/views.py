@@ -9,7 +9,7 @@ from django.contrib import messages
 import requests
 from django.conf import settings
 from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm
-from .models import Juego, Personaje, UserProfile , CustomUser 
+from .models import Juego, Personaje, UserProfile , CustomUser, FrameData 
 import json
 from eventos.models import Evento
 from django.db.models.signals import post_save
@@ -63,9 +63,11 @@ def detalle_personaje(request,juego_slug, personaje_slug):
     juego = get_object_or_404(Juego, slug=juego_slug)
     personaje = get_object_or_404(Personaje, slug=personaje_slug, juego=juego) 
     combos = Combo.objects.filter(personaje=personaje)  # Asegúrate de que combos esté relacionado con el personaje
+    framedata = FrameData.objects.filter(personaje=personaje)  # Filtrar framedata asociada
     context = {
         'personaje': personaje,
         'combos': combos,
+        'framedata': framedata,
     }
     return render(request, "polls/detalle_personaje.html", context)
 

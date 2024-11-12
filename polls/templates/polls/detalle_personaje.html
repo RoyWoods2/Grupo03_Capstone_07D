@@ -26,10 +26,10 @@
 
     <div class="navbar-grid">
         <div class="navbar-card">
-            <a href="#overview" onclick="showTab('overview')">Overview</a>
+            <a href="#overview" onclick="showTab('overview')">Información</a>
         </div>
         <div class="navbar-card">
-            <a href="#strategy" onclick="showTab('strategy')">Strategy</a>
+            <a href="#strategy" onclick="showTab('strategy')">Estrategia</a>
         </div>
         <div class="navbar-card">
             <a href="#frame-data" onclick="showTab('frame-data')">Frame Data</a>
@@ -38,15 +38,15 @@
             <a href="#combos" onclick="showTab('combos')">Combos</a>
         </div>
         <div class="navbar-card">
-            <a href="#resources" onclick="showTab('resources')">Resources</a>
+            <a href="#resources" onclick="showTab('resources')">Recursos</a>
         </div>
     </div>
 
 
     <div id="overview" class="tab-content">
-        <h2>Overview</h2>
+        <h2>Información</h2>
         <div id="overview" class="overview-section">
-            <h2 class="text-center">Overview</h2>
+            <h2 class="text-center">Resumen</h2>
             <p>{{ personaje.descripcion }}</p>
         </div>
     
@@ -114,13 +114,50 @@
     </div>
     </div>
     <div id="strategy" class="tab-content">
-        <h2>Strategy</h2>
+        <h2>Estrategia</h2>
         <p>Contenido de la sección Strategy...</p>
     </div>
 
     <div id="frame-data" class="tab-content">
         <h2>Frame Data</h2>
-        <p>Contenido de la sección Frame Data...</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Movimiento</th>
+                    <th>Tipo</th>
+                    <th>Damage</th>
+                    <th>Startup Frames</th>
+                    <th>Active Frames</th>
+                    <th>Recovery Frames</th>
+                    <th>Block Advantage</th>
+                    <th>Hit Advantage</th>
+                    <th>Knockdown</th>
+                    <th>Video</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for frame in framedata %}
+                    <tr>
+                        <td>{{ frame.movimiento }}</td>
+                        <td>{{ frame.tipo }}</td>
+                        <td>{{ frame.damage }}</td>
+                        <td>{{ frame.startup_frames }}</td>
+                        <td>{{ frame.active_frames }}</td>
+                        <td>{{ frame.recovery_frames }}</td>
+                        <td>{{ frame.block_advantage }}</td>
+                        <td>{{ frame.hit_advantage }}</td>
+                        <td>{{ frame.knockdown|yesno:"Yes,No" }}</td>
+                        <td>
+                            {% if frame.video_demo_url %}
+                                <a href="{{ frame.video_demo_url }}" target="_blank">Ver Video</a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <div id="combos" class="tab-content">
@@ -142,7 +179,7 @@
     </div>
 
     <div id="resources" class="tab-content">
-        <h2>Resources</h2>
+        <h2>Recursos</h2>
         <p>Contenido de la sección Resources...</p>
     </div>   
  <!-- Columna de Información del Personaje -->
