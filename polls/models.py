@@ -92,6 +92,43 @@ class Comentario(models.Model):
     def es_respuesta(self):
         """ Verifica si el comentario es una respuesta a otro comentario """
         return self.parent is not None
+    
+class Combo(models.Model):
+    personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="combos")
+    nombre = models.CharField(max_length=100, help_text="Nombre o etiqueta del combo (por ejemplo, 'Bread and Butter Combo')")
+    movimientos = models.TextField(help_text="Lista de movimientos en formato secuencial (ej. 'LP, MP, HP')")
+    daño = models.IntegerField(help_text="Cantidad de daño que hace el combo", null=True, blank=True)
+    dificultad = models.CharField(
+        max_length=50, 
+        choices=[('Fácil', 'Fácil'), ('Intermedio', 'Intermedio'), ('Difícil', 'Difícil')], 
+        help_text="Dificultad del combo"
+    )
+    descripcion = models.TextField(help_text="Descripción o contexto del combo", blank=True)
+    creado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, help_text="Usuario que creó o compartió el combo")
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    video_demo_url = models.URLField(blank=True, null=True, help_text="URL a un video de demostración")  # Campo para el enlace de video
+
+    def __str__(self):
+        return f"{self.nombre} - {self.personaje.nombre}"
+
+    class Meta:
+        ordering = ["personaje", "dificultad", "-fecha_creacion"]
+        
+class FrameData(models.Model):
+    personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="frame_data")
+    movimiento = models.CharField(max_length=100)  # Nombre del movimiento
+    tipo = models.CharField(max_length=50)  # Ej. 'Normal', 'Especial', 'Super'
+    damage = models.IntegerField()  # Daño causado
+    startup_frames = models.IntegerField()  # Cuadros de inicio
+    active_frames = models.IntegerField()  # Cuadros activos
+    recovery_frames = models.IntegerField()  # Cuadros de recuperación
+    block_advantage = models.IntegerField()  # Ventaja en bloqueo
+    hit_advantage = models.IntegerField()  # Ventaja en golpe
+    knockdown = models.BooleanField(default=False)  # Indica si el movimiento derriba
+    video_demo_url = models.URLField(blank=True, null=True)  # Enlace a video de demostración
+
+    def __str__(self):
+        return f"{self.personaje.nombre} - {self.movimiento}"
 
     
     

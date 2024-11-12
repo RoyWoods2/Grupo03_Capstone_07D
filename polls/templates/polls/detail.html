@@ -64,6 +64,9 @@
                 <li><a href={% url 'polls:lista_juegos'%}>Lista de juegos</a></li>
                 <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
                 <li><a href={% url 'polls:perfil_usuario'%}>PERFIL</a></li>
+                {% if user.is_staff %}
+                <li><a href={% url 'admin:index'%}>Panel Admin</a></li>
+                {% endif %}
                 {% else %}
                 <li><a href={% url 'polls:' %}>Inicio</a></li>
                 <li><a href={% url 'eventos:lista_eventos' %}>Eventos</a></li>

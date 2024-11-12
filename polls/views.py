@@ -18,7 +18,7 @@ from django.dispatch import receiver
 # Create your views here.
 from django.shortcuts import render, redirect
 from .forms import ComentarioForm,UserProfileForm  
-from .models import Comentario
+from .models import Comentario, Combo
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -62,7 +62,12 @@ def lista_personajes(request, juego_slug):
 def detalle_personaje(request,juego_slug, personaje_slug):
     juego = get_object_or_404(Juego, slug=juego_slug)
     personaje = get_object_or_404(Personaje, slug=personaje_slug, juego=juego) 
-    return render(request, "polls/detalle_personaje.html", {'personaje': personaje})
+    combos = Combo.objects.filter(personaje=personaje)  # Asegúrate de que combos esté relacionado con el personaje
+    context = {
+        'personaje': personaje,
+        'combos': combos,
+    }
+    return render(request, "polls/detalle_personaje.html", context)
 
 @login_required (login_url="/login")
 def comentarios_vista(request):
