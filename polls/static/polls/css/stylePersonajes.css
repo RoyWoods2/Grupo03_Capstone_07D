@@ -58,3 +58,8 @@ body {
         grid-template-columns: repeat(2, 1fr); /* Reduce a 2 columnas en móviles */
     }
 }
+/* Ejemplo de estilos */
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
