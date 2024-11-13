@@ -17,7 +17,7 @@ from django.dispatch import receiver
 # Create your views here.
 from django.shortcuts import render, redirect
 from .forms import ComentarioForm,UserProfileForm  
-from .models import Comentario
+from .models import Comentario,Hub
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
