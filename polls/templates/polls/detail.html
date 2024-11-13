@@ -53,14 +53,13 @@
                 {% if user.is_authenticated %}
                 <li><a href={% url 'polls:' %}>Inicio</a></li>
                 <li><a href={% url 'eventos:lista_eventos' %}>Eventos</a></li>
-                <li><a href={% url 'polls:lista_juegos'%}>Lista de juegos</a></li>
+                <li><a href={% url 'polls:lista_juegos'%}>Lista de Juegos</a></li>
                 <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
                 <li><a href={% url 'polls:perfil_usuario'%}>PERFIL</a></li>
-                
                 {% else %}
                 <li><a href={% url 'polls:' %}>Inicio</a></li>
                 <li><a href={% url 'eventos:lista_eventos' %}>Eventos</a></li>
-                <li><a href={% url 'polls:lista_juegos'%}>Lista de juegos</a></li>
+                <li><a href={% url 'polls:lista_juegos'%}>Lista de Juegos</a></li>
                 <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
 
                 {% endif %}
