@@ -8,21 +8,27 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import requests
 from django.conf import settings
-from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm
-from .models import Juego, Personaje, UserProfile , CustomUser 
+from django.http import JsonResponse
 import json
 from eventos.models import Evento
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 # Create your views here.
-from django.shortcuts import render, redirect
-from .forms import ComentarioForm,UserProfileForm  
-from .models import Comentario
-from django.contrib.auth.decorators import login_required
+from .forms import ComentarioForm,UserProfileForm,CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm  
+from .models import Comentario, Combo, Hub, Juego, Personaje, UserProfile , CustomUser , FrameData
 from django.contrib.auth.models import User
 
 
+def hub_view(request, juego_slug):
+    # Obtener el juego y los datos del hub relacionados
+    juego = get_object_or_404(Juego, slug=juego_slug)
+    hub_data = Hub.objects.filter(juego=juego)  # Asegúrate de que el modelo Hub tiene relación con Juego
+
+    context = {
+        'juego': juego,
+        'hub_data': hub_data,
+    }
+    return render(request, 'polls/hub_page.html', context)
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -56,13 +62,29 @@ def lista_juegos(request):
 
 def lista_personajes(request, juego_slug):
     juego = get_object_or_404(Juego, slug=juego_slug)
-    personajes = juego.personajes.all()
-    return render(request, 'polls/lista_personajes.html', {'juego': juego, 'personajes': personajes})
+    personajes = juego.personajes.filter(juego=juego)
+    hub_data = Hub.objects.filter(juego=juego)  # Asegúrate de que el modelo Hub tiene relación con Juego
+    context = {
+        'juego': juego,
+        'personajes': personajes,
+        'hub_data': hub_data,
+    }
+
+    return render(request, 'polls/lista_personajes.html', context)
 
 def detalle_personaje(request,juego_slug, personaje_slug):
     juego = get_object_or_404(Juego, slug=juego_slug)
-    personaje = get_object_or_404(Personaje, slug=personaje_slug, juego=juego) 
-    return render(request, "polls/detalle_personaje.html", {'personaje': personaje})
+    personaje = get_object_or_404(Personaje, slug=personaje_slug, juego=juego)
+    combos = Combo.objects.filter(personaje=personaje)  # Asegúrate de que `combos` esté relacionado con el personaje
+    framedata = FrameData.objects.filter(personaje=personaje)  # Filtrar framedata asociada
+
+    context = {
+        'personaje': personaje,
+        'combos': combos,
+        'framedata': framedata,
+
+    }
+    return render(request, "polls/detalle_personaje.html", context)
 
 @login_required (login_url="/login")
 def comentarios_vista(request):
@@ -142,10 +164,6 @@ def login_view(request):
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by("-pub_date")[:5]
-    
 
     
     

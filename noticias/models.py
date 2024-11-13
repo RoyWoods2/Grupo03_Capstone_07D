@@ -21,4 +21,4 @@ class Noticia(models.Model):
         super(Noticia, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.titul
+        return self.titulo

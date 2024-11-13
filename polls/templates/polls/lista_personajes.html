@@ -5,19 +5,92 @@
 {% block content%}
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'polls/css/styleListado.css' %}"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>{{ juego.nombre }} - Personajes</title>
-</head>
-<body>
-    <h1>Personajes en {{ juego.nombre }}</h1>
-    <ul>
-        {% for personaje in personajes %}
-             
 
-            <li><a href="{% url 'polls:detalle_personaje' juego.slug personaje.slug %}"><img src="{{ personaje.icono_url.url }}" alt="{{ personaje.nombre }}" class="personaje-icono"></a></li>
+    <link rel="stylesheet" href="{% static 'polls/css/styleListado.css' %}"> 
+    <style>
+        .tab-content { display: none; } /* Oculta todas las secciones por defecto */
+        .active { display: block; }     /* Muestra solo la sección activa */
+        .navbar-card a {
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.3s;
+        }
+        .navbar-card a:hover, .navbar-card a.active-tab {
+            border-bottom: 2px solid #007bff;
+        }
+        
+    </style> 
+
+</head>
+<body  style='background-color: #22223B;color: #fff;'>
+   
+    <div class="container mt-5">
+        <!-- Galería de Personajes -->
+        <div class="character-gallery">
+            <h3>Characters</h3>
+            <div class="characters">
+                {% for personaje in personajes %}
+                    <div class="character-icon">
+                        <a href="{% url 'polls:detalle_personaje' juego.slug personaje.slug %}"><img src="{{ personaje.icono_url.url }}" alt="{{ personaje.nombre }}" class="personaje-icono"></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- Sección de Mecánicas y Tarjeta de Información -->
+        <div class="row mt-4">
+            <!-- Mecánicas Generales -->
+            <div class="col-md-8">
+                <div class="mechanics-container">
+                    <h3>Mechanics</h3>
+                    <div class="mechanics-buttons">
+                        <a href="{% url 'polls:hub_page' juego.slug %}" class="btn btn-dark">Hub</a>
+                        <a href="#damage" class="btn btn-dark">Damage/Combo</a>
+                        <a href="#system-mechanics" class="btn btn-dark">System Mechanics</a>
+                        <a href="#frame-data" class="btn btn-dark">Frame Data & System Data</a>
+                        <!-- Agrega otros botones según sea necesario -->
+                    </div>
+                </div>          
+            </div>
+           
+            <!-- Tarjeta de Información del Juego -->
+            <div class="col-md-4">
+                <div class="game-info-card">
+                    <img src="{{ juego.imagen_url.url }}" alt="{{ juego.nombre }}" class="juego-imagen">
+                    <h4>About {{ juego.nombre }}</h4>
+                    <p><strong>Publisher:</strong> {{ juego.publisher }}</p>
+                    <p><strong>Release Dates:</strong></p>
+                    <ul>
+                        {% for fecha in juego.release_dates %}
+                            <li>{{ fecha.platform }}: {{ fecha.date }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ juego.enlace_oficial }}" class="btn btn-primary" target="_blank">Official Website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Hubs</h3>
+
+    <div id="hub-container">
+        {% for hub in hub_data %}
+            <div class="hub-info">
+                <h3>{{ hub.titulo }}</h3>
+                <p>{{ hub.descripcion }}</p>
+                <img src="{{ hub.imagen.url }}" alt="Hub Image">
+            </div>
         {% endfor %}
-    </ul>
-    <a href="{% url 'polls:lista_juegos' %}">Volver a la lista de juegos</a>
+    </div>
+    
+    <!-- Botón para activar el Hub -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 {% endblock %}

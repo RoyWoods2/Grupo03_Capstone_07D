@@ -12,8 +12,9 @@ urlpatterns = [
     path('prueba', views.juegos, name='prueba'),
     path("detail", views.detailView, name="detail"),
     path('juegos/', views.lista_juegos, name='lista_juegos'),
-    path('juegos/<slug:juego_slug>/personajes/', views.lista_personajes, name='lista_personajes'),
+    path('juegos/<slug:juego_slug>/', views.lista_personajes, name='lista_personajes'),
     path('juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/', views.detalle_personaje, name='detalle_personaje'),
+    path('juegos/<slug:juego_slug>/hub/', views.hub_view, name='hub_page'),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
  
