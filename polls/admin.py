@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Comentario
-from .models import Juego, Personaje
+from .models import Juego, Personaje, Combo, Hub
 from .models import CustomUser
 from django.contrib.auth.admin import UserAdmin
 
@@ -30,3 +30,5 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(Juego, JuegoAdmin)
 admin.site.register(Personaje, PersonajeAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Combo)
+admin.site.register(Hub)
