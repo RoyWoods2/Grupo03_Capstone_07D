@@ -58,3 +58,21 @@ body {
         grid-template-columns: repeat(2, 1fr); /* Reduce a 2 columnas en móviles */
     }
 }
+
+.tab-content { display: none; } /* Oculta todas las secciones por defecto */
+.active { display: block; }     /* Muestra solo la sección activa */
+.navbar-card a {
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s;
+}
+.navbar-card a:hover, .navbar-card a.active-tab {
+    border-bottom: 2px solid #007bff;
+}
+/* Ejemplo de estilos */
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}

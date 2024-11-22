@@ -15,6 +15,7 @@
 
 </head>
 <body>
+    
     <header class="header">
         <div  class="stack" style="--stacks: 3;">
             <span  href={% url 'polls:' %} style="--index: 0;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
@@ -75,12 +76,13 @@
     <main class="container">
         {% block content %}{% endblock %}
     </main>
-
     <footer>
         <p>&copy;FIGHTERCHILE 2024</p>
         <p>Diseñado por Omnissiah.</p>
     </footer>
-    <script src="{% static 'polls/js/scripts.js' %}"></script>
+<script src="{% static 'polls/js/scripts.js' %}"></script>
+
+
 
 </body>
 </html>

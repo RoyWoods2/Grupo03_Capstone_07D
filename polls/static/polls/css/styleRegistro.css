@@ -65,3 +65,136 @@ form input[type="password"] {
 .btn:hover {
     background-color: #e65c00;
 }
+
+ /* CSS ADMIN */
+body {
+    background-color: #1c1c3c;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.content {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #444;
+    color: white;
+}
+
+tr:hover {
+    background-color: #666;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: darkorange;
+}
+/* Animaciones generales */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Botones con efecto hover */
+button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    animation: fadeIn 0.5s ease;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: darkorange;
+    animation: pulse 0.5s infinite;
+    transform: scale(1.05);
+}
+
+/* Inputs con efecto al foco */
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    animation: fadeIn 0.8s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: orange;
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+    outline: none;
+}
+
+/* Tablas con animación al cargar */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    animation: fadeIn 1s ease;
+}
+
+tr:hover {
+    background-color: #666;
+    transform: scale(1.01);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.expanded-row {
+    background-color: #333;
+    color: white;
+    font-size: 1.2em;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}

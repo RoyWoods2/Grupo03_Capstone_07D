@@ -8,6 +8,27 @@ from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 
+
+
+@login_required
+def editar_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id, usuario=request.user)
+    if request.method == "POST":
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('detalle_noticia', slug=comentario.noticia.slug)
+    else:
+        form = ComentarioForm(instance=comentario)
+    return render(request, 'editar_comentario.html', {'form': form})
+
+@login_required
+def eliminar_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id, usuario=request.user)
+    if request.method == "POST":
+        comentario.delete()
+        return redirect('detalle_noticia', slug=comentario.noticia.slug)
+    return render(request, 'confirmar_eliminar.html', {'comentario': comentario})
 # Vista para listar noticias
 def lista_noticias(request):
     noticias = Noticia.objects.all().order_by('-fecha')
@@ -16,26 +37,27 @@ def lista_noticias(request):
 # Vista para ver el detalle de una noticia
 def detalle_noticia(request, slug):
     noticia = get_object_or_404(Noticia, slug=slug)
-    comentarios = noticia.comentarios.filter(respuesta_a=None)
+    comentarios = Comentario.objects.filter(noticia=noticia, respuesta_a=None)  # Comentarios principales
 
-        # Gestionar la creación de un nuevo comentario
     if request.method == 'POST':
-        form = ComentarioForm(request.POST)
-        if form.is_valid():
-            comentario = form.save(commit=False)
-            comentario.noticia = noticia
-            comentario.usuario = request.user
-            comentario.save()
-            respuesta_id = request.POST.get("respuesta_id")
-            if respuesta_id:
-                comentario.respuesta_a_id = respuesta_id
-            comentario.save()
-            return redirect('noticias:detalle_noticia', slug=noticia.slug)
-    else:
-        form = ComentarioForm()
-        
-    return render(request, 'noticias/detalle_noticia.html', {'noticia': noticia , 'comentarios': comentarios, 'form': form})
+        respuesta_a_id = request.POST.get('comentario_padre_id')  # ID del comentario al que se responde
+        contenido = request.POST.get('contenido')
 
+        if contenido:
+            nuevo_comentario = Comentario(
+                noticia=noticia,
+                usuario=request.user,
+                contenido=contenido,
+                respuesta_a_id=respuesta_a_id if respuesta_a_id else None  # Relación con el comentario padre
+            )
+            nuevo_comentario.save()
+            return redirect('noticias:detalle_noticia', slug=slug)
+
+    return render(request, 'noticias/detalle_noticia.html', {
+        'noticia': noticia,
+        'comentarios': comentarios,
+        'form': ComentarioForm(),
+    })
 
 def es_redactor_o_admin(user):
     return user.is_staff or user.groups.filter(name='Redactor').exists()

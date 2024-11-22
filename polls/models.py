@@ -48,6 +48,7 @@ class UserProfile(models.Model):
 class Juego(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
+    publisher = models.TextField(blank=True)
     slug = models.SlugField(unique=True, blank=True)
     imagen_url =  models.ImageField(upload_to='polls/')
 
@@ -81,8 +82,7 @@ class Comentario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
-    respuesta_a = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name="respuestas")
-
+    respuesta_a = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="respuestas")
 
     def __str__(self):
         return f"Comentario de {self.usuario.username} en {self.noticia}"

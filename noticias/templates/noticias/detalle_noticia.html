@@ -3,6 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'noticias/css/styleNoticia.css' %}">
 
+
 <div class="detalle-noticia-container">
     <h1>{{ noticia.titulo }}</h1>
     <p class="noticia-meta">Redactado por {{ noticia.autor }} el {{ noticia.fecha|date:"d M Y H:" }}</p>
@@ -15,44 +16,73 @@
         <p>{{ noticia.contenido }}</p>
     </div>
 </div>
+<div class="comentarios-container">
+    <h2>Comentarios</h2>
 
     <!-- Formulario para agregar un nuevo comentario -->
     {% if user.is_authenticated %}
-        <h4>Agregar un comentario</h4>
+    <div class="comentario-nuevo">
+        <img class="avatar" src="{{ user.userprofile.avatar.url }}" alt="{{ user.username }}">
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Comentar</button>
+            {{ form.contenido }}
+            <button type="submit" class="btn">Comentar</button>
         </form>
+    </div>
     {% else %}
-        <p><a href="{% url 'polls:login' %}">Inicia sesión</a> para comentar.</p>
+    <p><a href="{% url 'polls:login' %}">Inicia sesión</a> para comentar.</p>
     {% endif %}
-</div>
 
-<div class="comentarios">
-    {% for comentario in comentarios %}
+    <!-- Lista de comentarios -->
+    <div class="comentarios-container">
+        <h2>Comentarios</h2>
+        {% for comentario in comentarios %}
         <div class="comentario">
-            <img src="{{ comentario.usuario.userprofile.avatar.url }}" alt="Avatar de {{ comentario.usuario.username }}" class="avatar">
-            <strong>{{ comentario.usuario.userprofile.nick }}</strong> - {{ comentario.fecha_creacion }}
-            <p>{{ comentario.contenido }}</p>
-            
-            <!-- Formulario para Responder -->
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="hidden" name="respuesta_id" value="{{ comentario.id }}">
-                <button type="submit">Responder</button>
-            </form>
-
-            <!-- Mostrar Respuestas -->
-            {% for respuesta in comentario.respuestas.all %}
-                <div class="respuesta">
-                    <img src="{{ respuesta.usuario.userprofile.avatar.url }}" alt="Avatar de {{ respuesta.usuario.username }}" class="avatar">
-                    <strong>{{ respuesta.usuario.userprofile.nick }}</strong> - {{ respuesta.fecha_creacion }}
-                    <p>{{ respuesta.contenido }}</p>
+            <img class="avatar" src="{{ comentario.usuario.userprofile.avatar.url }}" alt="{{ comentario.usuario.username }}">
+            <div class="comentario-contenido">
+                <div class="comentario-header">
+                    <strong>{{ comentario.usuario.userprofile.nick }}</strong>
+                    <span>{{ comentario.fecha_publicacion|timesince }}</span>
                 </div>
-            {% endfor %}
+                <p>{{ comentario.contenido }}</p>
+    
+                <!-- Formulario para responder este comentario -->
+                {% if user.is_authenticated %}
+                <button id="respuesta-button-{{ comentario.id }}" class="btn btn-link" onclick="toggleRespuestaForm('{{ comentario.id }}')">Responder</button>
+                <form id="respuesta-form-{{ comentario.id }}" method="POST" style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="comentario_padre_id" value="{{ comentario.id }}">
+                    <textarea name="contenido" placeholder="Escribe tu respuesta..." class="form-control mb-2"></textarea>
+                    <button type="submit" class="btn btn-primary btn-sm">Enviar Respuesta</button>
+                </form>
+            {% else %}
+                <p><a href="{% url 'polls:login' %}">Inicia sesión</a> para responder.</p>
+            {% endif %}
+    
+                <!-- Mostrar Respuestas -->
+                <div class="respuestas">
+                    {% for respuesta in comentario.respuestas.all %}
+                    <div class="respuesta">
+                        <img class="avatar" src="{{ respuesta.usuario.userprofile.avatar.url }}" alt="{{ respuesta.usuario.username }}">
+                        <div class="respuesta-contenido">
+                            <strong>{{ respuesta.usuario.userprofile.nick }}</strong> - {{ respuesta.fecha_publicacion|timesince }}
+                            <p>{{ respuesta.contenido }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    {% endfor %}
+        {% endfor %}
+        </div>
+    </div>
 </div>
+<script>
+    function toggleRespuestaForm(comentarioId) {
+        const form = document.getElementById(`respuesta-form-${comentarioId}`);
+        const button = document.getElementById(`respuesta-button-${comentarioId}`);
+        form.style.display = 'block'; // Muestra el formulario
+        button.style.display = 'none'; // Oculta el botón de Responder
+    }
+</script>
 {% endblock %}

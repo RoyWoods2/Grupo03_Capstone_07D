@@ -11,6 +11,7 @@ class Noticia(models.Model):
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
     contenido = models.TextField()
+    respuesta_a = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="respuestas") 
     imagen_encabezado = models.ImageField(upload_to='noticias/', blank=True, null=True)  # Nuevo campo para la imagen
 
  

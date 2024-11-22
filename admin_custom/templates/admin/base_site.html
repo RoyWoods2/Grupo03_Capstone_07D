@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Panel Admin - FighterChile{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'polls/css/styleHome.css' %}">
+<link rel="stylesheet" href="{% static 'polls/css/styleAdmin.css' %}">
+
+{% endblock %}
+
+{% block branding %}
+<div class="header transparent-header">
+    <div class="stack">
+        <span><a href="{% url 'polls:' %}">FIGHTERCHILE</a></span>
+    </div>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<div class="top-navbar">
+    <nav>
+        <ul>
+            <li><a href="{% url 'polls:' %}">Inicio</a></li>
+            <li><a href="{% url 'eventos:lista_eventos' %}">Eventos</a></li>
+            <li><a href="{% url 'polls:lista_juegos' %}">Lista de Juegos</a></li>
+            <li><a href="{% url 'noticias:lista_noticias' %}">Noticias</a></li>
+            <li><a href="{% url 'polls:perfil_usuario' %}">Perfil</a></li>
+            {% if user.is_staff %}
+            <li><a href="{% url 'admin:index' %}">Panel Admin</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    {{ block.super }}
+</main>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <p>&copy;FIGHTERCHILE 2024</p>
+    <p>Diseñado por Omnissiah.</p>
+</footer>
+{% endblock %}

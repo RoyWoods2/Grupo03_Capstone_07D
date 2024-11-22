@@ -1,9 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Comentario
-from .models import Juego, Personaje, Combo, Hub
-from .models import CustomUser
+from .models import Juego, Personaje, Combo, Hub, CustomUser, Comentario, FrameData
+
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -17,7 +16,14 @@ class JuegoAdmin(admin.ModelAdmin):
 
 class PersonajeAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('nombre',)}
+class PersonajeAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'juego', 'imagen')
 
+    def imagen(self, obj):
+        if obj.imagen:  # Suponiendo que 'imagen' es un campo en tu modelo
+            return format_html('<img src="{}" width="50"/>', obj.imagen.url)
+        return "No Image"
+    imagen.short_description = "Imagen"
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = UserAdmin.fieldsets + (
@@ -32,3 +38,5 @@ admin.site.register(Personaje, PersonajeAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Combo)
 admin.site.register(Hub)
+admin.site.register(FrameData)
+

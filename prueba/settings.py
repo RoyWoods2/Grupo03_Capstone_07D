@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'sass_processor',
     'eventos.apps.EventosConfig',
     'crispy_forms',
-    'polls.apps.PollsConfig',  # your app's config module
+    'polls.apps.PollsConfig',
+    'admin_custom',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,7 +79,7 @@ ROOT_URLCONF = 'prueba.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [BASE_DIR / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
