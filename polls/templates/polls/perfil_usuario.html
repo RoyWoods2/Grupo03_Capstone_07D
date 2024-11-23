@@ -1,58 +1,54 @@
-{% extends 'polls/detail.html'%}
-{% load static%}
-{% block content%}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <title>Perfil de Usuario</title>
-    <link rel="stylesheet" href="{% static 'polls/css/styleProfile.css' %}"> 
+{% extends "polls/detail.html" %}
+{% load static %}
 
-</head>
-<body>
-    <div class="">
-        <h1>Perfil de {{ user.username }}</h1>
+{% block content %}
+<link rel="stylesheet" href="{% static 'polls/css/styleProfile.css' %}">
 
-        <div class="tab-container">
-            <button class="tab-button active" onclick="openTab(event, 'profile')">Editar Perfil</button>
-            <button class="tab-button" onclick="openTab(event, 'comments')">Historial de Comentarios</button>
-            <button class="tab-button" onclick="openTab(event, 'events')">Eventos Registrados</button>
-        </div>
-
-        <div id="profile" class="tab-content" style="display: block;">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            </form>
-        </div>
-
-        <div id="comments" class="tab-content">
-            <h2>Historial de Comentarios</h2>
-            {% for comentario in comentarios %}
-                <p><strong>{{ comentario.usuario.nick }}</strong>: {{ comentario.texto }}</p>
-            {% endfor %}
-        </div>
-
-        <div id="events" class="tab-content">
-            <h2>Eventos Registrados</h2>
-            <!-- Futuro: Lista de eventos de usuario -->
-        </div>
+<div class="perfil-container">
+    <!-- Encabezado del perfil -->
+    <div class="perfil-header">
+        <img src="{{ profile.avatar.url|default:'https://via.placeholder.com/150' }}" alt="{{ profile.nick }}" class="avatar">
+        <h2>{{ profile.nick }}</h2>
+        {% if profile.user == request.user %}
+            <p class="perfil-rol">Tu perfil</p>
+        {% else %}
+            <p class="perfil-rol">Usuario registrado</p>
+        {% endif %}
     </div>
 
-    <script>
-        function openTab(evt, tabName) {
-            let tabContent = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabContent.length; i++) {
-                tabContent[i].style.display = "none";
-            }
-            let tabButtons = document.getElementsByClassName("tab-button");
-            for (let i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove("active");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.classList.add("active");
-        }
-    </script>
-</body>
+    <!-- Información básica -->
+    <div class="perfil-info">
+        <h3>Información General</h3>
+        <p><strong>Nombre:</strong> {{ profile.user.first_name|default:"No especificado" }}</p>
+        <p><strong>Apellido:</strong> {{ profile.user.last_name|default:"No especificado" }}</p>
+        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Puntos:</strong> {{ profile.user.puntos }}</p>
+    </div>
+
+    <!-- Historial de comentarios -->
+    <div class="perfil-comentarios">
+        <h3>Historial de Comentarios</h3>
+        {% if comentarios %}
+            <ul>
+                {% for comentario in comentarios %}
+                    <li>{{ comentario.contenido }} - {{ comentario.fecha_publicacion|date:"d M Y" }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Este usuario no tiene comentarios registrados.</p>
+        {% endif %}
+    </div>
+
+    <!-- Formulario de edición (solo para el usuario propietario) -->
+    {% if request.user == profile.user %}
+    <div class="perfil-editar">
+        <h3>Editar Perfil</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
-</html>

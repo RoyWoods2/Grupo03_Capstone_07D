@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 from .forms import EventoForm
 from .models import Evento
 from django.shortcuts import render, get_object_or_404
+from polls.models import CustomUser
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+
+
+def ranking(request):
+    jugadores = CustomUser.objects.filter(puntos__gt=0).order_by('-puntos')
+    return render(request, 'eventos/ranking.html', {'jugadores': jugadores})
 
 def detalle_evento(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
@@ -34,3 +44,4 @@ def crear_evento(request):
         form = EventoForm()
     
     return render(request, 'eventos/crear_evento.html', {'form': form})
+

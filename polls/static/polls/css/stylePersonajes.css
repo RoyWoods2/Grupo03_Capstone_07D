@@ -25,9 +25,11 @@ body {
     font-weight: bold;
 }
 .character-image {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
+    display: block;
+    margin: 10px auto;
+    max-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 /* Estilos para la barra de navegación en forma de tarjetas */
 .navbar-grid {
@@ -71,8 +73,52 @@ body {
 .navbar-card a:hover, .navbar-card a.active-tab {
     border-bottom: 2px solid #007bff;
 }
-/* Ejemplo de estilos */
-.table th, .table td {
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 8px;
+    overflow: hidden;
+    --bs-table-bg: transparent;
+}
+
+.custom-table th, .custom-table td {
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background-color: #333;
+    color: #fff;
+
+    
+}
+
+.custom-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.custom-table th .custom-table td {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    font-weight: bold;
     text-align: center;
-    vertical-align: middle;
+    background-color: #333;
+}
+
+
+/* Imagen del personaje */
+.character-image {
+    display: block;
+    margin: 10px auto;
+    max-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.table th {
+ 
+    font-weight: bold;
+    text-align: center;
 }

@@ -1,0 +1,36 @@
+{% extends 'polls/detail.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'eventos/css/styleRanking.css' %}">
+
+<div class="ranking-container">
+    <h2 class="section-title">Ranking de Jugadores</h2>
+    <table class="table custom-table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Posición</th>
+                <th>Jugador</th>
+                <th>Puntos</th>
+                <th>Perfil</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jugador in jugadores %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ jugador.userprofile.nick}}</td>
+                <td>{{ jugador.puntos }}</td>
+                <td>
+                    {% if jugador %}
+                    <td>
+                        <a href="{% url 'polls:perfil_usuario' jugador.nick %}">Ver Perfil</a>
+
+                    </td>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

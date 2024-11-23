@@ -16,9 +16,10 @@ class EventoInteresado(models.Model):
     
 class CustomUser(AbstractUser):
     nick = models.CharField(max_length=30, unique=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True,default='polls/css/images/default.png')
     juegos_competencia = models.TextField(blank=True)  # Lista de juegos en los que compite
     user_type = models.CharField(max_length=50, default='normal')
+    puntos = models.IntegerField(default=0)
     tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)  # Para solicitud de cambio
 
     def __str__(self):
@@ -34,7 +35,12 @@ class UserProfile(models.Model):
     nick = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(
+        upload_to='avatars/', 
+        blank=True, 
+        null=True, 
+        default='avatars/default.png'
+    )
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='normal')
     juegos_competencia = models.TextField(blank=True)  # Lista de juegos
     tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)  # Solicitud pendiente
@@ -95,11 +101,13 @@ class Combo(models.Model):
     nombre = models.CharField(max_length=100, help_text="Nombre o etiqueta del combo (por ejemplo, 'Bread and Butter Combo')")
     movimientos = models.TextField(help_text="Lista de movimientos en formato secuencial (ej. 'LP, MP, HP')")
     daño = models.IntegerField(help_text="Cantidad de daño que hace el combo", null=True, blank=True)
+    video = models.FileField(upload_to='combos/', blank=True, null=True)
     dificultad = models.CharField(
         max_length=50, 
         choices=[('Fácil', 'Fácil'), ('Intermedio', 'Intermedio'), ('Difícil', 'Difícil')], 
         help_text="Dificultad del combo"
     )
+    
     descripcion = models.TextField(help_text="Descripción o contexto del combo", blank=True)
     creado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, help_text="Usuario que creó o compartió el combo")
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -128,26 +136,7 @@ class FrameData(models.Model):
         return f"{self.personaje.nombre} - {self.movimiento}"
 
     
-class Combo(models.Model):
-    personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="combos")
-    nombre = models.CharField(max_length=100, help_text="Nombre o etiqueta del combo (por ejemplo, 'Bread and Butter Combo')")
-    movimientos = models.TextField(help_text="Lista de movimientos en formato secuencial (ej. 'LP, MP, HP')")
-    daño = models.IntegerField(help_text="Cantidad de daño que hace el combo", null=True, blank=True)
-    dificultad = models.CharField(
-        max_length=50, 
-        choices=[('Fácil', 'Fácil'), ('Intermedio', 'Intermedio'), ('Difícil', 'Difícil')], 
-        help_text="Dificultad del combo"
-    )
-    descripcion = models.TextField(help_text="Descripción o contexto del combo", blank=True)
-    creado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, help_text="Usuario que creó o compartió el combo")
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    video_demo_url = models.URLField(blank=True, null=True, help_text="URL a un video de demostración")  # Campo para el enlace de video
 
-    def __str__(self):
-        return f"{self.nombre} - {self.personaje.nombre}"
-
-    class Meta:
-        ordering = ["personaje", "dificultad", "-fecha_creacion"]
         
 class FrameData(models.Model):
     personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="frame_data")
@@ -161,6 +150,7 @@ class FrameData(models.Model):
     hit_advantage = models.IntegerField()  # Ventaja en golpe
     knockdown = models.BooleanField(default=False)  # Indica si el movimiento derriba
     video_demo_url = models.URLField(blank=True, null=True)  # Enlace a video de demostración
+    imagen = models.ImageField(upload_to='frameData/', blank=True, null=True)
 
     def __str__(self):
         return f"{self.personaje.nombre} - {self.movimiento}"

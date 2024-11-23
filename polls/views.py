@@ -37,21 +37,29 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
-def perfil_usuario(request):
-    profile = request.user.userprofile
-    comentarios = Comentario.objects.filter(usuario=request.user)
+def perfil_usuario(request, nick=None):
+    # Si no se pasa `nick`, muestra el perfil del usuario actual
+    if nick is None:
+        if not request.user.is_authenticated:
+            return redirect('polls:login')  # Redirige al login si no está autenticado
+        profile = request.user.userprofile
+    else:
+        # Obtén el perfil por el `nick`
+        user = get_object_or_404(CustomUser, nick=nick)
+        profile = user.userprofile
+
+    comentarios = profile.user.comentario_set.all()  # Comentarios asociados al perfil
     
-    if request.method == 'POST':
+    if request.method == 'POST' and nick is None:  # Solo permite edición en el perfil propio
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            # Manejo de solicitud de cambio de tipo de usuario
             if 'tipo_usuario' in form.changed_data:
                 profile.tipo_usuario_solicitado = form.cleaned_data['user_type']
                 profile.save()
-            return redirect('polls:perfil_usuario')
+            return redirect('polls:perfil_usuario', nick=request.user.nick)
     else:
-        form = UserProfileForm(instance=profile)
+        form = UserProfileForm(instance=profile) if nick is None else None  # Solo muestra el formulario en el perfil propio
     
     return render(request, 'polls/perfil_usuario.html', {
         'form': form,

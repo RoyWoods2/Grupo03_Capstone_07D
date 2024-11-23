@@ -10,6 +10,30 @@ class Evento(models.Model):
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
     imagen = models.ImageField(upload_to='eventos/', null=True, blank=True)
     direccion = models.CharField(max_length=255, null=True, blank=True)  # Nueva variable de dirección
+     # Campos para ganadores
+    primer_lugar = models.ForeignKey(
+        settings.AUTH_USER_MODEL,on_delete=models.SET_NULL, null=True, blank=True, related_name="primer_lugar_eventos"
+    )
+    segundo_lugar = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="segundo_lugar_eventos"
+    )
+    tercer_lugar = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="tercer_lugar_eventos"
+    )
+    def save(self, *args, **kwargs):
+        # Agregar puntos a los ganadores
+        if self.primer_lugar:
+            self.primer_lugar.puntos += 3
+            self.primer_lugar.save()
+        if self.segundo_lugar:
+            self.segundo_lugar.puntos += 2
+            self.segundo_lugar.save()
+        if self.tercer_lugar:
+            self.tercer_lugar.puntos += 1
+            self.tercer_lugar.save()
+
+        # Llamar al método save original
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.titulo

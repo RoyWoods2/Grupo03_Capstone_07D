@@ -40,14 +40,18 @@
 </div>
 <div id="overview" class="overview-section">
     <h2 class="text-center">Overview</h2>
-    <p>{{ personaje.overview }}</p>
+    {% filter linebreaks %}
+    <p>{{ personaje.descripcion | safe}}</p>
+    {% endfilter %}
+   
 </div>
 
 <div class="row">
     <!-- Columna de Pros y Cons -->
     <div class="col-md-8 order-2 order-md-1">
+        
         <div class="pros-cons-section">
-            <p><strong>{{ personaje.nombre }}</strong> {{ personaje.descripcion_general }}</p>
+            
             <table class="pros-cons-table w-100">
                 <thead>
                     <tr>
@@ -80,26 +84,45 @@
     <!-- Columna de Información del Personaje -->
     <div class="col-md-4 order-1 order-md-2 mb-4 mb-md-0">
         <div class="info-card">
-            <h3>{{ personaje.nombre }}</h3>
-            <img src="{{ personaje.imagen_url }}" alt="{{ personaje.nombre }}" class="character-image">
-            <div class="mt-3">
-                <h5>Unique Movement Options</h5>
-                <ul>
-                    {% for movimiento in personaje.movimientos_unicos %}
-                        <li><a href="#">{{ movimiento }}</a></li>
-                    {% endfor %}
-                </ul>
-
-                <h5>Fastest Attacks</h5>
-                <ul>
-                    {% for ataque in personaje.ataques_rapidos %}
-                        <li>{{ ataque }}</li>
-                    {% endfor %}
-                </ul>
-
-                <h5>Unique Reversals</h5>
-                <p>{{ personaje.reversales_unicos | default:"None" }}</p>
-            </div>
+            <h3 class="text-center">{{ personaje.nombre }}</h3>
+            <img src="{{ personaje.imagen.url }}" alt="Imagen de {{ personaje.nombre }}" class="character-image">
+        
+            <table class="table custom-table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th class="text-center" colspan="2">Detalles del Personaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Movimientos únicos -->
+                    <tr>
+                        <td class="font-weight-bold ">Unique Movement Options</td>
+                        <td>
+                            <ul>
+                                {% for movimiento in personaje.movimientos_unicos %}
+                                    <li>{{ movimiento }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <!-- Ataques más rápidos -->
+                    <tr>
+                        <td class="font-weight-bold ">Fastest Attacks</td>
+                        <td>
+                            <ul>
+                                {% for ataque in personaje.ataques_rapidos %}
+                                    <li>{{ ataque }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <!-- Reversales únicas -->
+                    <tr>
+                        <td class="font-weight-bold ">Unique Reversals</td>
+                        <td>{{ personaje.reversales_unicos|default:"None" }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -114,11 +137,13 @@
     </div>
 </div>
 
-<div id="frame-data" class="tab-content">
+<div id="frame-data" class="tab-content">    
+    <div id="" class="overview-section">    
     <h2>Frame Data</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
+    <table class="table custom-table table-striped mt-3">     
+        <thead>           
+            <tr> 
+                <th>Referencia</th>
                 <th>Movimiento</th>
                 <th>Tipo</th>
                 <th>Damage</th>
@@ -134,6 +159,7 @@
         <tbody>
             {% for frame in framedata %}
                 <tr>
+                    <td> <img src="{{ frame.imagen.url }}" alt="" class=""></td>
                     <td>{{ frame.movimiento }}</td>
                     <td>{{ frame.tipo }}</td>
                     <td>{{ frame.damage }}</td>
@@ -142,7 +168,7 @@
                     <td>{{ frame.recovery_frames }}</td>
                     <td>{{ frame.block_advantage }}</td>
                     <td>{{ frame.hit_advantage }}</td>
-                    <td>{{ frame.knockdown|yesno:"Yes,No" }}</td>
+                    <td>{{ frame.knockdown|yesno:"Si,No" }}</td>
                     <td>
                         {% if frame.video_demo_url %}
                             <a href="{{ frame.video_demo_url }}" target="_blank">Ver Video</a>
@@ -155,24 +181,46 @@
         </tbody>
     </table>
 </div>
+</div>
 
 <div id="combos" class="tab-content">
     <div id="" class="overview-section">
-        <h2>Combos</h2>
-        {% for combo in combos %}
-            <h3>{{ combo.nombre }}</h3>
-            <p>{{ combo.descripcion }}</p>
-            <p>Dificultad: {{ combo.dificultad }}</p>
-            <p>Inputs: {{ combo.inputs }}</p>
+        <h2 class="text-center">Combos</h2>
 
-            {% if combo.video_demo_url %}
-                <div class="video-container">
-                    <iframe src="{{ combo.video_demo_url }}" frameborder="0" allowfullscreen></iframe>
-                </div>
+        {% if combos %}
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Dificultad</th>
+                    <th>Inputs</th>
+                    <th>Video de Demostración</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for combo in combos %}
+                <tr>
+                    <td>{{ combo.nombre }}</td>
+                    <td>{{ combo.descripcion }}</td>
+                    <td>{{ combo.dificultad }}</td>
+                    <td>{{ combo.movimientos }}</td>
+                    <td>
+                        {% if combo.video %}
+                        <div class="video-container">
+                            <iframe src="{{ combo.video_demo_url }}" frameborder="0" allowfullscreen style="width: 150px; height: 100px;"></iframe>
+                        </div>
+                        {% else %}
+                        <p>No hay video disponible</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% else %}
-            <p>No hay video de demostración disponible.</p>
+        <p class="text-center">No hay combos disponibles.</p>
         {% endif %}
-    {% endfor %}
     </div>
 </div>
 

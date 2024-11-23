@@ -16,7 +16,8 @@ urlpatterns = [
     path('juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/', views.detalle_personaje, name='detalle_personaje'),
     path('juegos/<slug:juego_slug>/hub/', views.hub_view, name='hub_page'),
     path('social-auth/', include('social_django.urls', namespace='social')),
-    path('perfil/', views.perfil_usuario, name='perfil_usuario'),
+    path('perfil/', views.perfil_usuario, name='perfil_usuario'),  # Perfil del usuario actual
+    path('perfil/<str:nick>/', views.perfil_usuario, name='perfil_usuario'), 
  
 
 ]

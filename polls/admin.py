@@ -26,12 +26,14 @@ class PersonajeAdmin(admin.ModelAdmin):
     imagen.short_description = "Imagen"
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
+
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('nick', 'avatar', 'juegos_competencia', 'user_type', 'tipo_usuario_solicitado')}),
+        (None, {'fields': ('nick', 'avatar', 'juegos_competencia','puntos', 'user_type', 'tipo_usuario_solicitado')}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('nick', 'avatar', 'juegos_competencia', 'user_type', 'tipo_usuario_solicitado')}),
+        (None, {'fields': ('nick', 'avatar', 'juegos_competencia', 'puntos','user_type', 'tipo_usuario_solicitado')}),
     )
+    
 
 admin.site.register(Juego, JuegoAdmin)
 admin.site.register(Personaje, PersonajeAdmin)
