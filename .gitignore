@@ -10,8 +10,7 @@ __pycache__/
 db.sqlite3
 
 # Archivos estáticos y media
-/static/
-/media/
+
 
 # Configuraciones de VSCode
 .vscode/
