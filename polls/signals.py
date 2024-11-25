@@ -2,13 +2,22 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-from .models import UserProfile
+from django.contrib.auth import get_user_model
+from .models import CustomUser
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+User = get_user_model()
+
+@receiver(post_save, sender=CustomUser)
+def initialize_user(sender, instance, created, **kwargs):
+    if created:
+        # Aquí no necesitas acceder a `customUser`
+        pass
+
+
+@receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()
+        # Si el usuario es recién creado, se ejecuta este código
+        # Aquí puedes crear cualquier otra lógica para asociar algo a CustomUser si es necesario
+        # Como ahora no hay UserProfile, el código puede ser modificado si necesitas asociar datos
+        pass 

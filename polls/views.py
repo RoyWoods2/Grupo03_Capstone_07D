@@ -5,23 +5,36 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+
+from django.contrib.auth.models import User
 from django.contrib import messages
 import requests
 from django.conf import settings
-from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm
-from .models import Juego, Personaje, UserProfile , CustomUser , FrameData
+from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm, ComentarioForm,UserProfileForm,RoleChangeRequestForm  
+from .models import Juego, Personaje,CustomUser , FrameData,Comentario,Hub, Combo, RoleChangeRequest
 import json
 from eventos.models import Evento
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your views here.
-from django.shortcuts import render, redirect
-from .forms import ComentarioForm,UserProfileForm  
-from .models import Comentario,Hub, Combo
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
+@staff_member_required
+def revisar_solicitudes(request):
+    solicitudes = RoleChangeRequest.objects.filter(revisado=False)
+    if request.method == 'POST':
+        solicitud_id = request.POST.get('solicitud_id')
+        aprobar = request.POST.get('aprobar') == 'true'
+        solicitud = RoleChangeRequest.objects.get(id=solicitud_id)
+        if aprobar:
+            usuario = solicitud.usuario
+            usuario.user_type = solicitud.rol_solicitado
+            usuario.save()
+        solicitud.revisado = True
+        solicitud.save()
+        return redirect('polls:revisar_solicitudes')
 
+    return render(request, 'polls/revisar_solicitudes.html', {'solicitudes': solicitudes})
 def hub_view(request, juego_slug):
     # Obtener el juego y los datos del hub relacionados
     juego = get_object_or_404(Juego, slug=juego_slug)
@@ -35,37 +48,43 @@ def hub_view(request, juego_slug):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        CustomUser.objects.create(user=instance)
 
-def perfil_usuario(request, nick=None):
-    # Si no se pasa `nick`, muestra el perfil del usuario actual
-    if nick is None:
-        if not request.user.is_authenticated:
-            return redirect('polls:login')  # Redirige al login si no está autenticado
-        profile = request.user.userprofile
-    else:
-        # Obtén el perfil por el `nick`
-        user = get_object_or_404(CustomUser, nick=nick)
-        profile = user.userprofile
+def perfil_usuario(request):
+    if not request.user.is_authenticated:
+        return redirect('polls:login')
 
-    comentarios = profile.user.comentario_set.all()  # Comentarios asociados al perfil
-    
-    if request.method == 'POST' and nick is None:  # Solo permite edición en el perfil propio
-        form = UserProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            if 'tipo_usuario' in form.changed_data:
-                profile.tipo_usuario_solicitado = form.cleaned_data['user_type']
-                profile.save()
-            return redirect('polls:perfil_usuario', nick=request.user.nick)
-    else:
-        form = UserProfileForm(instance=profile) if nick is None else None  # Solo muestra el formulario en el perfil propio
-    
+    profile = request.user
+    comentarios = profile.comentario_set.all()
+
+    # Formulario para actualizar perfil
+    form = UserProfileForm(instance=profile)
+
+    # Formulario para solicitar cambio de rol
+    role_request_form = RoleChangeRequestForm()
+
+    if request.method == 'POST':
+        if 'update_profile' in request.POST:
+            form = UserProfileForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                form.save()
+                return redirect('polls:perfil_usuario')
+        
+        elif 'request_role' in request.POST:
+            role_request_form = RoleChangeRequestForm(request.POST)
+            if role_request_form.is_valid():
+                solicitud = role_request_form.save(commit=False)
+                solicitud.usuario = request.user
+                solicitud.save()
+                return redirect('polls:perfil_usuario')
+
     return render(request, 'polls/perfil_usuario.html', {
-        'form': form,
-        'comentarios': comentarios,
         'profile': profile,
+        'comentarios': comentarios,
+        'form': form,
+        'role_request_form': role_request_form,
     })
+
 
 def lista_juegos(request):
     juegos = Juego.objects.all()
@@ -141,15 +160,18 @@ def get_behold_data():
 def behold_data_view(request):
     data = get_behold_data()
     return render(request, 'behold_data.html', {'data': data})
+
+
 def registro_view(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('polls:login')  # Cambia 'login' por el nombre de la URL de login
+            return redirect('polls:login')  # Redirige a la página de login después de registrar al usuario
     else:
         form = CustomUserCreationForm()
     return render(request, 'polls/registro.html', {'form': form})
+
 
 # Vista de cierre de sesión
 @login_required
@@ -161,15 +183,21 @@ def logout_view(request):
 
 # Vista de inicio de sesión
 def login_view(request):
-    if request.method == "POST":
-        form = CustomLoginForm(data=request.POST)
+    form = CustomLoginForm(data=request.POST or None)  # Usa el formulario personalizado
+
+    if request.method == 'POST':
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('/')  # Cambia 'home' por la URL de inicio después del login
-    else:
-        form = CustomLoginForm()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('polls:')  # Cambia esto al nombre de tu vista principal
+            else:
+                form.add_error(None, "Credenciales incorrectas")  # Añade un error general al formulario
+
     return render(request, 'polls/login.html', {'form': form})
+
 
 
 

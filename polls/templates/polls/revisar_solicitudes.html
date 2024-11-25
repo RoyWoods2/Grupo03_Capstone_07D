@@ -1,0 +1,38 @@
+{% extends "polls/detail.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'eventos/css/styleRanking.css' %}">
+<div class="ranking-container">
+
+    <h2  class="section-title" >Solicitudes de Cambio de Rol</h2>
+    <table class="table custom-table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Rol Solicitado</th>
+            <th>Mensaje</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for solicitud in solicitudes %}
+        <tr>
+            <td>{{ solicitud.usuario.username }}</td>
+            <td>{{ solicitud.get_rol_solicitado_display }}</td>
+            <td>{{ solicitud.mensaje }}</td>
+            <td>{{ solicitud.fecha_solicitud|date:"d M Y H:i" }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="solicitud_id" value="{{ solicitud.id }}">
+                    <button type="submit" name="aprobar" value="true" class="btn btn-success">Aprobar</button>
+                    <button type="submit" name="aprobar" value="false" class="btn btn-danger">Rechazar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

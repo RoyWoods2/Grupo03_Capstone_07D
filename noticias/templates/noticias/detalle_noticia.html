@@ -1,6 +1,8 @@
 {% extends "polls/detail.html" %}
 {% load static %}
 {% block content %}
+
+
 <link rel="stylesheet" href="{% static 'noticias/css/styleNoticia.css' %}">
 
 
@@ -13,8 +15,11 @@
     {% endif %}
     
     <div class="noticia-contenido">
+        {% autoescape off %}
+
         <p>{{ noticia.contenido }}</p>
-    </div>
+        {% endautoescape %}
+        </div>
 </div>
 <div class="comentarios-container">
     <h2>Comentarios</h2>
@@ -77,6 +82,8 @@
         </div>
     </div>
 </div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 <script>
     function toggleRespuestaForm(comentarioId) {
         const form = document.getElementById(`respuesta-form-${comentarioId}`);
@@ -84,5 +91,13 @@
         form.style.display = 'block'; // Muestra el formulario
         button.style.display = 'none'; // Oculta el botón de Responder
     }
+</script>
+<script>
+    // Reactiva los widgets de Twitter
+    window.onload = function () {
+        if (typeof twttr !== 'undefined') {
+            twttr.widgets.load();
+        }
+    };
 </script>
 {% endblock %}

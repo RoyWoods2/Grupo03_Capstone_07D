@@ -26,24 +26,8 @@
                 {% endif %}
             </div>
 
-            <div class="form-group">
-                {{ form.nick.label_tag }}
-                {{ form.nick }}
-                {% if form.nick.help_text %}
-                    <small class="help-text">{{ form.nick.help_text }}</small>
-                {% endif %}
-                {% if form.nick.errors %}
-                    <span class="error-text">{{ form.nick.errors }}</span>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                {{ form.name.label_tag }}
-                {{ form.name }}
-                {% if form.name.errors %}
-                    <span class="error-text">{{ form.name.errors }}</span>
-                {% endif %}
-            </div>
+          
+      
 
             <div class="form-group">
                 {{ form.email.label_tag }}

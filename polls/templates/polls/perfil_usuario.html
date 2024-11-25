@@ -9,7 +9,7 @@
     <div class="perfil-header">
         <img src="{{ profile.avatar.url|default:'https://via.placeholder.com/150' }}" alt="{{ profile.nick }}" class="avatar">
         <h2>{{ profile.nick }}</h2>
-        {% if profile.user == request.user %}
+        {% if profile == request.user %}
             <p class="perfil-rol">Tu perfil</p>
         {% else %}
             <p class="perfil-rol">Usuario registrado</p>
@@ -19,10 +19,13 @@
     <!-- Información básica -->
     <div class="perfil-info">
         <h3>Información General</h3>
-        <p><strong>Nombre:</strong> {{ profile.user.first_name|default:"No especificado" }}</p>
-        <p><strong>Apellido:</strong> {{ profile.user.last_name|default:"No especificado" }}</p>
-        <p><strong>Email:</strong> {{ profile.user.email }}</p>
-        <p><strong>Puntos:</strong> {{ profile.user.puntos }}</p>
+        {% if request.user == profile %}
+        <p><strong>UserName:</strong> {{ profile.username|default:"No especificado" }}</p>
+         {% endif %}
+        <p><strong>Nick:</strong> {{ profile.nick|default:"No especificado" }}</p>
+        <p><strong>Nombre:</strong> {{ profile.name|default:"No especificado" }}</p>
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p><strong>Puntos:</strong> {{ profile.puntos }}</p>
     </div>
 
     <!-- Historial de comentarios -->
@@ -40,15 +43,24 @@
     </div>
 
     <!-- Formulario de edición (solo para el usuario propietario) -->
-    {% if request.user == profile.user %}
-    <div class="perfil-editar">
-        <h3>Editar Perfil</h3>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </form>
-    </div>
-    {% endif %}
+    {% if request.user == profile %}
+<div class="perfil-editar">
+    <h3>Editar Perfil</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="update_profile" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+
+<div class="perfil-solicitud">
+    <h3>Solicitar Cambio de Rol</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ role_request_form.as_p }}
+        <button type="submit" name="request_role" class="btn btn-secondary">Solicitar Cambio</button>
+    </form>
+</div>
+{% endif %}
 </div>
 {% endblock %}

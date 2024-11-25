@@ -11,7 +11,8 @@
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
      <!-- CSS personalizado -->
-    <link rel="stylesheet" href="{% static 'polls/css/styleHome.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/css/stylehome.css' %}">
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 </head>
 <body>
@@ -58,7 +59,9 @@
                 <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
                 <li><a href={% url 'polls:perfil_usuario'%}>Perfil</a></li>
                 {% if user.is_staff %}
+                <li><a href={% url 'polls:revisar_solicitudes'%}>Revisar Solicitudes</a></li>
                 <li><a href={% url 'admin:index'%}>Panel Admin</a></li>
+                
                 {% endif %}
                 {% else %}
                 <li><a href={% url 'polls:' %}>Inicio</a></li>
@@ -83,6 +86,7 @@
         <p>Diseñado por Omnissiah.</p>
     </footer>
 <script src="{% static 'polls/js/scripts.js' %}"></script>
+
 
 
 

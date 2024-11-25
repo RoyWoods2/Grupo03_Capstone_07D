@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from noticias.models import Noticia
 from django.conf import settings  # Importa settings para usar AUTH_USER_MODEL
 from eventos.models import Evento
@@ -9,48 +9,63 @@ from eventos.models import Evento
 
 
 # Create your models here.
-class EventoInteresado(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    fecha_interesado = models.DateTimeField(auto_now_add=True)
-    
-class CustomUser(AbstractUser):
-    nick = models.CharField(max_length=30, unique=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True,default='polls/css/images/default.png')
-    juegos_competencia = models.TextField(blank=True)  # Lista de juegos en los que compite
-    user_type = models.CharField(max_length=50, default='normal')
-    puntos = models.IntegerField(default=0)
-    tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)  # Para solicitud de cambio
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        if not username:
+            raise ValueError("El usuario debe tener un nombre de usuario.")
+        email = self.normalize_email(email)
 
-    def __str__(self):
-        return self.username
-class UserProfile(models.Model):
+        # Validar que el nick sea único antes de asignarlo
+        nick = extra_fields.get('nick', username)  # Usa `nick` si se proporciona, de lo contrario `username`
+        if self.model.objects.filter(nick=nick).exists():
+            raise ValueError(f"El nick '{nick}' ya está en uso.")
+
+        user = self.model(username=username, email=email, nick=nick, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('El superusuario debe tener is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('El superusuario debe tener is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
+
+class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = [
         ('normal', 'Normal'),
         ('admin', 'Admin'),
         ('redactor', 'Redactor'),
     ]
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
     nick = models.CharField(max_length=30, unique=True)
-    name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
     avatar = models.ImageField(
         upload_to='avatars/', 
         blank=True, 
         null=True, 
-        default='avatars/default.png'
+        default='polls/css/images/default.png'
     )
+    juegos_competencia = models.ManyToManyField('Juego', blank=True)  # Aquí cambiamos a ManyToManyField
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='normal')
-    juegos_competencia = models.TextField(blank=True)  # Lista de juegos
-    tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)  # Solicitud pendiente
+    puntos = models.IntegerField(default=0)
+    tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)
+    email = models.EmailField(unique=True)
+    name = models.CharField(max_length=100, blank=True)
+    
+    objects = CustomUserManager()
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
-
-
-
+class EventoInteresado(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    fecha_interesado = models.DateTimeField(auto_now_add=True)
 class Juego(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
@@ -137,24 +152,7 @@ class FrameData(models.Model):
 
     
 
-        
-class FrameData(models.Model):
-    personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="frame_data")
-    movimiento = models.CharField(max_length=100)  # Nombre del movimiento
-    tipo = models.CharField(max_length=50)  # Ej. 'Normal', 'Especial', 'Super'
-    damage = models.IntegerField()  # Daño causado
-    startup_frames = models.IntegerField()  # Cuadros de inicio
-    active_frames = models.IntegerField()  # Cuadros activos
-    recovery_frames = models.IntegerField()  # Cuadros de recuperación
-    block_advantage = models.IntegerField()  # Ventaja en bloqueo
-    hit_advantage = models.IntegerField()  # Ventaja en golpe
-    knockdown = models.BooleanField(default=False)  # Indica si el movimiento derriba
-    video_demo_url = models.URLField(blank=True, null=True)  # Enlace a video de demostración
-    imagen = models.ImageField(upload_to='frameData/', blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.personaje.nombre} - {self.movimiento}"
-    
+  
 class Hub(models.Model):
     titulo = models.CharField(max_length=100)  # Ejemplo: "Barra de vida"
     descripcion = models.TextField()  # Descripción del contenido
@@ -162,4 +160,19 @@ class Hub(models.Model):
     juego = models.ForeignKey('Juego', on_delete=models.CASCADE)  # Relación con el juego específico
 
     def __str__(self):
-        return self.titulo                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+        return self.titulo  
+
+class RoleChangeRequest(models.Model):
+    ROLE_CHOICES = [
+        ('redactor', 'Redactor'),
+        ('organizador', 'Organizador'),
+    ]
+    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    rol_solicitado = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    mensaje = models.TextField(blank=True)
+    revisado = models.BooleanField(default=False)
+    fecha_solicitud = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.usuario.username} solicita ser {self.get_rol_solicitado_display()}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                         
