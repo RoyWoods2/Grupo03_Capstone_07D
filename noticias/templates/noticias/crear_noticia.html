@@ -9,21 +9,10 @@
 <div class="container">
     <div class="form-container">
         <h2 class="text-center mb-4">Crear Nueva Noticia</h2>
-        <form method="post" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="titulo">Título</label>
-                {{ form.titulo}}
-            </div>
-            <div class="form-group">
-                <label for="contenido">Contenido</label>
-                {{ form.contenido.as_widget }}
-            </div>
-            <div class="form-group">
-                <label for="imagen_encabezado">Imagen de Encabezado</label>
-                {{ form.imagen_encabezado.as_widget }}
-            </div>
-            <button type="submit" class="btn btn-primary">Publicar Noticia</button>
+            {{ form.as_p }}
+            <button type="submit">Publicar</button>
         </form>
     </div>
 </div>

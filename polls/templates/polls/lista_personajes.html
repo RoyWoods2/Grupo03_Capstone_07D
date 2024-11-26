@@ -31,7 +31,7 @@
     <div class="container mt-5">
         <!-- Galería de Personajes -->
         <div class="character-gallery">
-            <h3>Characters</h3>
+            <h3>Lista</h3>
             <div class="characters">
                 {% for personaje in personajes %}
                     <div class="character-icon">
@@ -39,6 +39,11 @@
                     </div>
                 {% endfor %}
             </div>
+        </div>
+        <div id="overview" class="overview-section">
+            <h2 class="text-center">Descripcion General</h2>
+
+            <h7>{{ juego.descripcion}}</h7>
         </div>
     
         <!-- Sección de Mecánicas y Tarjeta de Información -->
@@ -51,8 +56,6 @@
                         <a href="{% url 'polls:hub_page' juego.slug %}" class="btn btn-dark">Hub</a>
                         <a href="#damage" class="btn btn-dark">Damage/Combo</a>
                         <a href="#system-mechanics" class="btn btn-dark">System Mechanics</a>
-                        <a href="#frame-data" class="btn btn-dark">Frame Data & System Data</a>
-                        <!-- Agrega otros botones según sea necesario -->
                     </div>
                 </div>          
             </div>
@@ -60,32 +63,23 @@
             <!-- Tarjeta de Información del Juego -->
             <div class="col-md-4">
                 <div class="game-info-card">
-                    <img src="{{ juego.imagen_url.url }}" alt="{{ juego.nombre }}" class="juego-imagen">
-                    <h7>{{ juego.descripcion}}</h7>
-                    <p><strong>Destribudores:</strong> {{ juego.publisher }}</p>
-                    <p><strong>Release Dates:</strong></p>
+                    <img src="{{ juego.imagen_url.url }}" alt="{{ juego.nombre }}" class="juego-imagen"> 
+                    <p><br> </p>
+                    
+                    <p><strong>Destribuidores:</strong> {{ juego.publisher }}</p>
+                    <p><strong>Fecha de lanzamientos:</strong></p>
                     <ul>
                         {% for fecha in juego.release_dates %}
                             <li>{{ fecha.platform }}: {{ fecha.date }}</li>
                         {% endfor %}
                     </ul>
-                    <a href="{{ juego.enlace_oficial }}" class="btn btn-primary" target="_blank">Official Website</a>
+                    <a href="{{ juego.enlace_oficial }}" class="btn btn-primary" target="_blank">Sitio Web Oficial</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <h3>Hubs</h3>
 
-    <div id="hub-container">
-        {% for hub in hub_data %}
-            <div class="hub-info">
-                <h3>{{ hub.titulo }}</h3>
-                <p>{{ hub.descripcion }}</p>
-                <img src="{{ hub.imagen.url }}" alt="Hub Image">
-            </div>
-        {% endfor %}
-    </div>
     
     <!-- Botón para activar el Hub -->
 

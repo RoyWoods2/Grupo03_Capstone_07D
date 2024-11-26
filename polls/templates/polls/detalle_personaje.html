@@ -26,7 +26,7 @@
         <a href="#overview" onclick="showTab('overview')">Overview</a>
     </div>
     <div class="navbar-card">
-        <a href="#strategy" onclick="showTab('strategy')">Strategy</a>
+        <a href="#strategy" onclick="showTab('strategy')">Estrategias/Tips</a>
     </div>
     <div class="navbar-card">
         <a href="#frame-data" onclick="showTab('frame-data')">Frame Data</a>
@@ -35,13 +35,13 @@
         <a href="#combos" onclick="showTab('combos')">Combos</a>
     </div>
     <div class="navbar-card">
-        <a href="#resources" onclick="showTab('resources')">Resources</a>
+        <a href="#resources" onclick="showTab('resources')">Recursos</a>
     </div>
 </div>
 <div id="overview" class="overview-section">
     <h2 class="text-center">Overview</h2>
-    {% filter linebreaks %}
-    <p>{{ personaje.descripcion | safe}}</p>
+    {% filter linebreaks %}    
+    {{ personaje.descripcion | safe}}
     {% endfilter %}
    
 </div>
@@ -51,7 +51,9 @@
     <div class="col-md-8 order-2 order-md-1">
         
         <div class="pros-cons-section">
-            
+            <a ><img src="{{ personaje.icono_url.url }}" alt="{{ personaje.nombre }}" class="personaje-icono"></a>
+            {{ personaje.descripcion_strategy }}</p>
+
             <table class="pros-cons-table w-100">
                 <thead>
                     <tr>
@@ -59,25 +61,27 @@
                         <th class="cons">Cons</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-container">
                     <tr>
                         <td>
                             <ul>
+
                                 {% for pro in personaje.pros %}
-                                    <li>{{ pro }}</li>
+                                <li>{{ pro|linebreaksbr|safe }}</li>  
                                 {% endfor %}
                             </ul>
+
                         </td>
                         <td>
                             <ul>
                                 {% for con in personaje.cons %}
-                                    <li>{{ con }}</li>
+                                <li>{{ con|linebreaksbr|safe }}</li>  
                                 {% endfor %}
                             </ul>
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> 
         </div>
     </div>
 
@@ -131,9 +135,60 @@
 
 <div id="strategy" class="tab-content">
     <div id="" class="overview-section">
+        <h4 class="accordion">Tácticas Generales</h4>
 
-    <h2>Strategy</h2>
-    <p>Contenido de la sección Strategy...</p>
+        <div class="content-strategy">
+            <ul>
+                {% for tactica in personaje.estrategia.tacticas_generales %}
+                    <li>{{ tactica }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <h4 class="accordion">Posicionamiento en el Equipo</h4>
+        <div class="content-strategy">
+            <ul>
+                {% for posicion in personaje.estrategia.posicionamiento_en_el_equipo %}
+                    <li>{{ posicion }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <h4 class="accordion">BlockString</h4>
+        <div class="content-strategy">
+            <ul>
+                {% for block in personaje.estrategia.block_string %}
+                    <li>{{ block }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <h4 class="accordion">Oki</h4>
+        <div class="content-strategy">
+            <ul>
+                {% for oki_item in personaje.estrategia.oki %}
+                    <li>{{ oki_item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <h4 class="accordion">Tips y Trucos</h4>
+        <div class="content-strategy">
+            <ul>
+                {% for tip in personaje.estrategia.tips_y_trucos %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <h4 class="accordion">Luchando en Contra</h4>
+        <div class="content-strategy">
+            <ul>
+                {% for lucha in personaje.estrategia.luchando_en_contra %}
+                    <li>{{ lucha }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -158,9 +213,14 @@
         </thead>
         <tbody>
             {% for frame in framedata %}
-                <tr>
-                    <td> <img src="{{ frame.imagen.url }}" alt="" class=""></td>
-                    <td>{{ frame.movimiento }}</td>
+            <tr>
+                {% if frame.imagen %}
+                    <td><img class="FrameDataImagen" src="{{ frame.imagen.url }}" alt="Imagen del personaje" style="max-width: 100px; max-height: 100px;"></td>
+                {% else %}
+                    <td><p>No hay imagen disponible.</p></td>
+                {% endif %}
+          
+                <td>{{ frame.movimiento }}</td>
                     <td>{{ frame.tipo }}</td>
                     <td>{{ frame.damage }}</td>
                     <td>{{ frame.startup_frames }}</td>
@@ -191,20 +251,20 @@
         <table class="table table-striped mt-3">
             <thead>
                 <tr>
+                    <th>Inputs</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
                     <th>Dificultad</th>
-                    <th>Inputs</th>
                     <th>Video de Demostración</th>
                 </tr>
             </thead>
             <tbody>
                 {% for combo in combos %}
                 <tr>
+                    <td>{{ combo.movimientos }}</td>
                     <td>{{ combo.nombre }}</td>
                     <td>{{ combo.descripcion }}</td>
                     <td>{{ combo.dificultad }}</td>
-                    <td>{{ combo.movimientos }}</td>
                     <td>
                         {% if combo.video %}
                         <div class="video-container">
@@ -225,8 +285,27 @@
 </div>
 
 <div id="resources" class="tab-content">
-    <h2>Resources</h2>
-    <p>Contenido de la sección Resources...</p>
+    <h2>Link de comunidades {{ personaje.nombre }}</h2>
+    <div>
+        {% for recurso in recursos %}
+            <div class="recurso">
+                {% if recurso.link_discord %}
+                    <p><strong>Discord del Personaje </strong></p>
+                    <a href="{{ recurso.link_discord }}" target="_blank" class="discord-btn">
+                        <img src="{% static 'polls/icons/discord.svg' %}" alt="Discord Icon">
+                    </a>
+                {% endif %}
+                {% if recurso.hashtag_twitter %}
+                    <p><strong>Twitter Hashtag</strong></p>
+                    <a href="https://twitter.com/hashtag/{{ recurso.hashtag_twitter }}" target="_blank" class="twitter-btn">
+                        <img src="{% static 'polls/icons/twitter.svg' %}" alt="Twitter Icon">
+                    </a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No hay recursos disponibles para este personaje.</p>
+        {% endfor %}
+    </div>
 </div>
 
 <script>
@@ -251,7 +330,44 @@
         showTab('overview');
     });
 </script>
+<script>
+    // Obtén todos los elementos con la clase "accordion"
+    const accordions = document.querySelectorAll(".accordion");
 
+    accordions.forEach(function (accordion) {
+        // Agrega un evento de clic para cada "accordion"
+        accordion.addEventListener("click", function () {
+            // Alterna la clase "active" para cambiar el estilo del título
+            this.classList.toggle("active");
+
+            // Obtén el contenedor de contenido correspondiente al título clickeado
+            const content = this.nextElementSibling;
+
+            // Si el contenido está visible, lo oculta; si está oculto, lo muestra
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    });
+</script>
+<script>
+    // Script para que el acordeón funcione
+    document.addEventListener("DOMContentLoaded", () => {
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const arrow = this.querySelector('.arrow');
+                if (this.classList.contains('collapsed')) {
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+    });
+</script>
 </body>
 {% endblock  %}
 

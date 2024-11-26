@@ -72,6 +72,7 @@ class Juego(models.Model):
     publisher = models.TextField(blank=True)
     slug = models.SlugField(unique=True, blank=True)
     imagen_url =  models.ImageField(upload_to='polls/')
+    enlace_oficial=models.TextField(blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -84,6 +85,7 @@ class Personaje(models.Model):
     nombre = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
     descripcion = models.TextField(blank=True)
+    descripcion_strategy= models.TextField(blank=True)    
     juego = models.ForeignKey(Juego, on_delete=models.CASCADE, related_name='personajes')
     pros = models.JSONField(default=dict, blank=True)
     cons = models.JSONField(default=dict, blank=True)
@@ -138,14 +140,16 @@ class FrameData(models.Model):
     personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="frame_data")
     movimiento = models.CharField(max_length=100)  # Nombre del movimiento
     tipo = models.CharField(max_length=50)  # Ej. 'Normal', 'Especial', 'Super'
-    damage = models.IntegerField()  # Daño causado
-    startup_frames = models.IntegerField()  # Cuadros de inicio
-    active_frames = models.IntegerField()  # Cuadros activos
-    recovery_frames = models.IntegerField()  # Cuadros de recuperación
-    block_advantage = models.IntegerField()  # Ventaja en bloqueo
-    hit_advantage = models.IntegerField()  # Ventaja en golpe
+    damage = models.IntegerField(blank=True, null=True)  # Daño causado
+    startup_frames = models.IntegerField(blank=True, null=True)  # Cuadros de inicio
+    active_frames = models.IntegerField(blank=True, null=True)  # Cuadros activos
+    recovery_frames = models.IntegerField(blank=True, null=True)  # Cuadros de recuperación
+    block_advantage = models.IntegerField(blank=True, null=True)  # Ventaja en bloqueo
+    hit_advantage = models.IntegerField(blank=True, null=True)  # Ventaja en golpe
     knockdown = models.BooleanField(default=False)  # Indica si el movimiento derriba
-    video_demo_url = models.URLField(blank=True, null=True)  # Enlace a video de demostración
+    video_demo_url = models.URLField(blank=True, null=True)
+    imagen = models.ImageField(upload_to='frame_data/', null=True, blank=True)
+# Enlace a video de demostración
 
     def __str__(self):
         return f"{self.personaje.nombre} - {self.movimiento}"
@@ -175,4 +179,25 @@ class RoleChangeRequest(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} solicita ser {self.get_rol_solicitado_display()}"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+
+class Estrategia(models.Model):
+    personaje = models.OneToOneField('Personaje', on_delete=models.CASCADE, related_name='estrategia')
+    
+    tacticas_generales = models.JSONField(default=list, blank=True)
+    posicionamiento_en_el_equipo = models.JSONField(default=list, blank=True)
+    block_string = models.JSONField(default=list, blank=True)
+    oki = models.JSONField(default=list, blank=True)
+    tips_y_trucos = models.JSONField(default=list, blank=True)
+    luchando_en_contra = models.JSONField(default=list, blank=True)
+
+    def __str__(self):
+        return f"Estrategia de {self.personaje.nombre}" 
+    
+class Recurso(models.Model):
+    personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name='recursos')
+    link_discord = models.URLField(blank=True, null=True)  # Enlace de Discord
+    hashtag_twitter = models.CharField(max_length=50, blank=True, null=True)  # Hashtag de Twitter
+
+    def __str__(self):
+        return f"Recursos para {self.personaje.nombre}"                                                                                                                                                                                                                                                                                                                                                                                                                                         

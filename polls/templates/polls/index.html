@@ -55,7 +55,9 @@
                     {% if evento.imagen %}
                     <img src="{{ evento.imagen.url }}" class="d-block w-100" alt="Imagen del evento">
                     {% endif %}
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption d-none d-md-block" style="
+                    text-shadow: 2px 0 #111, -2px 0 #111, 0 2px #111, 0 -2px #111,
+                             1px 1px #111, -1px -1px #111, 1px -1px #111, -1px 1px #111;">
                         <h5><a href="{% url 'eventos:detalle_evento' evento.id %}" class="text-white text-decoration-none">{{ evento.titulo }}</a></h5>
                         <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
                         <p><strong>Dirección:</strong> {{ evento.direccion }}</p>

@@ -12,12 +12,15 @@ from django.contrib import messages
 import requests
 from django.conf import settings
 from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm, ComentarioForm,UserProfileForm,RoleChangeRequestForm  
-from .models import Juego, Personaje,CustomUser , FrameData,Comentario,Hub, Combo, RoleChangeRequest
+from .models import Juego, Personaje,CustomUser , FrameData,Comentario,Hub, Combo, RoleChangeRequest, Estrategia,Personaje, Recurso
 import json
 from eventos.models import Evento
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your views here.
+
+
+
 
 @staff_member_required
 def revisar_solicitudes(request):
@@ -103,20 +106,24 @@ def lista_personajes(request, juego_slug):
     return render(request, 'polls/lista_personajes.html', context)
 
 
-def detalle_personaje(request,juego_slug, personaje_slug):
+def detalle_personaje(request, juego_slug, personaje_slug):
     juego = get_object_or_404(Juego, slug=juego_slug)
-    personaje = get_object_or_404(Personaje,slug=personaje_slug, juego=juego)
+    personaje = get_object_or_404(Personaje, slug=personaje_slug, juego=juego)
     combos = Combo.objects.filter(personaje=personaje)  # Asegúrate de que `combos` esté relacionado con el personaje
     framedata = FrameData.objects.filter(personaje=personaje)  # Filtrar framedata asociada
+    estrategias = Estrategia.objects.filter(personaje=personaje)  # Filtrando estrategias asociadas a este personaje
+    recursos = Recurso.objects.filter(personaje=personaje)
 
 
     context = {
         'personaje': personaje,
         'combos': combos,
         'framedata': framedata,
-
+        'estrategias': estrategias,
+        'recursos': recursos,
     }
     return render(request, 'polls/detalle_personaje.html', context)
+
 
 @login_required (login_url="/login")
 def comentarios_vista(request):

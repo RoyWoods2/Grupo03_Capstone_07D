@@ -1,7 +1,7 @@
 {% extends "polls/detail.html" %}
 {% load static %}
 {% block content %}
-
+{% load custom_filters %}
 
 <link rel="stylesheet" href="{% static 'noticias/css/styleNoticia.css' %}">
 
@@ -17,7 +17,7 @@
     <div class="noticia-contenido">
         {% autoescape off %}
 
-        <p>{{ noticia.contenido }}</p>
+        <p>{{ noticia.contenido |parse_images| safe }}</p>
         {% endautoescape %}
         </div>
 </div>

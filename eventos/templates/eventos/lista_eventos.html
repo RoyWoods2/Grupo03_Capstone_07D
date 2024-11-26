@@ -21,6 +21,13 @@
                     <p class="evento-fecha">{{ evento.fecha|date:"F j, Y" }}</p>
                     <a href="{% url 'eventos:detalle_evento' evento.id %}" class="evento-titulo">{{ evento.titulo }}</a>
                     <p class="evento-ubicacion">{{ evento.ubicacion }}</p>
+                    {% if evento.primer_lugar %}
+              
+                       <pclass="evento-ubicacion"> <strong>Ganador: {{ primer_lugar.nick }}{{ evento.primer_lugar }}</strong></p>
+                        
+                        
+                  
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

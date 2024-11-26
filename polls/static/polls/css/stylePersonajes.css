@@ -14,12 +14,14 @@ body {
     text-align: center;
 }
 .pros-cons-table {
-    color: #fff;
+    color: #ddd;
     background-color: #333;
 }
 .pros-cons-table th, .pros-cons-table td {
     padding: 10px;
     border: 1px solid #444;
+    background-color: #333;
+
 }
 .pros, .cons {
     font-weight: bold;
@@ -121,4 +123,143 @@ body {
  
     font-weight: bold;
     text-align: center;
+}
+.accordion {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    text-align: left;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.accordion:hover {
+    background-color: #0056b3;
+}
+
+.content-strategy {
+    padding: 0 15px;
+    display: none; /* Inicialmente oculto */
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.accordion-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.accordion-button .arrow {
+    transition: transform 0.3s ease;
+}
+
+.accordion-button.collapsed .arrow {
+    transform: rotate(0deg); /* Flecha apuntando hacia abajo cuando está cerrado */
+}
+
+.accordion-button:not(.collapsed) .arrow {
+    transform: rotate(180deg); /* Flecha apuntando hacia arriba cuando está abierto */
+}
+
+.accordion-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.accordion-body {
+    padding: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.accordion-button:hover {
+    background-color: #f7f7f7;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+.content-strategy{
+    color: #ddd;
+    width: 90%;
+    margin-left: 20px; /* Space for vertical navbar */
+    padding: 20px;
+    margin-left:20px;
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow */
+
+}
+.pros{
+    color:#20A007;
+    text-align: center;
+}
+
+.cons{
+    color:#7F0B0B;
+    text-align: center;
+
+}
+.table-container{
+
+    background-color: #333;
+}
+
+.FrameDataImagen {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.recurso {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.discord-btn, .twitter-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.discord-btn {
+    background-color: #5865F2;
+    margin-top: 10px;
+}
+
+.twitter-btn {
+    background-color: #1DA1F2;
+}
+
+.discord-btn img, .twitter-btn img {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+#resources .list-group-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+}
+#resources a {
+    color: #007bff;
+    text-decoration: none;
+}
+#resources a:hover {
+    text-decoration: underline;
 }

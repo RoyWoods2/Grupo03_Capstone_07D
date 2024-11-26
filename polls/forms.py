@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import Comentario,CustomUser,Juego,RoleChangeRequest
+from .models import Comentario,CustomUser,Juego,RoleChangeRequest,Estrategia
 from django.contrib.auth.forms import AuthenticationForm
 
 class CustomUserCreationForm(UserCreationForm):
@@ -77,4 +77,24 @@ class RoleChangeRequestForm(forms.ModelForm):
         labels = {
             'rol_solicitado': 'Rol deseado',
             'mensaje': 'Motivo o mensaje al administrador',
+        }
+
+class EstrategiaForm(forms.ModelForm):
+    class Meta:
+        model = Estrategia
+        fields = [
+            'tacticas_generales',
+            'posicionamiento_en_el_equipo',
+            'block_string',
+            'oki',
+            'tips_y_trucos',
+            'luchando_en_contra'
+        ]
+        widgets = {
+            'tacticas_generales': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+            'posicionamiento_en_el_equipo': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+            'block_string': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+            'oki': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+            'tips_y_trucos': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+            'luchando_en_contra': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
         }

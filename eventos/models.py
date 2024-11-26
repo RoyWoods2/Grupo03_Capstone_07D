@@ -20,6 +20,10 @@ class Evento(models.Model):
     tercer_lugar = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="tercer_lugar_eventos"
     )
+    
+    premio_primer_lugar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    premio_segundo_lugar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    premio_tercer_lugar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     def save(self, *args, **kwargs):
         # Agregar puntos a los ganadores
         if self.primer_lugar:

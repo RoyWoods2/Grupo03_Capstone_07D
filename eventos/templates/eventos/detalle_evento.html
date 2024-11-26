@@ -20,37 +20,53 @@
     {% if evento.imagen %}
         <img src="{{ evento.imagen.url }}" class="img-fluid" alt="Imagen del evento">
     {% endif %}
-    <h2>Ganadores</h2>
-    <ul class="ganadores-lista">
-        {% if evento.primer_lugar %}
-        <li>
-            <strong>1er Lugar: </strong> 
-            <img src="{{ evento.primer_lugar.userprofile.avatar.url }}" alt="{{ primer_lugar.nick }}" class="avatar">
-            {{ evento.primer_lugar }}
-        </li>
-        {% endif %}
-
-        {% if evento.segundo_lugar %}
-        <li>
-            <strong>2do Lugar: </strong> 
-            <img src="{{ evento.segundo_lugar.userprofile.avatar.url }}" alt="{{ segundo_lugar.nick }}" class="avatar">
-            {{ evento.segundo_lugar.nick }}
-        </li>
-        {% endif %}
-
-        {% if evento.tercer_lugar %}
-        <li>
-            <strong>3er Lugar: <p>  </p> </strong> 
-            {% if primer_lugar.userprofile.avatar %}
-            <img src="{{ evento.tercer_lugar.userprofile.avatar.url }}" alt="{{ evento.tercer_lugar.nick }}" class="avatar">
-            {% else %}
-            <img src="{% static 'polls\css\images\default.jpg' %}" alt="Avatar predeterminado" class="avatar">
-            {% endif %}
-            {{ evento.tercer_lugar.nick }}
-        </li>
-        
-        {% endif %}
-    </ul>
+    <div class="mt-5">
+        <h2>Premios del Torneo</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Lugar</th>
+                    <th>Jugador</th>
+                    <th>Premio ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1er Lugar</td>
+                    <td>
+                        {% if evento.primer_lugar %}
+                            {{ evento.primer_lugar.nick }}
+                        {% else %}
+                            Por anunciar
+                        {% endif %}
+                    </td>
+                    <td>{{ evento.premio_primer_lugar }}</td>
+                </tr>
+                <tr>
+                    <td>2do Lugar</td>
+                    <td>
+                        {% if evento.segundo_lugar %}
+                            {{ evento.segundo_lugar.nick }}
+                        {% else %}
+                            Por anunciar
+                        {% endif %}
+                    </td>
+                    <td>{{ evento.premio_segundo_lugar }}</td>
+                </tr>
+                <tr>
+                    <td>3er Lugar</td>
+                    <td>
+                        {% if evento.tercer_lugar %}
+                            {{ evento.tercer_lugar.nick }}
+                        {% else %}
+                            Por anunciar
+                        {% endif %}
+                    </td>
+                    <td>{{ evento.premio_tercer_lugar }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <!-- Mostrar la dirección -->
     <p><strong>Dirección:</strong> {{ evento.direccion }}</p>
@@ -67,7 +83,7 @@
         </iframe>
     </div>
     
-    <a href="{% url 'eventos:lista_eventos' %}" class="btn btn-secondary mt-3">Volver a la lista de eventos</a>
+    <a href="{% url 'eventos:lista_eventos' %}" class="btn btn-secondary mt-3" style="color:white;">Volver a la lista de eventos</a>
 </div>
 </body>
 {% endblock %}

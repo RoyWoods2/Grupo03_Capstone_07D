@@ -1,11 +1,14 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Juego, Personaje, Combo, Hub, CustomUser, Comentario, FrameData
+from .models import Juego, Personaje, Combo, Hub, CustomUser, Comentario, FrameData,Estrategia, Recurso
 
 from django.contrib.auth.admin import UserAdmin
 
-
+@admin.register(Estrategia)
+class EstrategiaAdmin(admin.ModelAdmin):
+    list_display = ['personaje', 'tacticas_generales', 'posicionamiento_en_el_equipo']
+    search_fields = ['personaje__nombre']
 @admin.register(Comentario)
 class ComentarioAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'contenido', 'fecha_publicacion')
@@ -41,4 +44,5 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Combo)
 admin.site.register(Hub)
 admin.site.register(FrameData)
+admin.site.register(Recurso)
 
