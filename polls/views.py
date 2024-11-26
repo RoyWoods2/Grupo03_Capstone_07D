@@ -12,6 +12,7 @@ from django.contrib import messages
 import requests
 from django.conf import settings
 from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm, ComentarioForm,UserProfileForm,RoleChangeRequestForm  
+from noticias.models import Noticia
 from .models import Juego, Personaje,CustomUser , FrameData,Comentario,Hub, Combo, RoleChangeRequest, Estrategia,Personaje, Recurso
 import json
 from eventos.models import Evento
@@ -53,33 +54,41 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         CustomUser.objects.create(user=instance)
 
-def perfil_usuario(request):
+def perfil_usuario(request, nick=None):
+    # Redirigir a la página de login si no está autenticado
     if not request.user.is_authenticated:
         return redirect('polls:login')
 
-    profile = request.user
+    # Obtener el perfil basado en el `nick`, o usar el perfil del usuario autenticado
+    if nick:
+        profile = get_object_or_404(CustomUser, nick=nick)
+    else:
+        profile = request.user
+
+    # Obtener los comentarios del perfil
     comentarios = profile.comentario_set.all()
 
-    # Formulario para actualizar perfil
-    form = UserProfileForm(instance=profile)
+    # Formulario para actualizar perfil (solo para el propietario)
+    form = None
+    role_request_form = None
+    if request.user == profile:
+        form = UserProfileForm(instance=profile)
+        role_request_form = RoleChangeRequestForm()
 
-    # Formulario para solicitar cambio de rol
-    role_request_form = RoleChangeRequestForm()
-
-    if request.method == 'POST':
-        if 'update_profile' in request.POST:
-            form = UserProfileForm(request.POST, request.FILES, instance=profile)
-            if form.is_valid():
-                form.save()
-                return redirect('polls:perfil_usuario')
-        
-        elif 'request_role' in request.POST:
-            role_request_form = RoleChangeRequestForm(request.POST)
-            if role_request_form.is_valid():
-                solicitud = role_request_form.save(commit=False)
-                solicitud.usuario = request.user
-                solicitud.save()
-                return redirect('polls:perfil_usuario')
+        if request.method == 'POST':
+            if 'update_profile' in request.POST:
+                form = UserProfileForm(request.POST, request.FILES, instance=profile)
+                if form.is_valid():
+                    form.save()
+                    return redirect('polls:perfil_usuario', nick=profile.nick)
+            
+            elif 'request_role' in request.POST:
+                role_request_form = RoleChangeRequestForm(request.POST)
+                if role_request_form.is_valid():
+                    solicitud = role_request_form.save(commit=False)
+                    solicitud.usuario = request.user
+                    solicitud.save()
+                    return redirect('polls:perfil_usuario', nick=profile.nick)
 
     return render(request, 'polls/perfil_usuario.html', {
         'profile': profile,
@@ -87,7 +96,6 @@ def perfil_usuario(request):
         'form': form,
         'role_request_form': role_request_form,
     })
-
 
 def lista_juegos(request):
     juegos = Juego.objects.all()
@@ -233,8 +241,20 @@ def prueba(request):
 
     
 def index(request):
-    eventos = Evento.objects.all()  # Confirma que este QuerySet incluye todos los eventos
-    return render(request, "polls/index.html" , {'eventos': eventos})
+    eventos = Evento.objects.all().order_by('-fecha')[:5]  # Últimos 5 eventos
+    noticias = Noticia.objects.all().order_by('-fecha')[:5]  # Últimas 5 noticias
+    juegos_destacados = Juego.objects.all()[:3]  # Mostrar 3 juegos destacados
+    ranking = CustomUser.objects.all().order_by('-puntos')[:10]  # Top 10 jugadores
+    jugadores_destacados = CustomUser.objects.all().order_by('-puntos')[:3]  # Top 3 jugadores destacados
+
+    context = {
+        'eventos': eventos,
+        'noticias': noticias,
+        'juegos_destacados': juegos_destacados,
+        'ranking': ranking,
+        'jugadores_destacados': jugadores_destacados,
+    }
+    return render(request, "polls/index.html", context)
 
 
 def detail(request, question_id):

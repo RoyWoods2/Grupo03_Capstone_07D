@@ -7,6 +7,22 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'polls/css/index.css' %}"> 
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<style>
+    body {
+        background: radial-gradient(circle, #111, #000);
+        color: #fff;
+    }
+    .header h1, .header p {
+        font-family: 'Bebas Neue', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+</style>
 
 <body>
  <!-- Contenedor del video -->
@@ -39,7 +55,7 @@
       
     </div>
 
-    <div class="card">
+    <div class="card" data-aos="fade-up">
         <h3>Próximos Eventos</h3>
         <p>Información sobre los eventos importantes en nuestro calendario.</p>
 
@@ -76,7 +92,72 @@
         </div>
     </div>       
 </div>
+<div class="container mt-5" data-aos="fade-up">
+    <section class="juegos-destacados" data-aos="fade-up">
+        <h2 class="text-center mb-4">Juegos Destacados</h2>
+        <div class="row">
+            {% for juego in juegos_destacados %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ juego.imagen_url.url }}" class="card-img-top" alt="{{ juego.nombre }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ juego.nombre }}</h5>
+                        <p class="card-text">{{ juego.descripcion|truncatewords:20 }}</p>
+                        <a href="{{ juego.enlace_oficial }}" class="btn btn-primary" target="_blank" style="background-color:#333;">Ver más</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+<div class="container mt-5" data-aos="fade-up">
+    <h2 class="text-center">Noticias Recientes</h2>
+    <div class="row">
+       {% for noticia in noticias %}
+                <div class="noticia-card" style="margin-top:20px;">
+                    <a href="{% url 'noticias:detalle_noticia' noticia.slug %}">
+                        {% if noticia.imagen_encabezado %}
+                            <img src="{{ noticia.imagen_encabezado.url }}" alt="{{ noticia.titulo }}" class="noticia-imagen">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.png' %}" alt="No image available" class="noticia-imagen">
+                        {% endif %}
+                    </a>
+                    <div class="noticia-info">
+                        <p class="noticia-fecha">Hace {{ noticia.fecha|timesince }} </p>
+                        <a href="{% url 'noticias:detalle_noticia' noticia.slug %}" class="noticia-titulo">{{ noticia.titulo }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>
 
+<div class="container mt-5" data-aos="fade-up">
+    <h2 class="text-center">Top Competidores</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Posición</th>
+                <th>Jugador</th>
+                <th>Puntos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jugador in ranking|slice:":5" %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'polls:perfil_usuario' jugador.nick %}">{{ jugador.username }}</a></td>
+                <td>{{ jugador.puntos }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center mt-3" data-aos="fade-up">
+        <a href="{% url 'eventos:ranking' %}" class="btn btn-secondary">Ver ranking completo</a>
+    </div>
+</div>
+
+</div>
 <!-- Sección de Bienvenida -->
 
 <!-- Contenedor principal para FullPage.js -->
