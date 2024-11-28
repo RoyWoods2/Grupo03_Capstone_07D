@@ -61,6 +61,7 @@
                 {% if user.is_staff %}
                 <li><a href={% url 'polls:revisar_solicitudes'%}>Revisar Solicitudes</a></li>
                 <li><a href={% url 'admin:index'%}>Panel Admin</a></li>
+                <li><a href={% url 'polls:admin_grafico_personajes'%}>Metricas</a></li> 
                 
                 {% endif %}
                 {% else %}

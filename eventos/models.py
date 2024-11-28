@@ -1,29 +1,53 @@
 from django.db import models
-from django.contrib.auth.models import User,AbstractUser
+from django.contrib.auth.models import User, AbstractUser
 from django.conf import settings  # Importa settings para usar AUTH_USER_MODEL
+
 
 # Create your models here.
 class Evento(models.Model):
     titulo = models.CharField(max_length=255)
     fecha = models.DateField()
     contenido = models.TextField()
-    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
-    imagen = models.ImageField(upload_to='eventos/', null=True, blank=True)
-    direccion = models.CharField(max_length=255, null=True, blank=True)  # Nueva variable de dirección
-     # Campos para ganadores
+    autor = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True
+    )
+    imagen = models.ImageField(upload_to="eventos/", null=True, blank=True)
+    direccion = models.CharField(
+        max_length=255, null=True, blank=True
+    )  # Nueva variable de dirección
+    # Campos para ganadores
     primer_lugar = models.ForeignKey(
-        settings.AUTH_USER_MODEL,on_delete=models.SET_NULL, null=True, blank=True, related_name="primer_lugar_eventos"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="primer_lugar_eventos",
     )
     segundo_lugar = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="segundo_lugar_eventos"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="segundo_lugar_eventos",
     )
     tercer_lugar = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="tercer_lugar_eventos"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="tercer_lugar_eventos",
     )
-    
-    premio_primer_lugar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    premio_segundo_lugar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    premio_tercer_lugar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    premio_primer_lugar = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    premio_segundo_lugar = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    premio_tercer_lugar = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
     def save(self, *args, **kwargs):
         # Agregar puntos a los ganadores
         if self.primer_lugar:

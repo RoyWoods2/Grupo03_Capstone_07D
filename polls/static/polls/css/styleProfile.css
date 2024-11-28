@@ -2,10 +2,11 @@
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro translúcido */
+    background-color: #333;
     border-radius: 10px;
     color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    
 }
 
 .perfil-header {
@@ -34,6 +35,8 @@
     border-bottom: 2px solid #fff;
     padding-bottom: 5px;
     margin-bottom: 15px;
+    color:#fff;
+    text-shadow: 1px 1px 2px #aaa;
 }
 
 ul {
@@ -42,7 +45,6 @@ ul {
 }
 
 ul li {
-    background: rgba(255, 255, 255, 0.1);
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;

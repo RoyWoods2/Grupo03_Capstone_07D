@@ -26,7 +26,7 @@
             {% endfor %}
         </div>
         
-        {% if user.is_staff %}
+        {% if user.is_staff or user.user_type == 'redactor' %}
             <a href="{% url 'noticias:crear_noticia' %}" class="btn btn-secondary mt-3" style="color:#fff;">Crear Noticia</a>
         {% endif %}
     </div>

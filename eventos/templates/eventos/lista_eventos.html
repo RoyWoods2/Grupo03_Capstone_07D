@@ -33,7 +33,7 @@
         {% endfor %}
     </div>
     
-    {% if user.is_staff %}
+    {% if user.is_staff or user.user_type == 'organizador'%}
         <a href="{% url 'eventos:crear_evento' %}" class="btn btn-secondary mt-3" style="color:#fff;">Crear Evento</a>
     {% endif %}
 </div>
