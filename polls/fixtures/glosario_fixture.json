@@ -1,0 +1,250 @@
+[
+    {
+        "model": "polls.glosario",
+        "pk": 1,
+        "fields": {
+            "termino": "Frame Data",
+            "descripcion": "Información de los cuadros de animación que indican la velocidad, duración y recuperación de movimientos."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 2,
+        "fields": {
+            "termino": "Rushdown",
+            "descripcion": "Estrategia agresiva que busca mantener presión constante sobre el oponente."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 3,
+        "fields": {
+            "termino": "Zoning",
+            "descripcion": "Estrategia enfocada en mantener al oponente a distancia usando proyectiles y ataques de largo alcance."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 4,
+        "fields": {
+            "termino": "Neutral Game",
+            "descripcion": "Fase del juego donde ambos jugadores intentan posicionarse para atacar sin ventajas claras."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 5,
+        "fields": {
+            "termino": "Mix-Up",
+            "descripcion": "Técnica para confundir al oponente alternando entre ataques altos, bajos y agarres."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 6,
+        "fields": {
+            "termino": "Okizeme (Oki)",
+            "descripcion": "Presión ofensiva aplicada al oponente cuando está levantándose del suelo."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 7,
+        "fields": {
+            "termino": "Wake-up",
+            "descripcion": "Acción del jugador al levantarse después de ser derribado."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 8,
+        "fields": {
+            "termino": "Anti-Air (AA)",
+            "descripcion": "Movimiento diseñado para contrarrestar ataques aéreos del oponente."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 9,
+        "fields": {
+            "termino": "Cross-Up",
+            "descripcion": "Ataque aéreo que cruza al oponente, obligándolo a cambiar su defensa."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 10,
+        "fields": {
+            "termino": "Hit Confirm",
+            "descripcion": "Técnica para verificar si un ataque ha golpeado antes de ejecutar una combinación."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 11,
+        "fields": {
+            "termino": "Baiting",
+            "descripcion": "Estrategia para provocar al oponente a realizar un movimiento predecible para castigarlo."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 12,
+        "fields": {
+            "termino": "Tick Throw",
+            "descripcion": "Uso de un ataque rápido antes de un agarre para sorprender al oponente."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 13,
+        "fields": {
+            "termino": "Whiff Punish",
+            "descripcion": "Ataque realizado para castigar a un oponente que ha fallado un movimiento."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 14,
+        "fields": {
+            "termino": "Input Delay",
+            "descripcion": "Tiempo de retraso entre la entrada de un comando y su ejecución en pantalla."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 15,
+        "fields": {
+            "termino": "Rollback Netcode",
+            "descripcion": "Tecnología de red diseñada para reducir la latencia en partidas en línea."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 16,
+        "fields": {
+            "termino": "Spacing",
+            "descripcion": "Técnica para mantener una distancia óptima del oponente, maximizando la efectividad de los ataques."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 17,
+        "fields": {
+            "termino": "Footsies",
+            "descripcion": "Juego neutral basado en el uso de movimientos de rango medio para castigar errores del oponente."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 18,
+        "fields": {
+            "termino": "Buffering",
+            "descripcion": "Entrada de comandos durante la animación de otro movimiento para ejecutar el siguiente de manera más rápida."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 19,
+        "fields": {
+            "termino": "Meter Management",
+            "descripcion": "Uso estratégico de la barra de recursos (especiales o supermovimientos)."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 20,
+        "fields": {
+            "termino": "Chip Damage",
+            "descripcion": "Daño causado al bloquear ataques especiales o proyectiles."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 21,
+        "fields": {
+            "termino": "Counter Hit",
+            "descripcion": "Ataque que golpea al oponente mientras ejecuta un movimiento, infligiendo más daño."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 22,
+        "fields": {
+            "termino": "Perfect",
+            "descripcion": "Victoria sin recibir daño en una ronda."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 23,
+        "fields": {
+            "termino": "Block String",
+            "descripcion": "Serie de ataques seguros diseñados para mantener al oponente bloqueando."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 24,
+        "fields": {
+            "termino": "Reversal",
+            "descripcion": "Movimiento especial ejecutado justo después de recuperarse de un estado vulnerable."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 25,
+        "fields": {
+            "termino": "Punish",
+            "descripcion": "Ataque que aprovecha un error del oponente para infligir daño."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 26,
+        "fields": {
+            "termino": "Safe Jump",
+            "descripcion": "Ataque aéreo diseñado para ser seguro contra reversals."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 27,
+        "fields": {
+            "termino": "Tech (Break Throw/Ukemi)",
+            "descripcion": "Acción para contrarrestar un agarre o levantarse rápidamente del suelo."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 28,
+        "fields": {
+            "termino": "Stun/Dizzy",
+            "descripcion": "Estado temporal en el que el personaje es incapaz de moverse después de recibir muchos golpes."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 29,
+        "fields": {
+            "termino": "Guard Break",
+            "descripcion": "Mecanismo que rompe la defensa del oponente tras recibir demasiados bloqueos."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 30,
+        "fields": {
+            "termino": "Parry",
+            "descripcion": "Técnica para bloquear un ataque sin recibir daño y contraatacar rápidamente."
+        }
+    },
+    {
+        "model": "polls.glosario",
+        "pk": 31,
+        "fields": {
+            "termino": "Armor",
+            "descripcion": "Estado en el que el personaje puede recibir daño sin ser interrumpido."
+        }
+    }
+]

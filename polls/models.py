@@ -200,4 +200,12 @@ class Recurso(models.Model):
     hashtag_twitter = models.CharField(max_length=50, blank=True, null=True)  # Hashtag de Twitter
 
     def __str__(self):
-        return f"Recursos para {self.personaje.nombre}"                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        return f"Recursos para {self.personaje.nombre}"  
+    
+class Glosario(models.Model):
+    termino = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField()
+    juego = models.ManyToManyField('Juego', related_name='glosarios', blank=True)
+
+    def __str__(self):
+        return self.termino                                                                                                                                                                                                                                                                                                                                                                                                                                       

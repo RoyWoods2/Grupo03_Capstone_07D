@@ -13,7 +13,7 @@ import requests
 from django.conf import settings
 from .forms import CustomUserCreationForm, CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm, ComentarioForm,UserProfileForm,RoleChangeRequestForm  
 from noticias.models import Noticia
-from .models import Juego, Personaje,CustomUser , FrameData,Comentario,Hub, Combo, RoleChangeRequest, Estrategia,Personaje, Recurso
+from .models import Juego, Personaje,CustomUser , FrameData,Comentario,Hub, Combo, RoleChangeRequest, Estrategia,Personaje, Recurso,Glosario
 import json
 from eventos.models import Evento
 from django.db.models.signals import post_save
@@ -22,7 +22,10 @@ from django.dispatch import receiver
 
 
 
-
+def glosario_view(request, juego_slug):
+    juego = get_object_or_404(Juego, slug=juego_slug)
+    terminos = Glosario.objects.filter(juego=juego).order_by('termino')
+    return render(request, 'polls/glosario.html', {'terminos': terminos, 'juego': juego})
 @staff_member_required
 def revisar_solicitudes(request):
     solicitudes = RoleChangeRequest.objects.filter(revisado=False)

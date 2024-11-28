@@ -1,0 +1,44 @@
+{% extends 'polls/detail.html' %}
+{% load static %}
+
+
+{% block content %}
+<style>
+    .glosario-container {
+        background-color: #111;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .termino {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-left: 5px solid #007bff;
+        background-color: #222;
+    }
+    
+    .termino h3 {
+        color: #007bff;
+        font-size: 1.5em;
+        text-transform: uppercase;
+    }
+    
+    .termino p {
+        font-size: 1.2em;
+        color: #fff;
+    }
+</style>
+<div class="container mt-5">
+    <h1 class="text-center">Glosario de {{ juego.nombre }}</h1>
+    <div class="glosario-container">
+        {% for termino in terminos %}
+        <div class="termino">
+            <h3>{{ termino.termino }}</h3>
+            <p>{{ termino.descripcion }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'polls:lista_juegos' %}" class="btn btn-secondary mt-3">Volver a Juegos</a>
+</div>
+{% endblock %}

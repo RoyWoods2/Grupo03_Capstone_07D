@@ -21,5 +21,7 @@ urlpatterns = [
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),  # Perfil del usuario actual
     path('perfil/<str:nick>/', views.perfil_usuario, name='perfil_usuario'),  # Perfil con nick
     path('revisar-solicitudes/', revisar_solicitudes, name='revisar_solicitudes'),  # URL ajustada
+    path('glosario/<slug:juego_slug>/', views.glosario_view, name='glosario'),
+
 ]
 

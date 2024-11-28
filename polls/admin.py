@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Juego, Personaje, Combo, Hub, CustomUser, Comentario, FrameData,Estrategia, Recurso
+from .models import Juego, Personaje, Combo, Hub, CustomUser, Comentario, FrameData,Estrategia, Recurso, Glosario
 
 from django.contrib.auth.admin import UserAdmin
 
@@ -45,4 +45,6 @@ admin.site.register(Combo)
 admin.site.register(Hub)
 admin.site.register(FrameData)
 admin.site.register(Recurso)
+admin.site.register(Glosario)
+
 
