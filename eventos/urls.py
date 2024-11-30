@@ -10,4 +10,8 @@ urlpatterns = [
         "<int:evento_id>/", views.detalle_evento, name="detalle_evento"
     ),  # Nueva URL para detalles
     path("ranking/", views.ranking, name="ranking"),
+    path("crear_torneo_comunitario/", views.crear_torneo_comunitario, name="crear_torneo_comunitario"),
+    path("torneo_comunitario/<int:torneo_id>/", views.detalle_torneo_comunitario, name="detalle_torneo_comunitario"),
+
+
 ]

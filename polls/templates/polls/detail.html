@@ -16,7 +16,8 @@
 
 </head>
 <body>
-    
+  
+
     <header class="header">
         <div  class="stack" style="--stacks: 3;">
             <span  href={% url 'polls:' %} style="--index: 0;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
@@ -24,6 +25,8 @@
             <span  href={% url 'polls:' %} style="--index: 2;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
           </div>
     </header>
+
+    
  <!-- MENSAJE DE INICIAR SESION -->
     {% if messages %}
         <div class="messages">
@@ -79,6 +82,14 @@
     </div>
 
     <!-- Wrapper para que el contenido ocupe el espacio restante -->
+    <a href="{% url 'noticias:lista_noticias' %}">
+        <img src="{% static 'polls/css/images/sol.gif' %}" alt="GIF Izquierda" class="gif-izquierda">
+    </a>
+
+    <!-- GIF inferior derecho -->
+    <a href="{% url 'eventos:lista_eventos' %}">
+        <img src="{% static 'polls/css/images/johnny.gif' %}" alt="GIF Derecha" class="gif-derecha">
+    </a>
     <main class="container">
         {% block content %}{% endblock %}
     </main>

@@ -19,6 +19,7 @@ from .forms import (
     ComentarioForm,
     UserProfileForm,
     RoleChangeRequestForm,
+    RecursoForm,
 )
 from noticias.models import Noticia
 from .models import (
@@ -35,6 +36,8 @@ from .models import (
     Recurso,
     Glosario,
     PersonajeVisita,
+    
+    
 )
 import json
 from eventos.models import Evento
@@ -43,6 +46,36 @@ from django.dispatch import receiver
 from django.shortcuts import render
 
 # Create your views here.
+
+@login_required
+def votar_recurso(request, recurso_id, accion):
+    recurso = get_object_or_404(Recurso, id=recurso_id)
+    # Lógica de voto (like/dislike)
+    if accion == "like":
+        # Procesar el "like"
+        pass
+    elif accion == "dislike":
+        # Procesar el "dislike"
+        pass
+
+    # Redirigir a la página del personaje asociado al recurso
+    return redirect(reverse('polls:detalle_personaje', args=[recurso.personaje.juego.slug, recurso.personaje.slug]))
+
+def crear_recurso(request, juego_slug, personaje_slug):
+    personaje = get_object_or_404(Personaje, slug=personaje_slug, juego__slug=juego_slug)
+    
+    if request.method == 'POST':
+        form = RecursoForm(request.POST)
+        if form.is_valid():
+            recurso = form.save(commit=False)
+            recurso.personaje = personaje
+            recurso.save()
+            return redirect('polls:detalle_personaje', juego_slug=juego_slug, personaje_slug=personaje_slug)
+    else:
+        form = RecursoForm()
+
+    return render(request, 'polls/crear_recurso.html', {'form': form, 'personaje': personaje})
+
 @staff_member_required
 def admin_grafico_personajes(request):
     visitas_por_juego = (
@@ -120,22 +153,21 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 def perfil_usuario(request, nick=None):
-    # Redirigir a la página de login si no está autenticado
     if not request.user.is_authenticated:
         return redirect("polls:login")
 
-    # Obtener el perfil basado en el `nick`, o usar el perfil del usuario autenticado
-    if nick:
-        profile = get_object_or_404(CustomUser, nick=nick)
-    else:
-        profile = request.user
+    profile = get_object_or_404(CustomUser, nick=nick) if nick else request.user
+    twitch_embed_url = None
+    youtube_channel_id = None
+    if profile.twitch_stream:
+        twitch_embed_url = profile.twitch_stream.replace("https://www.twitch.tv/", "")
+    if profile.youtube_channel:
+        youtube_channel_id = profile.youtube_channel.split('/')[-1]  # Extraer el canal si es válido
 
-    # Obtener los comentarios del perfil
+    
     comentarios = profile.comentario_set.all()
-
-    # Formulario para actualizar perfil (solo para el propietario)
-    form = None
-    role_request_form = None
+  
+    form, role_request_form = None, None
     if request.user == profile:
         form = UserProfileForm(instance=profile)
         role_request_form = RoleChangeRequestForm()
@@ -154,18 +186,19 @@ def perfil_usuario(request, nick=None):
                     solicitud.usuario = request.user
                     solicitud.save()
                     return redirect("polls:perfil_usuario", nick=profile.nick)
+  
 
-    return render(
-        request,
-        "polls/perfil_usuario.html",
-        {
-            "profile": profile,
-            "comentarios": comentarios,
-            "form": form,
-            "role_request_form": role_request_form,
-        },
-    )
 
+    return render(request, "polls/perfil_usuario.html", {
+        "profile": profile,
+        "comentarios": comentarios,
+        "form": form,
+        "role_request_form": role_request_form,
+        "twitch_embed_url": twitch_embed_url,
+        "youtube_channel_id": youtube_channel_id,
+
+
+    })
 
 def lista_juegos(request):
     juegos = Juego.objects.all()
@@ -201,6 +234,8 @@ def detalle_personaje(request, juego_slug, personaje_slug):
     )  # Filtrando estrategias asociadas a este personaje
     recursos = Recurso.objects.filter(personaje=personaje)
     personaje.incrementar_visitas()
+    recursos_por_categoria = recursos.values('categoria').distinct()  # Agrupar recursos por categoría
+
 
     context = {
         "personaje": personaje,
@@ -208,6 +243,8 @@ def detalle_personaje(request, juego_slug, personaje_slug):
         "framedata": framedata,
         "estrategias": estrategias,
         "recursos": recursos,
+        "recursos_por_categoria": recursos_por_categoria
+
     }
     return render(request, "polls/detalle_personaje.html", context)
 
@@ -338,7 +375,3 @@ def index(request):
     }
     return render(request, "polls/index.html", context)
 
-
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/detail.html", {"question": question})

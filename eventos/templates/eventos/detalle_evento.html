@@ -1,4 +1,4 @@
-{% extends 'polls/detail.html'%}
+{% extends 'polls/detail.html' %}
 {% load static %}
 
 {% block content %}
@@ -7,83 +7,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ evento.titulo }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'noticias/css/styleListado.css' %}">
     <link rel="stylesheet" href="{% static 'eventos/css/styleDetalle.css' %}">
-
-
 </head>
+
 <body>
 <div class="container mt-5">
-    <h1>{{ evento.titulo }}</h1>
-    <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
-    <p>{{ evento.contenido }}</p>
-    {% if evento.imagen %}
-        <img src="{{ evento.imagen.url }}" class="img-fluid" alt="Imagen del evento">
-    {% endif %}
-    <div class="mt-5">
-        <h2>Premios del Torneo</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Lugar</th>
-                    <th>Jugador</th>
-                    <th>Premio ($)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1er Lugar</td>
-                    <td>
-                        {% if evento.primer_lugar %}
-                            {{ evento.primer_lugar.nick }}
-                        {% else %}
-                            Por anunciar
-                        {% endif %}
-                    </td>
-                    <td>{{ evento.premio_primer_lugar }}</td>
-                </tr>
-                <tr>
-                    <td>2do Lugar</td>
-                    <td>
-                        {% if evento.segundo_lugar %}
-                            {{ evento.segundo_lugar.nick }}
-                        {% else %}
-                            Por anunciar
-                        {% endif %}
-                    </td>
-                    <td>{{ evento.premio_segundo_lugar }}</td>
-                </tr>
-                <tr>
-                    <td>3er Lugar</td>
-                    <td>
-                        {% if evento.tercer_lugar %}
-                            {{ evento.tercer_lugar.nick }}
-                        {% else %}
-                            Por anunciar
-                        {% endif %}
-                    </td>
-                    <td>{{ evento.premio_tercer_lugar }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Mostrar la dirección -->
-    <p><strong>Dirección:</strong> {{ evento.direccion }}</p>
-
-    <!-- Incluir iframe de Google Maps -->
-    <div class="mt-4">
-        <h2>Ubicación:</h2>
-        <iframe
-            width="100%"
-            height="400"
-            frameborder="0"
-            style="border:0"
-            src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ evento.direccion|urlencode }}" allowfullscreen>
-        </iframe>
+    <!-- Encabezado del Evento -->
+    <div class="text-center mb-4">
+        <h1 class="display-4">{{ evento.titulo }}</h1>
+        <p class="lead text-muted">{{ evento.fecha|date:"F j, Y" }}</p>
+        <p class="font-weight-light">{{ evento.contenido }}</p>
     </div>
     
-    <a href="{% url 'eventos:lista_eventos' %}" class="btn btn-secondary mt-3" style="color:white;">Volver a la lista de eventos</a>
+    <!-- Imagen del Evento -->
+    {% if evento.imagen %}
+        <div class="text-center mb-4">
+            <img src="{{ evento.imagen.url }}" class="img-fluid rounded" alt="Imagen del evento">
+        </div>
+    {% endif %}
+
+    <!-- Premios -->
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-primary">Premios del Torneo</h3>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Lugar</th>
+                        <th>Jugador</th>
+                        <th>Premio ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1er Lugar</td>
+                        <td>{{ evento.primer_lugar.nick|default:"Por anunciar" }}</td>
+                        <td>{{ evento.premio_primer_lugar|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td>2do Lugar</td>
+                        <td>{{ evento.segundo_lugar.nick|default:"Por anunciar" }}</td>
+                        <td>{{ evento.premio_segundo_lugar|default:"N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <td>3er Lugar</td>
+                        <td>{{ evento.tercer_lugar.nick|default:"Por anunciar" }}</td>
+                        <td>{{ evento.premio_tercer_lugar|default:"N/A" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Dirección y Google Maps -->
+        <div class="col-md-6">
+            <h3 class="text-primary">Ubicación</h3>
+            <p><strong>Dirección:</strong> {{ evento.direccion }}</p>
+            <iframe width="100%" height="400" frameborder="0" style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ evento.direccion|urlencode }}" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Botón para volver a la lista de eventos -->
+    <div class="text-center mt-4">
+        <a href="{% url 'eventos:lista_eventos' %}" class="btn btn-secondary">Volver a la lista de eventos</a>
+    </div>
 </div>
 </body>
 {% endblock %}

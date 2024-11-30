@@ -1,9 +1,16 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import Comentario, CustomUser, Juego, RoleChangeRequest, Estrategia
+from .models import Comentario, CustomUser, Juego, RoleChangeRequest, Estrategia,Recurso
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.exceptions import ValidationError
+import re
 
+
+class RecursoForm(forms.ModelForm):
+    class Meta:
+        model = Recurso
+        fields = ['personaje', 'descripcion', 'enlace_video', 'categoria', 'link_discord', 'hashtag_twitter']
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -38,10 +45,20 @@ class UserProfileForm(forms.ModelForm):
         required=False,
         label="Juegos en los que compites",
     )
+    def clean_twitch_stream(self):
+        twitch_url = self.cleaned_data.get('twitch_stream')
+        if twitch_url and not twitch_url.startswith("https://www.twitch.tv/"):
+            raise forms.ValidationError("El enlace debe comenzar con 'https://www.twitch.tv/'.")
+        return twitch_url
 
+    def clean_youtube_channel(self):
+        youtube_url = self.cleaned_data.get('youtube_channel')
+        if youtube_url and not ("youtube.com" in youtube_url):
+            raise forms.ValidationError("Ingrese una URL válida de YouTube.")
+        return youtube_url
     class Meta:
         model = CustomUser
-        fields = ["nick", "avatar", "name", "juegos_competencia"]
+        fields = ["nick", "avatar", "name", "juegos_competencia",'personajes_favoritos', 'twitch_stream', 'youtube_channel']
 
     def clean_nick(self):
         nick = self.cleaned_data["nick"]

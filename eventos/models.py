@@ -65,3 +65,18 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.titulo
+class TorneoComunitario(models.Model):
+    TIPOS_TORNEO = [
+        ('presencial', 'Presencial'),
+        ('online', 'Online'),
+    ]
+
+    titulo = models.CharField(max_length=255)
+    fecha = models.DateField()
+    tipo_torneo = models.CharField(max_length=10, choices=TIPOS_TORNEO, default='online')
+    descripcion = models.TextField()
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='torneos/', null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.titulo} ({self.get_tipo_torneo_display()})"

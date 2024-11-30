@@ -63,6 +63,10 @@ class CustomUser(AbstractUser):
     tipo_usuario_solicitado = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=100, blank=True)
+    personajes_favoritos = models.ManyToManyField('Personaje', blank=True, related_name='fans')
+    videos_subidos = models.ManyToManyField('Recurso', blank=True, related_name='creadores')
+    twitch_stream = models.URLField(blank=True, null=True, help_text="Enlace a tu canal de Twitch")
+    youtube_channel = models.URLField(blank=True, null=True, help_text="Enlace a tu canal de YouTube")
 
     objects = CustomUserManager()
 
@@ -154,7 +158,7 @@ class Combo(models.Model):
     movimientos = models.TextField(
         help_text="Lista de movimientos en formato secuencial (ej. 'LP, MP, HP')"
     )
-    daño = models.IntegerField(
+    dano = models.IntegerField(
         help_text="Cantidad de daño que hace el combo", null=True, blank=True
     )
     video = models.FileField(upload_to="combos/", blank=True, null=True)
@@ -259,17 +263,27 @@ class Estrategia(models.Model):
 
 
 class Recurso(models.Model):
-    personaje = models.ForeignKey(
-        Personaje, on_delete=models.CASCADE, related_name="recursos"
-    )
+    CATEGORIAS = [
+        ('Combo', 'Combo Avanzado'),
+        ('Tech', 'Tech de Defensa'),
+        ('Guia', 'Guía de Principiantes'),
+        ('Comunidad', 'Comunidad'),
+        ("video", "Video"),
+
+    ]
+    
+    personaje = models.ForeignKey(Personaje, on_delete=models.CASCADE, related_name="recursos")
     link_discord = models.URLField(blank=True, null=True)  # Enlace de Discord
-    hashtag_twitter = models.CharField(
-        max_length=50, blank=True, null=True
-    )  # Hashtag de Twitter
+    hashtag_twitter = models.CharField(max_length=50, blank=True, null=True)  # Hashtag de Twitter
+    enlace_video = models.URLField(blank=True, null=True, help_text="Enlace a YouTube o Twitter")
+    descripcion = models.TextField(blank=True, help_text="Breve descripción del recurso")
+    categoria = models.CharField(max_length=20, choices=CATEGORIAS, default='comunidad')
+    creado_por = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recursos', blank=True, null=True)
+    likes = models.PositiveIntegerField(default=0)
+    dislikes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"Recursos para {self.personaje.nombre}"
-
+        return f"Recurso: {self.personaje.nombre} - {self.categoria}"
 
 class Glosario(models.Model):
     termino = models.CharField(max_length=100, unique=True)

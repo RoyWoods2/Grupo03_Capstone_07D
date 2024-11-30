@@ -1,0 +1,78 @@
+{% extends 'polls/detail.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ torneo.titulo }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'noticias/css/styleListado.css' %}">
+    <link rel="stylesheet" href="{% static 'eventos/css/styleDetalle.css' %}">
+</head>
+
+<body>
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4">{{ torneo.titulo }}</h1>
+        <p class="lead text-muted">Fecha: {{ torneo.fecha }}</p>
+        <p class="font-weight-light">{{ torneo.descripcion }}</p>
+    </div>
+
+    {% if torneo.imagen %}
+        <div class="text-center mb-4">
+            <img src="{{ torneo.imagen.url }}" class="img-fluid rounded" alt="Imagen del torneo">
+        </div>
+    {% endif %}
+    <!-- Premios si los tiene -->
+    {% if torneo.premio_primer_lugar or torneo.premio_segundo_lugar or torneo.premio_tercer_lugar %}
+    <div class="mt-5">
+        <h2>Premios del Torneo</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Lugar</th>
+                    <th>Jugador</th>
+                    <th>Premio ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1er Lugar</td>
+                    <td>{{ torneo.primer_lugar.nick|default:"Por anunciar" }}</td>
+                    <td>{{ torneo.premio_primer_lugar|default:"N/A" }}</td>
+                </tr>
+                <tr>
+                    <td>2do Lugar</td>
+                    <td>{{ torneo.segundo_lugar.nick|default:"Por anunciar" }}</td>
+                    <td>{{ torneo.premio_segundo_lugar|default:"N/A" }}</td>
+                </tr>
+                <tr>
+                    <td>3er Lugar</td>
+                    <td>{{ torneo.tercer_lugar.nick|default:"Por anunciar" }}</td>
+                    <td>{{ torneo.premio_tercer_lugar|default:"N/A" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Mostrar dirección si es presencial -->
+    {% if torneo.tipo_torneo == 'Presencial' %}
+        <p><strong>Dirección:</strong> {{ torneo.direccion }}</p>
+        <div class="mt-4">
+            <h2>Ubicación:</h2>
+            <iframe
+                width="100%"
+                height="400"
+                frameborder="0"
+                style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ torneo.direccion|urlencode }}" allowfullscreen>
+            </iframe>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'eventos:lista_eventos' %}" class="btn btn-secondary mt-3" style="color:white;">Volver a la lista de torneos</a>
+</div>
+</body>
+{% endblock %}

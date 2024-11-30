@@ -1,5 +1,7 @@
 {% extends 'polls/detail.html'%}
 {% load static %}
+{% load custom_filters %}
+
     {% block content %}
     <head>
         <meta charset="UTF-8">
@@ -285,27 +287,46 @@
 </div>
 
 <div id="resources" class="tab-content">
-    <h2>Link de comunidades {{ personaje.nombre }}</h2>
-    <div>
-        {% for recurso in recursos %}
-            <div class="recurso">
-                {% if recurso.link_discord %}
-                    <p><strong>Discord del Personaje </strong></p>
-                    <a href="{{ recurso.link_discord }}" target="_blank" class="discord-btn">
-                        <img src="{% static 'polls/icons/discord.svg' %}" alt="Discord Icon">
-                    </a>
+    <h2>Recursos de {{ personaje.nombre }}</h2>
+    
+    {% for categoria in recursos_por_categoria %}
+        <h3>{{ categoria.categoria }}</h3>
+        <div class="recursos-categoria">
+            {% for recurso in recursos %}
+                {% if recurso.categoria == categoria.categoria %}
+                    <div class="recurso">
+                        <h4>{{ recurso.categoria }}</h4>
+                        <p><strong>Descripcion:</strong> {{ recurso.descripcion }}</p>
+                        
+                        {% if recurso.enlace_video %}
+                            <div class="video-container">
+                                <iframe width="560" height="315" src="{{ recurso.enlace_video|youtube_embed }}" frameborder="0" allowfullscreen></iframe>
+
+                            </div>
+                        {% endif %}
+
+                        {% if recurso.link_discord %}
+                            <p><strong>Discord:</strong></p>
+                            <a href="{{ recurso.link_discord }}" target="_blank" class="discord-btn">
+                                <img src="{% static 'polls/icons/discord.svg' %}" alt="Discord Icon">
+                            </a>
+                        {% endif %}
+
+                        {% if recurso.hashtag_twitter %}
+                            <p><strong>Twitter Hashtag:</strong> </p>
+                            <a href="https://twitter.com/hashtag/{{ recurso.hashtag_twitter }}" target="_blank" class="twitter-btn">
+                                <img src="{% static 'polls/icons/twitter.svg' %}" alt="Twitter Icon">
+                            </a>
+                        {% endif %}
+                    </div>
                 {% endif %}
-                {% if recurso.hashtag_twitter %}
-                    <p><strong>Twitter Hashtag</strong></p>
-                    <a href="https://twitter.com/hashtag/{{ recurso.hashtag_twitter }}" target="_blank" class="twitter-btn">
-                        <img src="{% static 'polls/icons/twitter.svg' %}" alt="Twitter Icon">
-                    </a>
-                {% endif %}
-            </div>
-        {% empty %}
-            <p>No hay recursos disponibles para este personaje.</p>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+<a href="{% url 'polls:crear_recurso' juego_slug=personaje.juego.slug personaje_slug=personaje.slug %}" class="btn btn-success">Crear Recurso</a>
+
+
 </div>
 
 <script>

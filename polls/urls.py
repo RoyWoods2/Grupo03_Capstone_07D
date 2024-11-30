@@ -15,11 +15,7 @@ urlpatterns = [
     path("detail", views.detailView, name="detail"),
     path("juegos/", views.lista_juegos, name="lista_juegos"),
     path("juegos/<slug:juego_slug>/", views.lista_personajes, name="lista_personajes"),
-    path(
-        "juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/",
-        views.detalle_personaje,
-        name="detalle_personaje",
-    ),
+    path('juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/', views.detalle_personaje, name='detalle_personaje'),
     path("juegos/<slug:juego_slug>/hub/", views.hub_view, name="hub_page"),
     path("social-auth/", include("social_django.urls", namespace="social")),
     path(
@@ -37,4 +33,9 @@ urlpatterns = [
         views.admin_grafico_personajes,
         name="admin_grafico_personajes",
     ),
+    path('votar_recurso/<int:recurso_id>/<str:accion>/', views.votar_recurso, name='votar_recurso'),
+    path("juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/crear_recurso/", views.crear_recurso, name="crear_recurso"),
+
+
+
 ]

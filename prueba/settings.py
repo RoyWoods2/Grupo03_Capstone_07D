@@ -45,7 +45,6 @@ import django_heroku
 INSTALLED_APPS = [
     "jazzmin",
     "django_extensions",
-    "social_django",
     "noticias.apps.NoticiasConfig",
     "sass_processor",
     "eventos.apps.EventosConfig",

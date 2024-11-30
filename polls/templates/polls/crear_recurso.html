@@ -1,0 +1,12 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-white">Añadir Nuevo Recurso</h2>
+    <form method="POST" class="form-control bg-dark text-white" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Agregar Recurso</button>
+    </form>
+</div>
+{% endblock %}

@@ -219,47 +219,80 @@ body {
     margin-bottom: 20px;
     padding: 10px;
 }
-
 .discord-btn, .twitter-btn {
-    display: flex;
-    align-items: center;
+    display: inline-flex;
     justify-content: center;
+    align-items: center;
+    border: none;
     padding: 10px;
-    text-decoration: none;
-    color: #fff;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .discord-btn {
-    background-color: #5865F2;
-    margin-top: 10px;
+    background-color: #333; /* Color oficial de Discord */
 }
 
 .twitter-btn {
-    background-color: #1DA1F2;
+    background-color: #333; /* Color oficial de Twitter */
 }
 
 .discord-btn img, .twitter-btn img {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
+    width: 24px;
+    height: 24px;
 }
 
-#resources .list-group-item {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    margin-bottom: 10px;
-    padding: 15px;
+.discord-btn:hover, .twitter-btn:hover {
+    transform: scale(1.1);
+}
+
+.recurso {
+    background-color: #333;
+    padding: 20px;
+    margin: 10px;
     border-radius: 5px;
 }
-#resources a {
-    color: #007bff;
+
+.recurso .btn {
+    margin-right: 10px;
+}
+
+.recurso .btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.recurso .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.recurso .btn:hover {
+    opacity: 0.8;
+}
+
+.fixed-left {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
     text-decoration: none;
 }
-#resources a:hover {
-    text-decoration: underline;
+
+.fixed-left:hover {
+    background-color: #218838;
+}
+
+.video-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+iframe {
+    max-width: 100%;
 }

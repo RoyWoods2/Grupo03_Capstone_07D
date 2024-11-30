@@ -7,6 +7,8 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'polls/css/index.css' %}"> 
+<link rel="stylesheet" href="{% static 'noticias/css/styleListado.css' %}">
+
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
@@ -103,7 +105,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ juego.nombre }}</h5>
                         <p class="card-text">{{ juego.descripcion|truncatewords:20 }}</p>
-                        <a href="{{ juego.enlace_oficial }}" class="btn btn-primary" target="_blank" style="background-color:#333;">Ver más</a>
+                        <a href="{% url 'polls:lista_personajes' juego.slug %}" class="btn btn-primary" target="_blank" style="background-color:#333;">Ver más</a>
                     </div>
                 </div>
             </div>
@@ -114,9 +116,10 @@
 <div class="container mt-5" data-aos="fade-up">
     <h2 class="text-center">Noticias Recientes</h2>
     <div class="row">
-       {% for noticia in noticias %}
-                <div class="noticia-card" style="margin-top:20px;">
-                    <a href="{% url 'noticias:detalle_noticia' noticia.slug %}">
+        <div class="noticias-grid">
+            {% for noticia in noticias %}
+                <div class="noticia-card">
+                    <a href="{% url 'noticias:detalle_noticia' noticia.id %}">
                         {% if noticia.imagen_encabezado %}
                             <img src="{{ noticia.imagen_encabezado.url }}" alt="{{ noticia.titulo }}" class="noticia-imagen">
                         {% else %}

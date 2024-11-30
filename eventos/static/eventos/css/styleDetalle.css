@@ -1,21 +1,66 @@
-.ganadores-lista {
-    list-style: none;
-    padding: 0;
-    text-align: center;
+/* Fondo general */
+body {
+    background-color: #f4f7fa;
 }
 
-.ganadores-lista li {
-    margin: 10px 0;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Contenedor principal */
+.container {
+    margin-top: 50px;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    border: 2px solid white;
+/* Estilo para los bloques de contenido */
+.event-block {
+    background-color: #333; /* Fondo oscuro */
+    color: white;  /* Texto blanco */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    border-radius: 10px;  /* Bordes redondeados */
+    padding: 20px;  /* Espaciado interno */
+}
+
+/* Títulos principales */
+.display-4 {
+    color: #28a745; /* Color verde para el título */
+    font-weight: bold;
+}
+
+h3.text-primary {
+    color: #007bff; /* Azul para los subtítulos */
+}
+
+/* Imagen de evento */
+.img-fluid {
+    max-height: 400px;
+    margin-bottom: 20px;
+}
+
+/* Tabla de premios */
+.table {
+    background-color: #444;
+    color: white;
+    border-radius: 8px;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #555;  /* Fondo más oscuro para filas impares */
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #888; /* Borde sutil para la tabla */
+}
+
+/* Estilo para el iframe de Google Maps */
+iframe {
+    border-radius: 8px;
+}
+
+/* Botón */
+.btn-secondary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }

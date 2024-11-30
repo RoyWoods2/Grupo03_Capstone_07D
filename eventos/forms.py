@@ -1,5 +1,5 @@
 from django import forms
-from .models import Evento
+from .models import Evento,TorneoComunitario
 
 
 class EventoForm(forms.ModelForm):
@@ -27,3 +27,8 @@ class EventoForm(forms.ModelForm):
             "premio_segundo_lugar": forms.NumberInput(attrs={"class": "form-control"}),
             "premio_tercer_lugar": forms.NumberInput(attrs={"class": "form-control"}),
         }
+
+class TorneoComunitarioForm(forms.ModelForm):
+    class Meta:
+        model = TorneoComunitario
+        fields = ['titulo', 'fecha', 'tipo_torneo', 'descripcion', 'imagen']

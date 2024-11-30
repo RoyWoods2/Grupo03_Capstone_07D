@@ -1,66 +1,54 @@
 {% extends "polls/detail.html" %}
 {% load static %}
+{% load polls_filters %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'polls/css/styleProfile.css' %}">
 
 <div class="perfil-container">
-    <!-- Encabezado del perfil -->
     <div class="perfil-header">
         <img src="{{ profile.avatar.url|default:'https://via.placeholder.com/150' }}" alt="{{ profile.nick }}" class="avatar">
         <h2>{{ profile.nick }}</h2>
-        {% if profile == request.user %}
-            <p class="perfil-rol">Tu perfil</p>
-        {% else %}
-            <p class="perfil-rol">Usuario registrado</p>
-        {% endif %}
     </div>
-
-    <!-- Información básica -->
     <div class="perfil-info">
         <h3>Información General</h3>
-        {% if request.user == profile %}
-        <p><strong>UserName:</strong> {{ profile.username|default:"No especificado" }}</p>
-         {% endif %}
-        <p><strong>Nick:</strong> {{ profile.nick|default:"No especificado" }}</p>
         <p><strong>Nombre:</strong> {{ profile.name|default:"No especificado" }}</p>
         <p><strong>Email:</strong> {{ profile.email }}</p>
         <p><strong>Puntos:</strong> {{ profile.puntos }}</p>
+        <h3>Personajes Favoritos</h3>
+        <ul>
+            {% for personaje in profile.personajes_favoritos.all %}
+                <li>{{ personaje.nombre }}</li>
+            {% endfor %}
+        </ul>
+        {% if profile.twitch_stream %}
+        {% if twitch_embed_url %}
+        <h3>Stream de Twitch</h3>
+        <iframe src="https://player.twitch.tv/?channel={{ profile.twitch_stream|strip_twitch }}&parent=127.0.0.1" frameborder="0" allowfullscreen="true" scrolling="no" height="315" width="560"></iframe>
+        {% endif %}    {% endif %}
+    
+        {% if profile.youtube_channel %}
+        <div class="perfil-youtube">
+            <h3>Canal de YouTube</h3>
+            <a href="{{ profile.youtube_channel }}" target="_blank">
+                <img src="{% static 'polls/icons/youtube.svg' %}" alt="YouTube" class="youtube-icon">
+            </a>
+        </div>
+    {% else %}
+        <p>No se ha configurado un canal de YouTube para este usuario.</p>
+    {% endif %}
     </div>
 
-    <!-- Historial de comentarios -->
-    <div class="perfil-comentarios">
-        <h3>Historial de Comentarios</h3>
-        {% if comentarios %}
-            <ul>
-                {% for comentario in comentarios %}
-                    <li>{{ comentario.contenido }} - {{ comentario.fecha_publicacion|date:"d M Y" }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Este usuario no tiene comentarios registrados.</p>
-        {% endif %}
-    </div>
-
-    <!-- Formulario de edición (solo para el usuario propietario) -->
+   
     {% if request.user == profile %}
-<div class="perfil-editar">
-    <h3>Editar Perfil</h3>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" name="update_profile" class="btn btn-primary">Guardar Cambios</button>
-    </form>
-</div>
-
-<div class="perfil-solicitud">
-    <h3>Solicitar Cambio de Rol</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ role_request_form.as_p }}
-        <button type="submit" name="request_role" class="btn btn-secondary">Solicitar Cambio</button>
-    </form>
-</div>
-{% endif %}
+        <div class="perfil-editar">
+            <h3>Editar Perfil</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" name="update_profile" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

@@ -32,9 +32,35 @@
             </div>
         {% endfor %}
     </div>
+
+    <div class="container">
+        <h2>Torneos Comunitarios</h2>
+        <div class="eventos-grid">
+            {% for torneo in torneos %}
+                <div class="evento-card">
+                    <a href="{% url 'eventos:detalle_torneo_comunitario' torneo.id %}">
+                        {% if torneo.imagen %}
+                            <img src="{{ torneo.imagen.url }}" alt="{{ torneo.titulo }}" class="evento-imagen">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.png' %}" alt="No image available">
+                        {% endif %}
+                    </a>
+                    <div class="evento-info">
+                        <h3>{{ torneo.titulo }}</h3>
+                        <p>Fecha: {{ torneo.fecha }}</p>
+                        <p>Tipo: {{ torneo.get_tipo_torneo_display }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No hay torneos comunitarios disponibles.</p>
+            {% endfor %}
+        </div>
+    </div>
     
     {% if user.is_staff or user.user_type == 'organizador'%}
         <a href="{% url 'eventos:crear_evento' %}" class="btn btn-secondary mt-3" style="color:#fff;">Crear Evento</a>
+        <a href="{% url 'eventos:crear_torneo_comunitario' %}" class="btn btn-secondary mt-3" style="color:#fff;">Crear Torneo</a>
+
     {% endif %}
 </div>
 
