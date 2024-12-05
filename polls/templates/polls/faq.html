@@ -1,0 +1,58 @@
+{% extends 'polls/detail.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <title><Strong>Preguntas Frecuentes (FAQ)</Strong></title>
+    <link rel="stylesheet" href="{% static 'noticias/css/styleFAQ.css' %}">
+</head>
+
+<body>
+<div class="container mt-5">
+    <h1 class="text-center text-primary">Preguntas Frecuentes (FAQ)</h1>
+
+    <!-- Sección 1: Sobre Nosotros -->
+    <div class="faq-section">
+        <h2>¿Quiénes Somos?</h2>
+        <p>Somos un grupo de estudiantes de Ingeniería en Informática del DUOC motivados por nuestra pasión por los juegos de pelea (*Fighting Games*). Nuestro objetivo es crear una plataforma que reúna a la comunidad de jugadores, facilitando la creación de torneos, intercambio de recursos y el seguimiento de rankings competitivos.</p>
+    </div>
+
+    <!-- Sección 2: Funcionalidades -->
+    <div class="faq-section">
+        <h2>¿Qué Funciones Ofrece la Plataforma?</h2>
+        <ul>
+            <li><strong>Creación de Torneos:</strong> Cualquier usuario puede organizar torneos comunitarios, ya sean presenciales u online, con integración de brackets automáticos.</li>
+            <li><strong>Inscripciones y Participación:</strong> Los jugadores pueden inscribirse en torneos de forma sencilla y seguir el progreso de las rondas en tiempo real.</li>
+            <li><strong>Perfil de Usuario:</strong> Personaliza tu perfil, registra tus juegos favoritos y haz un seguimiento de tus puntos acumulados en torneos.</li>
+            <li><strong>Moderación:</strong> Contamos con un sistema de moderación para garantizar un entorno seguro y respetuoso dentro de la comunidad.</li>
+            <li><strong>Recursos Compartidos:</strong> Comparte y accede a guías, videos y recursos estratégicos sobre juegos de pelea.</li>
+        </ul>
+    </div>
+
+    <!-- Sección 3: Participación y Normas -->
+    <div class="faq-section">
+        <h2>¿Cómo Puedo Participar?</h2>
+        <p>Para participar, regístrate, completa tu perfil y explora los torneos disponibles. Si tienes alguna pregunta o sugerencia, puedes contactarnos a través de nuestro formulario de contacto.</p>
+    </div>
+
+    <!-- Sección 4: Sobre la Moderación -->
+    <div class="faq-section">
+        <h2>¿Cómo Funciona el Sistema de Moderación?</h2>
+        <p>Implementamos un sistema de strikes. Al recibir tres strikes, el usuario será suspendido permanentemente. La moderación incluye la capacidad de bloquear comentarios, restringir la creación de torneos y supervisar el comportamiento general en la plataforma.</p>
+    </div>
+
+    <!-- Sección 5: Futuro de la Plataforma -->
+    <div class="faq-section">
+        <h2>¿Qué Esperamos para el Futuro?</h2>
+        <p>Nuestro objetivo es seguir expandiendo la plataforma, integrando nuevos juegos, funcionalidades y torneos oficiales. Queremos fortalecer la comunidad de juegos de pelea y promover la sana competencia entre jugadores.</p>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'polls:' %}" class="btn btn-primary" style="color:white; margin-bottom:20px;">Volver a la Página Principal</a>
+    </div>
+</div>
+</body>
+{% endblock %}

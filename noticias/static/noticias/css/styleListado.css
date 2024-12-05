@@ -83,6 +83,8 @@
     transition: outline-offset 0.2s ease, background-color 0.3s ease;
     outline: 2px solid transparent;
     outline-offset: 5px;
+   
+
 }
 
 .btn-secondary:hover {

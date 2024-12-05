@@ -28,9 +28,31 @@
         font-size: 1.2em;
         color: #fff;
     }
+    .titulo {
+        font-size: 28px;  /* Tamaño más grande */
+        font-weight: bold;  /* Hacerlo más llamativo */
+        text-transform: uppercase;  /* Hacerlo en mayúsculas para destacar más */
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);  /* Sombra para darle más profundidad */
+        margin-bottom: 20px;  /* Espaciado debajo del título */
+        text-align: center;  /* Centrar el título */
+        
+    }
+    .btn{
+        background-color: #007bff;
+        color: white; 
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        display: inline-block;
+        text-align: center;
+        margin-left: 1%;
+        width:8%;
+        margin-top:10px;
+    }
 </style>
 <div class="container mt-5">
-    <h1 class="text-center">Glosario de {{ juego.nombre }}</h1>
+    <h1 class="titulo"><Strong>Glosario de {{ juego.nombre }}</strong></h1>
     <div class="glosario-container">
         {% for termino in terminos %}
         <div class="termino">
@@ -39,6 +61,6 @@
         </div>
         {% endfor %}
     </div>
-    <a href="{% url 'polls:lista_juegos' %}" class="btn btn-secondary mt-3">Volver a Juegos</a>
+    <a href="{% url 'polls:lista_juegos' %}" class="btn" style="color: white;"><Strong>Volver a Juegos</Strong></a>
 </div>
 {% endblock %}

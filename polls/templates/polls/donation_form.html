@@ -1,0 +1,29 @@
+{% extends 'polls/detail.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}">
+
+    <div class="content-wrapper">
+        <div class="content">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Campo para la cantidad a donar -->
+                <div class="form-group">
+                    <label for="amount" style="font-size:18px;"><Strong>Cantidad a donar (En dolares):</Strong></label>
+                    <input type="number" name="amount" min="1" required class="form-control">
+                </div>
+
+                <!-- Campos ocultos para PayPal -->
+                <input type="hidden" name="paymentId" value="{{ payment_id }}">
+                <input type="hidden" name="PayerID" value="{{ payer_id }}">
+
+                <button type="submit" class="btn btn-primary">Donar</button>
+            </form>
+        </div>
+    </div>
+
+   
+
+{% endblock %}

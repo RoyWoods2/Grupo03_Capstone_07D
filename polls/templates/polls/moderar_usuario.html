@@ -1,0 +1,46 @@
+{% extends 'polls/detail.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}">
+</head>
+
+<body>
+<div class="content mt-5">
+    <h1 class="titulo-moderacion">Moderación de Usuario: {{ usuario.nick }}</h1>
+
+    <div class="card-informacion">
+        <h3>Información del Usuario</h3>
+        <p><strong>Nombre:</strong> {{ usuario.name }}</p>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Puntos:</strong> {{ usuario.puntos }}</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.strikes.label_tag }}
+            {{ form.strikes }}
+        </div>
+
+        <div class="form-group">
+            {{ form.comentarios_bloqueados.label_tag }}
+            {{ form.comentarios_bloqueados }}
+        </div>
+
+        <div class="form-group">
+            {{ form.torneos_bloqueados.label_tag }}
+            {{ form.torneos_bloqueados }}
+        </div>
+
+        <button type="submit" class="btn">Guardar Cambios</button>
+    </form>
+
+    <a href="{% url 'polls:perfil_usuario' usuario.nick %}" class="btn"style="
+    text-align: center;
+    width: 95%;
+    color: white;">Volver al Perfil</a>
+</div>
+</body>
+{% endblock %}

@@ -1,13 +1,84 @@
 {% extends 'polls/detail.html' %}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% load static %}
 
 {% block content %}
-<div class="container">
-    <h2>Crear Torneo Comunitario</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Crear Torneo</button>
-    </form>
-</div>
+<head>
+    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tipoTorneoSelect = document.querySelector("#id_tipo_torneo");
+            const direccionFieldWrapper = document.querySelector("#direccion-wrapper");
+
+            tipoTorneoSelect.addEventListener("change", function() {
+                if (tipoTorneoSelect.value === "presencial") {
+                    direccionFieldWrapper.style.display = "block";
+                    document.querySelector("#id_direccion").required = true;
+                } else {
+                    direccionFieldWrapper.style.display = "none";
+                    document.querySelector("#id_direccion").required = false;
+                    document.querySelector("#id_direccion").value = "";  // Limpia el campo
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="content">
+        <h2>Crear un Torneo Comunitario</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.titulo.label_tag }}
+                {{ form.titulo }}
+                {% if form.titulo.errors %}
+                    <span class="error-text">{{ form.titulo.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.fecha.label_tag }}
+                {{ form.fecha }}
+                {% if form.fecha.errors %}
+                    <span class="error-text">{{ form.fecha.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.tipo_torneo.label_tag }}
+                {{ form.tipo_torneo }}
+                {% if form.tipo_torneo.errors %}
+                    <span class="error-text">{{ form.tipo_torneo.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div id="direccion-wrapper" class="form-group" style="display: none;">
+                {{ form.direccion.label_tag }}
+                {{ form.direccion }}
+                {% if form.direccion.errors %}
+                    <span class="error-text">{{ form.direccion.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.descripcion.label_tag }}
+                {{ form.descripcion }}
+                {% if form.descripcion.errors %}
+                    <span class="error-text">{{ form.descripcion.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.imagen.label_tag }}
+                {{ form.imagen }}
+                {% if form.imagen.errors %}
+                    <span class="error-text">{{ form.imagen.errors }}</span>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crear Torneo</button>
+        </form>
+    </div>
+</body>
 {% endblock %}

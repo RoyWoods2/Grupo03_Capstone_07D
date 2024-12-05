@@ -38,3 +38,10 @@ def youtube_embed(value):
 def replace(value, arg):
     old, new = arg.split(',')
     return value.replace(old, new)
+
+@register.filter
+def get_item(value, index):
+    try:
+        return value[index]
+    except IndexError:
+        return None  # Retorna None si el índice está fuera de rango

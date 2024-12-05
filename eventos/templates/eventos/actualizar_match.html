@@ -1,0 +1,12 @@
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="marcador_jugador1">Marcador Jugador 1:</label>
+        <input type="number" name="marcador_jugador1" value="{{ match.marcador_jugador1 }}" class="form-control" placeholder="Marcador Jugador 1">
+    </div>
+    <div class="form-group">
+        <label for="marcador_jugador2">Marcador Jugador 2:</label>
+        <input type="number" name="marcador_jugador2" value="{{ match.marcador_jugador2 }}" class="form-control" placeholder="Marcador Jugador 2">
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar Marcador</button>
+</form>

@@ -7,6 +7,8 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    animation: fadeIn 1s ease-in-out; 
+
 }
 
 /* Wrapper de contenido que ocupará todo el espacio restante */
@@ -118,7 +120,7 @@ footer {
 html,body {
     display: flex;
     flex-direction: column;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -596,3 +598,20 @@ html,body {
     width: 10%;
     z-index: 1000;
     cursor: pointer;}
+
+
+
+/* Animación para suavizar la carga */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Aplicar la animación a los elementos del cuerpo */
+body {
+    animation: fadeIn 1s ease-in-out; /* 1 segundo de duración */
+}

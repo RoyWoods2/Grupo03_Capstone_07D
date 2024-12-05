@@ -1,0 +1,21 @@
+{% extends 'polls/detail.html'%}
+
+{% block content%}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Exitoso</title>
+</head>
+<body>
+    <h1>¡Pago exitoso!</h1>
+    <p>Detalles del pago:</p>
+    <ul>
+        <li>ID de pago: {{ payment.id }}</li>
+        <li>Estado: {{ payment.state }}</li>
+        <li>Total pagado: {{ payment.transactions.0.amount.total }} {{ payment.transactions.0.amount.currency }}</li>
+    </ul>
+    <p>¡Gracias por tu donación!</p>
+</body>
+</html>
+{% endblock %}

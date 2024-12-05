@@ -20,6 +20,7 @@ from .forms import (
     UserProfileForm,
     RoleChangeRequestForm,
     RecursoForm,
+    ModeracionForm
 )
 from noticias.models import Noticia
 from .models import (
@@ -36,6 +37,7 @@ from .models import (
     Recurso,
     Glosario,
     PersonajeVisita,
+    Moderacion
     
     
 )
@@ -44,8 +46,83 @@ from eventos.models import Evento
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import render
+import paypalrestsdk
+
 
 # Create your views here.
+paypalrestsdk.configure({
+    "mode": settings.PAYPAL_MODE,  # sandbox o live
+    "client_id": settings.PAYPAL_CLIENT_ID,
+    "client_secret": settings.PAYPAL_CLIENT_SECRET
+})
+def payment_success(request):
+    payment_id = request.GET.get('paymentId')  
+    payer_id = request.GET.get('PayerID')      
+
+    try:
+        payment = paypalrestsdk.Payment.find(payment_id)
+        
+        # Ejecuta el pago si no ha sido ejecutado previamente
+        if payment.execute({"payer_id": payer_id}):
+            
+            return render(request, "polls/payment_success.html", {"payment": payment})
+        else:
+            raise Exception("Error al procesar el pago.")
+    except Exception as e:
+        
+        return render(request, "polls/payment_error.html", {"error": "Hubo un error al procesar tu pago."})
+def payment_cancel(request):
+    return render(request, "payment_cancel.html", {"message": "Tu pago fue cancelado."})
+def donation(request):
+    if request.method == 'POST':
+        # Obtener la cantidad de la donación del formulario
+        amount = request.POST.get('amount')
+
+        # Crear la transacción de PayPal
+        payment = paypalrestsdk.Payment({
+            "intent": "sale",
+            "payer": {
+                "payment_method": "paypal"
+            },
+            "transactions": [{
+                "amount": {
+                    "total": amount,
+                    "currency": "USD"
+                },
+                "description": "Donación a mi proyecto"
+            }],
+            "redirect_urls": {
+                "return_url": "http://localhost:8000/payment/success/",
+                "cancel_url": "http://localhost:8000/payment/cancel/"
+            }
+        })
+
+        # Crear el pago
+        if payment.create():
+            for link in payment.links:
+                if link.rel == "approval_url":
+                    approval_url = link.href
+                    return redirect(approval_url)
+        else:
+            return render(request, "polls/donation_error.html", {"error": "Hubo un error al procesar el pago."})
+
+    return render(request, "polls/donation_form.html")
+def faq (request):
+    return render(request, 'polls/faq.html')
+
+@staff_member_required
+def moderar_usuario(request, user_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    moderacion, created = Moderacion.objects.get_or_create(usuario=usuario)
+    if request.method == 'POST':
+        form = ModeracionForm(request.POST, instance=moderacion)
+        if form.is_valid():
+            form.save()
+            return redirect('polls:perfil_usuario', nick=usuario.nick)
+    else:
+        form = ModeracionForm(instance=moderacion)
+    return render(request, 'polls/moderar_usuario.html', {'form': form, 'usuario': usuario})
+
 
 @login_required
 def votar_recurso(request, recurso_id, accion):

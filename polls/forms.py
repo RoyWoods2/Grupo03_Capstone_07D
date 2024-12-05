@@ -1,16 +1,19 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import Comentario, CustomUser, Juego, RoleChangeRequest, Estrategia,Recurso
+from .models import Comentario, CustomUser, Juego, RoleChangeRequest, Estrategia,Recurso,Moderacion
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 import re
 
-
+class ModeracionForm(forms.ModelForm):
+    class Meta:
+        model = Moderacion
+        fields = ['strikes', 'comentarios_bloqueados', 'torneos_bloqueados']
 class RecursoForm(forms.ModelForm):
     class Meta:
         model = Recurso
-        fields = ['personaje', 'descripcion', 'enlace_video', 'categoria', 'link_discord', 'hashtag_twitter']
+        fields = ['personaje', 'descripcion', 'enlace_video', 'categoria']
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -56,9 +59,20 @@ class UserProfileForm(forms.ModelForm):
         if youtube_url and not ("youtube.com" in youtube_url):
             raise forms.ValidationError("Ingrese una URL válida de YouTube.")
         return youtube_url
+    def clean_musica_fondo(self):
+        musica_fondo = self.cleaned_data.get('musica_fondo')
+        if musica_fondo and not musica_fondo.startswith("https://soundcloud.com/"):
+            raise forms.ValidationError("La URL debe ser un enlace válido de SoundCloud.")
+        return musica_fondo
     class Meta:
         model = CustomUser
-        fields = ["nick", "avatar", "name", "juegos_competencia",'personajes_favoritos', 'twitch_stream', 'youtube_channel']
+        fields = ['avatar', 'name', 'email', 'tema_perfil', 'musica_fondo', 'imagen_fondo']
+        widgets = {
+            'tema_perfil': forms.Select(attrs={'class': 'form-control'}),
+            'musica_fondo': forms.TextInput(attrs={'placeholder': 'URL de música de fondo', 'class': 'form-control'}),
+            'imagen_fondo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+
+        }
 
     def clean_nick(self):
         nick = self.cleaned_data["nick"]

@@ -31,4 +31,8 @@ class EventoForm(forms.ModelForm):
 class TorneoComunitarioForm(forms.ModelForm):
     class Meta:
         model = TorneoComunitario
-        fields = ['titulo', 'fecha', 'tipo_torneo', 'descripcion', 'imagen']
+        fields = ['titulo', 'fecha', 'tipo_torneo', 'descripcion', 'imagen', 'direccion']
+        widgets = {
+            "fecha": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            "direccion": forms.TextInput(attrs={"class": "form-control"}),  # Sin "display: none"
+        }

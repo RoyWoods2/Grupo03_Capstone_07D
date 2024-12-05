@@ -8,8 +8,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'polls/css/index.css' %}"> 
 <link rel="stylesheet" href="{% static 'noticias/css/styleListado.css' %}">
+<link rel="stylesheet" href="{% static 'eventos/css/styleRanking.css' %}">
+
 
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init();
@@ -42,15 +45,15 @@
 <div class="main-content" id="mainContent">
     <header class="header">
         <div  class="stack" style="--stacks: 3;">
-            <span  href='' style="--index: 0;"><a href=''>FIGHTERCHILE </a></span>
-            <span  href='' style="--index: 1;"><a href=''>FIGHTERCHILE </a></span>
-            <span  href='' style="--index: 2;"><a href=''>FIGHTERCHILE </a></span>
+            <span  href='' style="--index: 0;"><a href=''>FIGHTINGCHILE </a></span>
+            <span  href='' style="--index: 1;"><a href=''>FIGHTINGCHILE </a></span>
+            <span  href='' style="--index: 2;"><a href=''>FIGHTINGCHILE </a></span>
           </div>
     </header>
     <div class="container">
         <div class="timeline">
             <div class="card">
-                <h3>Bienvenida</h3>
+                <h3 ><Strong>Bienvenida</Strong></h3>
                 <p>Acá podrás acceder a información relevante a la escena de juegos de pelea en Chile, incluyendo eventos y sus resultados así también como datos y recursos asociados a juegos específicos y sus personajes.</p>
             </div>
         </div>
@@ -58,7 +61,7 @@
     </div>
 
     <div class="card" data-aos="fade-up">
-        <h3>Próximos Eventos</h3>
+        <h3><Strong>Próximos Eventos</Strong></h3>
         <p>Información sobre los eventos importantes en nuestro calendario.</p>
 
         <div id="carouselEventos" class="carousel slide" data-ride="carousel">
@@ -137,7 +140,7 @@
 
 <div class="container mt-5" data-aos="fade-up">
     <h2 class="text-center">Top Competidores</h2>
-    <table class="table table-striped">
+    <table class="table custom-table table-striped mt-3" style="width:100%;">
         <thead>
             <tr>
                 <th>Posición</th>
@@ -156,7 +159,7 @@
         </tbody>
     </table>
     <div class="text-center mt-3" data-aos="fade-up">
-        <a href="{% url 'eventos:ranking' %}" class="btn btn-secondary">Ver ranking completo</a>
+        <a href="{% url 'eventos:ranking' %}" class="btn btn-secondary" style="color:white;">Ver ranking completo</a>
     </div>
 </div>
 

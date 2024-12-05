@@ -18,14 +18,13 @@
             {% for jugador in jugadores %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ jugador.userprofile.nick}}</td>
+                <td>{{ jugador.nick}}</td>
                 <td>{{ jugador.puntos }}</td>
                 <td>
                     {% if jugador %}
-                    <td>
+                   
                         <a href="{% url 'polls:perfil_usuario' jugador.nick %}">Ver Perfil</a>
 
-                    </td>
                     {% endif %}
                 </td>
             </tr>

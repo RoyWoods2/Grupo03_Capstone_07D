@@ -64,3 +64,28 @@ iframe {
     background-color: #0056b3;
     border-color: #0056b3;
 }
+
+#tournament-bracket {
+    margin-top: 20px;
+}
+
+.table-bordered {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+#tournament-bracket {
+    transform: scale(1.2);
+    transform-origin: top left;
+    margin-bottom: 55px;
+}

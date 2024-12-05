@@ -11,7 +11,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 @login_required
 def editar_comentario(request, comentario_id):
+    
     comentario = get_object_or_404(Comentario, id=comentario_id, usuario=request.user)
+    
+    if request.user.moderacion.comentarios_bloqueados:
+        messages.error(request, "No tienes permiso para comentar.")
     if request.method == "POST":
         form = ComentarioForm(request.POST, instance=comentario)
         if form.is_valid():
@@ -43,11 +47,11 @@ def detalle_noticia(request, slug):
     comentarios = Comentario.objects.filter(
         noticia=noticia, respuesta_a=None
     )  # Comentarios principales
+    
+    usuario_moderado = request.user.moderacion.comentarios_bloqueados if request.user.is_authenticated else False
 
-    if request.method == "POST":
-        respuesta_a_id = request.POST.get(
-            "comentario_padre_id"
-        )  # ID del comentario al que se responde
+    if request.method == "POST" and not usuario_moderado:
+        respuesta_a_id = request.POST.get("comentario_padre_id")
         contenido = request.POST.get("contenido")
 
         if contenido:
@@ -55,13 +59,13 @@ def detalle_noticia(request, slug):
                 noticia=noticia,
                 usuario=request.user,
                 contenido=contenido,
-                respuesta_a_id=(
-                    respuesta_a_id if respuesta_a_id else None
-                ),  # Relación con el comentario padre
+                respuesta_a_id=respuesta_a_id if respuesta_a_id else None,
             )
             nuevo_comentario.save()
             return redirect("noticias:detalle_noticia", slug=slug)
-
+    elif request.method == "POST" and usuario_moderado:
+        messages.error(request, "No puedes comentar porque estás bloqueado.")
+        
     return render(
         request,
         "noticias/detalle_noticia.html",
@@ -69,6 +73,7 @@ def detalle_noticia(request, slug):
             "noticia": noticia,
             "comentarios": comentarios,
             "form": ComentarioForm(),
+            "usuario_moderado": usuario_moderado,
         },
     )
 
@@ -79,7 +84,9 @@ def es_redactor_o_admin(user):
 
 @login_required
 def crear_noticia(request):
-
+    if request.user.moderacion.comentarios_bloqueados:
+        messages.error(request, "No tienes permiso para comentar.")
+        return redirect('eventos:detalle_evento', evento_id=evento.id)
     if request.method == "POST":
         form = NoticiaForm(request.POST, request.FILES)
         if form.is_valid():

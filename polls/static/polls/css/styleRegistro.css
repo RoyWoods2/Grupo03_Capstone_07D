@@ -12,7 +12,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-h2 {
+h2,h1,h4,h5,h6 {
     text-align: center;
     color: #ffffff;
     margin-bottom: 20px;
@@ -23,6 +23,7 @@ h2 {
 }
 
 .form-group label {
+    font-size: 12px;
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
@@ -60,6 +61,8 @@ form input[type="password"] {
     cursor: pointer;
     width: 100%;
     font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .btn:hover {
@@ -163,6 +166,7 @@ button:hover {
 
 /* Inputs con efecto al foco */
 input[type="text"], textarea, select {
+    height: auto;
     width: 100%;
     padding: 10px;
     margin: 5px 0;

@@ -16,6 +16,10 @@ from pathlib import Path
 
 SESSION_COOKIE_AGE = 3600  # 1 hora
 SESSION_SAVE_EVERY_REQUEST = True
+#Configuraciones de paypal
+PAYPAL_MODE = 'sandbox'  # 'sandbox' para pruebas, 'live' para producción
+PAYPAL_CLIENT_ID = 'AfhxUcCCzA3JGdj762s7rg1scyxJx-agBF4n4S06rxOSzWH5XMcwMiX6DKXkkRtaUmAc0ZiKUslLNXc5'
+PAYPAL_CLIENT_SECRET = 'EPuuTW6l6xy6YopXgpW_CZ2Xv9W0zidKQxZDTsAuu5st5l865MZe9ZsRvcw0xPwEORiRGSxglgTcVyM0'
 
 # Configuración de sesiones
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # La sesión se cierra al cerrar el navegador
@@ -165,4 +169,5 @@ JAZZMIN_SETTINGS = {
     "search_model": "auth.User",
     "show_ui_builder": True,  # Si deseas usar el diseñador de UI de Jazzmin
     "navigation_expanded": True,  # Para que el menú de navegación esté expandido
+     "topmenu_links": [{"name": "Volver a la pagina.", "url":"polls:"}]
 }

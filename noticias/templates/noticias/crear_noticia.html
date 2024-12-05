@@ -2,24 +2,45 @@
 {% load static %}
 
 {% block content %}
-{% load custom_filters %}
+<head>
+    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}">
+</head>
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<div class="container">
-    <div class="form-container">
-        <h2 class="text-center mb-4">Crear Nueva Noticia</h2>
+<body>
+    <div class="content">
+        <h2>Crear una Noticia</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Publicar</button>
+
+            <!-- Titulo -->
+            <div class="form-group">
+                {{ form.titulo.label_tag }}
+                {{ form.titulo }}
+                {% if form.titulo.errors %}
+                    <span class="error-text">{{ form.titulo.errors }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Contenido -->
+            <div class="form-group">
+                {{ form.contenido.label_tag }}
+                {{ form.contenido }}
+                {% if form.contenido.errors %}
+                    <span class="error-text">{{ form.contenido.errors }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Imagen de encabezado -->
+            <div class="form-group">
+                {{ form.imagen_encabezado.label_tag }}
+                {{ form.imagen_encabezado }}
+                {% if form.imagen_encabezado.errors %}
+                    <span class="error-text">{{ form.imagen_encabezado.errors }}</span>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crear Noticia</button>
         </form>
     </div>
-</div>
-
-<!-- Scripts de Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+</body>
 {% endblock %}

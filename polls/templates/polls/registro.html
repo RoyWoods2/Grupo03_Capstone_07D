@@ -1,20 +1,18 @@
 {% extends "polls/detail.html" %}
 {% load static %}
+
 {% block content %}
-
-<!-- register.html -->
-
 <head>
-    
-    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}"> 
+<link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}"> 
 </head>
 
 <body>
     <div class="content">
-        <h2>Crear una nueva cuenta</h2>
+        <h1>Crear una nueva cuenta</h1>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
+            <!-- Nombre de usuario -->
             <div class="form-group">
                 {{ form.username.label_tag }}
                 {{ form.username }}
@@ -26,9 +24,7 @@
                 {% endif %}
             </div>
 
-          
-      
-
+            <!-- Correo electrónico -->
             <div class="form-group">
                 {{ form.email.label_tag }}
                 {{ form.email }}
@@ -37,6 +33,7 @@
                 {% endif %}
             </div>
 
+            <!-- Avatar -->
             <div class="form-group">
                 {{ form.avatar.label_tag }}
                 {{ form.avatar }}
@@ -45,6 +42,7 @@
                 {% endif %}
             </div>
 
+            <!-- Contraseña -->
             <div class="form-group">
                 {{ form.password1.label_tag }}
                 {{ form.password1 }}
@@ -53,6 +51,7 @@
                 {% endif %}
             </div>
 
+            <!-- Confirmar Contraseña -->
             <div class="form-group">
                 {{ form.password2.label_tag }}
                 {{ form.password2 }}
@@ -61,11 +60,9 @@
                 {% endif %}
             </div>
 
+            <!-- Botón de enviar -->
             <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>
     </div>
-
 </body>
 {% endblock %}
-
-</html>

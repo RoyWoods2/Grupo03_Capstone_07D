@@ -296,3 +296,23 @@ body {
 iframe {
     max-width: 100%;
 }
+
+.btn-custom {
+    background-color: #007bff; /* Azul */
+    color: white; /* Texto blanco */
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    display: inline-block;
+    text-align: left;
+    margin-left: 1%;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+.recurso {
+    margin-bottom: 20px; /* Para separar cada recurso */
+}

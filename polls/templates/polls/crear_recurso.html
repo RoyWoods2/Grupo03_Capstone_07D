@@ -1,12 +1,50 @@
-{% extends 'polls/base.html' %}
-
+{% extends 'polls/detail.html' %}
+{% load static %}
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-white">Añadir Nuevo Recurso</h2>
-    <form method="POST" class="form-control bg-dark text-white" enctype="multipart/form-data">
+<head>
+    <link rel="stylesheet" href="{% static 'polls/css/styleRegistro.css' %}">
+</head>
+
+<body>
+<div class="content mt-5">
+    <h2>Añadir Nuevo Recurso</h2>
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Agregar Recurso</button>
+
+        <div class="form-group">
+            {{ form.personaje.label_tag }}
+            {{ form.personaje }}
+            {% if form.personaje.errors %}
+                <span class="error-text">{{ form.personaje.errors }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.descripcion.label_tag }}
+            {{ form.descripcion }}
+            {% if form.descripcion.errors %}
+                <span class="error-text">{{ form.descripcion.errors }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.enlace_video.label_tag }}
+            {{ form.enlace_video }}
+            {% if form.enlace_video.errors %}
+                <span class="error-text">{{ form.enlace_video.errors }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.categoria.label_tag }}
+            {{ form.categoria }}
+            {% if form.categoria.errors %}
+                <span class="error-text">{{ form.categoria.errors }}</span>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn">Agregar Recurso</button>
     </form>
 </div>
+</body>
 {% endblock %}

@@ -10,6 +10,8 @@
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
      <!-- CSS personalizado -->
     <link rel="stylesheet" href="{% static 'polls/css/stylehome.css' %}">
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -20,23 +22,21 @@
 
     <header class="header">
         <div  class="stack" style="--stacks: 3;">
-            <span  href={% url 'polls:' %} style="--index: 0;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
-            <span  href={% url 'polls:' %} style="--index: 1;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
-            <span  href={% url 'polls:' %} style="--index: 2;"><a href={% url 'polls:' %}>FIGHTERCHILE </a></span>
+            <span  href={% url 'polls:' %} style="--index: 0;"><a href={% url 'polls:' %}>FIGHTINGCHILE </a></span>
+            <span  href={% url 'polls:' %} style="--index: 1;"><a href={% url 'polls:' %}>FIGHTINGCHILE </a></span>
+            <span  href={% url 'polls:' %} style="--index: 2;"><a href={% url 'polls:' %}>FIGHTINGCHILE </a></span>
           </div>
     </header>
 
     
  <!-- MENSAJE DE INICIAR SESION -->
     {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
     </div>
-    {% endif %}
+{% endif %}
     <div class="top-navbar">
         <nav>
             <div class="icon-buttons">
@@ -61,10 +61,13 @@
                 <li><a href={% url 'polls:lista_juegos'%}>Lista de Juegos</a></li>
                 <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
                 <li><a href={% url 'polls:perfil_usuario'%}>Perfil</a></li>
+                <li><a href={% url 'eventos:ranking'%}>Ranking</a></li>
+                <li><a href={% url 'polls:donacion'%}>Donar</a></li>
+
+
                 {% if user.is_staff %}
                 <li><a href={% url 'polls:revisar_solicitudes'%}>Revisar Solicitudes</a></li>
                 <li><a href={% url 'admin:index'%}>Panel Admin</a></li>
-                <li><a href={% url 'polls:admin_grafico_personajes'%}>Metricas</a></li> 
                 
                 {% endif %}
                 {% else %}
@@ -73,6 +76,7 @@
                 <li><a href={% url 'polls:lista_juegos'%}>Lista de Juegos</a></li>
                 <li><a href={% url 'noticias:lista_noticias'%}>Noticias</a></li>
                 <li><a href={% url 'eventos:ranking'%}>Ranking</a></li>
+                <li><a href={% url 'polls:faq'%}>FAQ</a></li>
 
 
                 {% endif %}
@@ -81,11 +85,7 @@
         </nav>
     </div>
 
-    <!-- Wrapper para que el contenido ocupe el espacio restante -->
-    <a href="{% url 'noticias:lista_noticias' %}">
-        <img src="{% static 'polls/css/images/sol.gif' %}" alt="GIF Izquierda" class="gif-izquierda">
-    </a>
-
+   
     <!-- GIF inferior derecho -->
     <a href="{% url 'eventos:lista_eventos' %}">
         <img src="{% static 'polls/css/images/johnny.gif' %}" alt="GIF Derecha" class="gif-derecha">
@@ -98,7 +98,15 @@
         <p>Diseñado por Omnissiah.</p>
     </footer>
 <script src="{% static 'polls/js/scripts.js' %}"></script>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.body.style.opacity = 0; // Inicializa la opacidad a 0 al cargar la página
+        setTimeout(function() {
+            document.body.style.transition = "opacity 1s ease-in-out"; // Aplica la transición de opacidad
+            document.body.style.opacity = 1; // Desvanece el contenido después de la carga
+        }, 100);
+    });
+</script>    
 
 
 

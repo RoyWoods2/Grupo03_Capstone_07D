@@ -1,0 +1,22 @@
+/* light.css */
+body {
+    background-color: #f4f4f4;
+    color: #333333;
+    font-family: 'Open Sans', sans-serif;
+}
+
+a, button {
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+button {
+    background-color: #ffffff;
+    border: 2px solid #4a90e2;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #4a90e2;
+    color: white;
+}

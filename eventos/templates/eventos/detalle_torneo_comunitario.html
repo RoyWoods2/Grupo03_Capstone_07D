@@ -1,14 +1,17 @@
 {% extends 'polls/detail.html' %}
 {% load static %}
-
 {% block content %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ torneo.titulo }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'noticias/css/styleListado.css' %}">
     <link rel="stylesheet" href="{% static 'eventos/css/styleDetalle.css' %}">
+    <link rel="stylesheet" href="{% static 'eventos/css/styleRanking.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bracket/0.11.1/jquery.bracket.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bracket/0.11.1/jquery.bracket.min.js"></script>
+    
 </head>
 
 <body>
@@ -18,61 +21,123 @@
         <p class="lead text-muted">Fecha: {{ torneo.fecha }}</p>
         <p class="font-weight-light">{{ torneo.descripcion }}</p>
     </div>
-
     {% if torneo.imagen %}
-        <div class="text-center mb-4">
-            <img src="{{ torneo.imagen.url }}" class="img-fluid rounded" alt="Imagen del torneo">
-        </div>
-    {% endif %}
-    <!-- Premios si los tiene -->
-    {% if torneo.premio_primer_lugar or torneo.premio_segundo_lugar or torneo.premio_tercer_lugar %}
-    <div class="mt-5">
-        <h2>Premios del Torneo</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Lugar</th>
-                    <th>Jugador</th>
-                    <th>Premio ($)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1er Lugar</td>
-                    <td>{{ torneo.primer_lugar.nick|default:"Por anunciar" }}</td>
-                    <td>{{ torneo.premio_primer_lugar|default:"N/A" }}</td>
-                </tr>
-                <tr>
-                    <td>2do Lugar</td>
-                    <td>{{ torneo.segundo_lugar.nick|default:"Por anunciar" }}</td>
-                    <td>{{ torneo.premio_segundo_lugar|default:"N/A" }}</td>
-                </tr>
-                <tr>
-                    <td>3er Lugar</td>
-                    <td>{{ torneo.tercer_lugar.nick|default:"Por anunciar" }}</td>
-                    <td>{{ torneo.premio_tercer_lugar|default:"N/A" }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="text-center mb-4">
+        <img src="{{ torneo.imagen.url }}" class="img-fluid rounded" alt="Imagen del evento">
     </div>
+{% endif %}
+
+    <h3 class="text-primary" >Participantes Inscritos</h3>
+    <table class="table custom-table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nick</th>
+                <th>Perfil</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscripcion in torneo.inscripciones.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ inscripcion.participante.nick }}</td>
+                    <td><a href="{% url 'polls:perfil_usuario' inscripcion.participante.nick %}">Ver perfil</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if user.is_authenticated %}
+    {% if not inscrito %}
+        <form method="post" action="{% url 'eventos:inscribir_torneo' torneo.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-info mt-3">Inscribirse al Torneo</button>
+        </form>
+    {% else %}
+        <p class="text-success">Ya estás inscrito en este torneo.</p>
+    {% endif %}
+{% else %}
+    <p class="text-warning">Inicia sesión para inscribirte en este torneo.</p>
+{% endif %}
+
+
+
+    {% if torneo.tipo_torneo == 'presencial' %}
+    <h3 class="text-primary">Ubicación del Torneo</h3>
+    <div class="col-md-6" style="margin-bottom:25px;">
+        <iframe 
+            width="100%" 
+            height="400" 
+            frameborder="0" 
+            style="border:0" 
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBIjmo2r5VEG-Lr25fPsCBlebWDDGEHaco&q={{ torneo.direccion|urlencode }}" 
+            allowfullscreen>
+        </iframe>
+
+{% endif %}
+    <h3 class="text-primary" style="margin-top:25px;">Bracket del Torneo.</h3>
+    {% if not torneo.bracket_generado %}
+        <form method="post" action="{% url 'eventos:generar_bracket' torneo.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary mt-3">Generar Bracket</button>
+        </form>
+    {% else %}
+        <div id="tournament-bracket" class="mt-5"></div>
     {% endif %}
 
-    <!-- Mostrar dirección si es presencial -->
-    {% if torneo.tipo_torneo == 'Presencial' %}
-        <p><strong>Dirección:</strong> {{ torneo.direccion }}</p>
-        <div class="mt-4">
-            <h2>Ubicación:</h2>
-            <iframe
-                width="100%"
-                height="400"
-                frameborder="0"
-                style="border:0"
-                src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ torneo.direccion|urlencode }}" allowfullscreen>
-            </iframe>
-        </div>
-    {% endif %}
+    
 
-    <a href="{% url 'eventos:lista_eventos' %}" class="btn btn-secondary mt-3" style="color:white;">Volver a la lista de torneos</a>
 </div>
+
+<script>
+    {% if torneo.bracket_generado %}
+    var teams = [];
+
+    // Emparejar participantes en rondas
+    {% for match in torneo.match_set.all %}
+        teams.push(["{{ match.jugador1.nick }}", "{{ match.jugador2.nick|default_if_none:'BYE' }}"]);
+    {% endfor %}
+
+    // Validación del Bracket
+    console.log("Teams Generados:", teams);
+
+    $(document).ready(function() {
+        $('#tournament-bracket').bracket({
+            init: {
+                teams: teams,          // Participantes
+                results: []            // Resultados iniciales
+            },
+            save: function(data) {    // Guardar marcador
+                console.log(data);    // Ver el estado en la consola
+                actualizarMarcadorBackend(data);
+            },
+            disableToolbar: true,       
+            disableTeamEdit: true  
+        });
+
+        // Llamada AJAX para actualizar marcadores en el backend
+        function actualizarMarcadorBackend(data) {
+            fetch("{% url 'eventos:actualizar_bracket' torneo.id %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ resultados: data })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Error al actualizar el marcador");
+                return response.json();
+            })
+            .then(data => {
+                console.log("Marcadores actualizados", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+    });
+    {% endif %}
+</script>
+
 </body>
 {% endblock %}

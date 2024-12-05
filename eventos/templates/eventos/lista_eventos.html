@@ -58,8 +58,8 @@
     </div>
     
     {% if user.is_staff or user.user_type == 'organizador'%}
-        <a href="{% url 'eventos:crear_evento' %}" class="btn btn-secondary mt-3" style="color:#fff;">Crear Evento</a>
-        <a href="{% url 'eventos:crear_torneo_comunitario' %}" class="btn btn-secondary mt-3" style="color:#fff;">Crear Torneo</a>
+        <a href="{% url 'eventos:crear_evento' %}" class="btn btn-secondary mt-3" style="color:#fff; margin-right:10px;">Crear Evento</a>
+        <a href="{% url 'eventos:crear_torneo_comunitario' %}" class="btn btn-secondary mt-3" style="color:#fff; margin-bottom:20px;">Crear Torneo</a>
 
     {% endif %}
 </div>

@@ -4,29 +4,59 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'polls/css/styleProfile.css' %}">
+<link id="tema-estilo" rel="stylesheet" href="{% static 'polls/css/themes/'|add:profile.tema_perfil|add:'.css' %}">
+
+<!-- Condicional para mostrar el fondo -->
+<style>
+    {% if profile.imagen_fondo %}
+        body {
+            background: url('{{ profile.imagen_fondo.url }}') no-repeat center center fixed;
+            background-size: cover;
+        }
+    {% else %}
+        body {
+            background-color: #121212; /* Fondo por defecto oscuro */
+        }
+    {% endif %}
+</style>
+
+{% if profile.musica_fondo %}
+    <div class="musica-control">
+        <button onclick="pausarMusica()">Pausar Música</button>
+        <button onclick="reanudarMusica()">Reanudar Música</button>
+    </div>
+
+    <iframe id="musica-fondo" width="20%" height="60" scrolling="no" frameborder="no" 
+            src="https://w.soundcloud.com/player/?url={{ profile.musica_fondo }}&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false">
+    </iframe>
+{% endif %}
 
 <div class="perfil-container">
     <div class="perfil-header">
         <img src="{{ profile.avatar.url|default:'https://via.placeholder.com/150' }}" alt="{{ profile.nick }}" class="avatar">
         <h2>{{ profile.nick }}</h2>
     </div>
+
     <div class="perfil-info">
         <h3>Información General</h3>
         <p><strong>Nombre:</strong> {{ profile.name|default:"No especificado" }}</p>
         <p><strong>Email:</strong> {{ profile.email }}</p>
         <p><strong>Puntos:</strong> {{ profile.puntos }}</p>
+
         <h3>Personajes Favoritos</h3>
         <ul>
             {% for personaje in profile.personajes_favoritos.all %}
                 <li>{{ personaje.nombre }}</li>
             {% endfor %}
         </ul>
+
         {% if profile.twitch_stream %}
         {% if twitch_embed_url %}
         <h3>Stream de Twitch</h3>
         <iframe src="https://player.twitch.tv/?channel={{ profile.twitch_stream|strip_twitch }}&parent=127.0.0.1" frameborder="0" allowfullscreen="true" scrolling="no" height="315" width="560"></iframe>
-        {% endif %}    {% endif %}
-    
+        {% endif %}
+        {% endif %}
+
         {% if profile.youtube_channel %}
         <div class="perfil-youtube">
             <h3>Canal de YouTube</h3>
@@ -34,12 +64,30 @@
                 <img src="{% static 'polls/icons/youtube.svg' %}" alt="YouTube" class="youtube-icon">
             </a>
         </div>
-    {% else %}
-        <p>No se ha configurado un canal de YouTube para este usuario.</p>
-    {% endif %}
+        {% else %}
+            <p>No se ha configurado un canal de YouTube para este usuario.</p>
+        {% endif %}
+
+        <div class="moderacion-section">
+            <h3>Moderación</h3>
+            <p><strong>Strikes:</strong> {{ profile.moderacion.strikes }}/3</p>
+            <p><strong>Comentarios:</strong> 
+                {% if profile.moderacion.comentarios_bloqueados %}
+                    Bloqueado
+                {% else %}
+                    Permitido
+                {% endif %}
+            </p>
+            <p><strong>Participación en Torneos:</strong> 
+                {% if profile.moderacion.torneos_bloqueados %}
+                    Bloqueado
+                {% else %}
+                    Permitido
+                {% endif %}
+            </p>
+        </div>
     </div>
 
-   
     {% if request.user == profile %}
         <div class="perfil-editar">
             <h3>Editar Perfil</h3>
@@ -50,5 +98,54 @@
             </form>
         </div>
     {% endif %}
+
+    <div class="text-center mt-3">
+        {% if user.is_staff %}
+            <a href="{% url 'polls:moderar_usuario' profile.id %}" class="btn btn-primary" style="color: white;">Moderación</a>
+        {% endif %}
+    </div>
 </div>
+
+<script>
+    function cambiarTema(tema) {
+        document.getElementById('tema-estilo').href = `/static/polls/css/themes/${tema}.css`;
+    }
+</script>
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+    // Obtener el iframe de SoundCloud
+    var iframe = document.getElementById('musica-fondo');
+    var player = SC.Widget(iframe);
+
+    // Función para pausar la música
+    function pausarMusica() {
+        player.pause();
+    }
+
+    // Función para reanudar la música
+    function reanudarMusica() {
+        player.play();
+    }
+
+    // Función para cambiar la canción (si tienes una lista de canciones)
+    function cambiarCancion(url) {
+        player.load(url, {auto_play: true});
+    }
+
+    // Función para ajustar el volumen
+    function ajustarVolumen(volumen) {
+        player.setVolume(volumen);
+    }
+
+    // Función para saber si la canción está en reproducción
+    function estaReproduciendo() {
+        player.isPlaying(function(isPlaying) {
+            console.log(isPlaying ? "Reproduciendo" : "Pausado");
+        });
+    }
+
+    // Iniciar la reproducción (aunque se hace por defecto con autoplay)
+    player.play();
+</script>
+
 {% endblock %}

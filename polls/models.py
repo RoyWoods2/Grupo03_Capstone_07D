@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from noticias.models import Noticia
 from django.conf import settings  # Importa settings para usar AUTH_USER_MODEL
 from eventos.models import Evento
+from django.core.exceptions import ValidationError
+
 
 
 # Create your models here.
@@ -67,6 +69,15 @@ class CustomUser(AbstractUser):
     videos_subidos = models.ManyToManyField('Recurso', blank=True, related_name='creadores')
     twitch_stream = models.URLField(blank=True, null=True, help_text="Enlace a tu canal de Twitch")
     youtube_channel = models.URLField(blank=True, null=True, help_text="Enlace a tu canal de YouTube")
+    tema_perfil = models.CharField(max_length=50, choices=[
+        ('dark', 'Oscuro'),
+        ('light', 'Claro'),
+        ('retro', 'Retro'),
+        ('arcade', 'Arcade')
+    ], default='dark')
+    musica_fondo = models.URLField(blank=True, null=True, help_text="URL de música de fondo")
+    imagen_fondo = models.ImageField(upload_to="backgrounds/", null=True, blank=True)
+
 
     objects = CustomUserManager()
 
@@ -138,7 +149,9 @@ class Comentario(models.Model):
         blank=True,
         related_name="respuestas",
     )
-
+    def clean(self):
+        if self.usuario.moderacion.comentarios_bloqueados:
+            raise ValidationError("Este usuario está bloqueado para comentar.")
     def __str__(self):
         return f"Comentario de {self.usuario.username} en {self.noticia}"
 
@@ -305,3 +318,21 @@ class PersonajeVisita(models.Model):
 
     def __str__(self):
         return f"{self.personaje.nombre} - {self.juego.nombre}"
+    
+class Moderacion(models.Model):
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='moderacion')
+    strikes = models.IntegerField(default=0)
+    comentarios_bloqueados = models.BooleanField(default=False)
+    torneos_bloqueados = models.BooleanField(default=False)
+    fecha_ultimo_strike = models.DateTimeField(null=True, blank=True)
+
+    def agregar_strike(self):
+        self.strikes += 1
+        self.fecha_ultimo_strike = now()
+        self.save()
+        if self.strikes >= 3:
+            self.usuario.is_active = False
+            self.usuario.save()
+
+    def __str__(self):
+        return f"Moderación de {self.usuario.nick}"

@@ -1,0 +1,22 @@
+/* retro.css */
+body {
+    background-color: #0f0f0f;
+    color: #58f258;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+}
+
+a, button {
+    color: #ffcc00;
+    border: 3px solid #ffcc00;
+}
+
+button {
+    background-color: #0f0f0f;
+    box-shadow: inset 2px 2px 0 #58f258, inset -2px -2px 0 #0f0f0f;
+}
+
+button:hover {
+    background-color: #58f258;
+    color: #0f0f0f;
+}

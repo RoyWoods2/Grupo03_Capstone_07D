@@ -250,7 +250,7 @@
         <h2 class="text-center">Combos</h2>
 
         {% if combos %}
-        <table class="table table-striped mt-3">
+        <table class="table custom-table table-striped mt-3">     
             <thead>
                 <tr>
                     <th>Inputs</th>
@@ -290,7 +290,6 @@
     <h2>Recursos de {{ personaje.nombre }}</h2>
     
     {% for categoria in recursos_por_categoria %}
-        <h3>{{ categoria.categoria }}</h3>
         <div class="recursos-categoria">
             {% for recurso in recursos %}
                 {% if recurso.categoria == categoria.categoria %}
@@ -323,9 +322,18 @@
             {% endfor %}
         </div>
     {% endfor %}
-</div>
-<a href="{% url 'polls:crear_recurso' juego_slug=personaje.juego.slug personaje_slug=personaje.slug %}" class="btn btn-success">Crear Recurso</a>
 
+  {% if user.is_authenticated %}
+    <a href="{% url 'polls:crear_recurso' juego_slug=personaje.juego.slug personaje_slug=personaje.slug %}" class="btn-custom" style="color:white;">
+        <strong>
+        Crear Recurso</a>
+        </Stron>
+
+{% endif %}
+
+
+</div>
+   
 
 </div>
 

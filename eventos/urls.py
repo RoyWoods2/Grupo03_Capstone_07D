@@ -12,6 +12,12 @@ urlpatterns = [
     path("ranking/", views.ranking, name="ranking"),
     path("crear_torneo_comunitario/", views.crear_torneo_comunitario, name="crear_torneo_comunitario"),
     path("torneo_comunitario/<int:torneo_id>/", views.detalle_torneo_comunitario, name="detalle_torneo_comunitario"),
+    path('<int:torneo_id>/inscribirse/', views.inscribir_torneo, name='inscribir_torneo'),
+    path('<int:torneo_id>/generar-bracket/', views.generar_bracket, name='generar_bracket'),
+    path('<int:torneo_id>/actualizar_bracket/', views.actualizar_bracket, name='actualizar_bracket'),
+
+
+
 
 
 ]

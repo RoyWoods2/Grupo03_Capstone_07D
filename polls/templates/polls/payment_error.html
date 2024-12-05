@@ -1,0 +1,53 @@
+{% extends 'polls/detail.html'%}
+{% block content%}
+<!-- polls/payment_error.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error en el Pago</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8d7da;
+            color: #721c24;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #721c24;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #5c1617;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Hubo un problema al procesar tu pago!</h1>
+        <p>Lo sentimos, pero no pudimos completar tu transacción.</p>
+        <p><strong>Error: </strong>{{ error }}</p>
+        <p>Por favor, verifica tus datos o intenta nuevamente más tarde.</p>
+        <a href="{% url 'polls:donacion' %}" class="btn">Volver a intentar</a>
+    </div>
+</body>
+</html>
+{% endblock %}

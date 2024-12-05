@@ -35,6 +35,13 @@ urlpatterns = [
     ),
     path('votar_recurso/<int:recurso_id>/<str:accion>/', views.votar_recurso, name='votar_recurso'),
     path("juegos/<slug:juego_slug>/personajes/<slug:personaje_slug>/crear_recurso/", views.crear_recurso, name="crear_recurso"),
+    path('moderar/<int:user_id>/', views.moderar_usuario, name='moderar_usuario'),
+    path("faq/", views.faq, name="faq"),
+    path("donacion/", views.donation, name="donacion"),
+    path('payment/success/', views.payment_success, name='payment_success'),
+
+
+
 
 
 
