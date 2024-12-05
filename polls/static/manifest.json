@@ -1,0 +1,25 @@
+{
+    "name": "Fighting Games Chile",
+    "short_name": "FightingChile",
+    "start_url": "/",
+    "description": "Una aplicación para jugadores de juegos de lucha competitivos",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ff0000",
+    "icons": [
+      {
+        "src": "polls/css/icons/icon-128x128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      },
+      {
+        "src": "polls/css/icons/icon-128x128.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+
+
+  
+  

@@ -1,0 +1,30 @@
+/* arcade.css */
+body {
+    background: linear-gradient(135deg, #ff1e56, #ffac41);
+    color: white;
+    font-family: 'Changa', sans-serif;
+}
+
+a, button {
+    color: white;
+    animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #ff1e56, 0 0 10px #ff1e56, 0 0 15px #ffac41;
+    }
+    to {
+        text-shadow: 0 0 20px #ffac41, 0 0 25px #ffac41, 0 0 30px #ff1e56;
+    }
+}
+
+button {
+    background: radial-gradient(circle, #ff1e56, #ffac41);
+    border: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.1);
+}

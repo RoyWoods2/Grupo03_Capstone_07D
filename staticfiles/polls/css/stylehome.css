@@ -1,3 +1,33 @@
+@import url('/static/admin/css/base.css');
+@import url('/static/admin/css/dashboard.css');
+
+/* Haz que el contenedor principal del body use Flexbox */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1s ease-in-out; 
+
+}
+
+/* Wrapper de contenido que ocupará todo el espacio restante */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer fijo al final */
+footer {
+    background-image: url('images/dnfd-background.png');
+    background-repeat: no-repeat;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer al final de la página */
+}
+
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 .vertical-navbar a, .dropdown-btn {
@@ -87,13 +117,15 @@
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow */
 }
-body {
-
-    font-family: Arial, sans-serif;
+html,body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #22223B;
-    color: white;
+    background-color: #22223B !important;
+    color: white !important;
 	background-image: url('https://www.dustloop.com/wiki/images/background.webp'),url('images/p4u2r-background.png');
     background-position: top center; /* Alinea la imagen de fondo con el header */
     background-repeat: no-repeat;
@@ -110,7 +142,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100; /* Ensure it is above other elements */
+    z-index: 2; /* Ensure it is above other elements */
+    position: relative;
 }
 .logo {
     width: 50px;
@@ -128,6 +161,9 @@ body {
     background-color: rgba(0, 0, 0, 0.3);
     padding: 25px 0;
     text-align: center;
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
     
 }
 
@@ -403,7 +439,7 @@ body {
 .footer-bg {
     background-image: url('images/dnfd-background.png');
     background-repeat: no-repeat;
-    height: 120px; /* Ajusta según lo necesites */
+    height: 10px; /* Ajusta según lo necesites */
     bottom: 0;
     width: 100%;
 }
@@ -464,6 +500,11 @@ body {
     
 }
 
+.container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
 
 .noticias-container {
@@ -528,4 +569,49 @@ body {
     .noticia-titulo {
         font-size: 14px;
     }
+}
+
+.admin-panel table {
+    /* Mantener el diseño original del admin */
+    border: 1px solid #ddd;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-panel table th, .admin-panel table td {
+    padding: 8px;
+    text-align: left;
+}
+.gif-izquierda {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 10%;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.gif-derecha {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 10%;
+    z-index: 1000;
+    cursor: pointer;}
+
+
+
+/* Animación para suavizar la carga */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Aplicar la animación a los elementos del cuerpo */
+body {
+    animation: fadeIn 1s ease-in-out; /* 1 segundo de duración */
 }

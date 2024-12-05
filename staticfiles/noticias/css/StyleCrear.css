@@ -1,0 +1,11 @@
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.form-group label {
+    font-weight: bold;
+}

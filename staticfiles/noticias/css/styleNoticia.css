@@ -1,17 +1,168 @@
-/* estilos.css */
-.noticia-detalle {
-    display: flex;
-    justify-content: center;
-    margin: 20px;
+.detalle-noticia-container {
+    max-width: 800px; /* Ajusta el ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    text-align: center; /* Centra el contenido dentro del contenedor */
+    padding: 20px;
 }
 
-.noticia-detalle .contenido {
-    max-width: 800px;
-    text-align: center;
+.noticia-titulo {
+    font-size: 28px;  /* Tamaño más grande */
+    font-weight: bold;  /* Hacerlo más llamativo */
+    text-transform: uppercase;  /* Hacerlo en mayúsculas para destacar más */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);  /* Sombra para darle más profundidad */
+    margin-bottom: 20px;  /* Espaciado debajo del título */
 }
 
-.noticia-detalle img {
-    width: 100%;
-    height: auto;
+.noticia-titulo:hover {
+    color: #e65c00;  /* Cambio de color al pasar el mouse */
+    cursor: pointer;  /* Cambiar el cursor a mano cuando se pase sobre el título */
+}
+
+.noticia-meta {
+    font-size: 14px;
+    color: #666; /* Color gris para la meta información */
     margin-bottom: 20px;
+}
+
+.noticia-imagen {
+    width: 70%; /* Reduce la imagen al 70% de su tamaño original */
+    margin: 20px 0; /* Espaciado superior e inferior */
+}
+
+.noticia-contenido {
+    text-align: left; /* Alinea el contenido a la izquierda para mejor legibilidad */
+    font-size: 18px;
+    line-height: 1.6;
+}
+/* ESTILO PARA COMENTARIO*/
+.comentarios .comentario {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.comentarios .comentario strong {
+    color: #333;
+}
+
+form .form-control {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.comentarios {
+    margin-top: 20px;
+}
+
+.comentario, .respuesta {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.respuesta {
+    margin-left: 40px;
+    background-color: #f9f9f9;
+}
+
+
+.comentarios-container {
+    max-width: 70%;
+    margin-left: 10%;
+    padding: 20px;
+    background-color: #f8f9fa; /* Color claro */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    color:#333
+}
+
+.comentario {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comentario img.avatar {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 10px;
+}
+
+.comentario-contenido {
+    margin-left: 70px; /* Espaciado del avatar */
+}
+
+.comentario-header {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.comentario-header strong {
+    font-weight: bold;
+}
+
+.comentario p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.respuesta {
+    margin-left: 30px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #0056b3;
+    margin-bottom: 12px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-link {
+    background: none;
+    color: #007bff;
+    border: none;
+    text-decoration: underline;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.btn-link:hover {
+    color: #0056b3;
+    text-decoration: none;
 }

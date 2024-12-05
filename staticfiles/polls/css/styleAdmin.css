@@ -1,0 +1,51 @@
+/* Header transparente */
+.transparent-header {
+    background: rgba(0, 0, 0, 0); /* Totalmente transparente */
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Navbar alineada debajo del header */
+.top-navbar {
+    background: rgba(0, 0, 0, 0.8); /* Fondo oscuro semitransparente */
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    margin-top: 60px; /* Espaciado debajo del header */
+}
+
+.top-navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.top-navbar ul li {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.top-navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.top-navbar ul li a:hover {
+    color: #f39c12; /* Color de hover */
+}
+
+/* Asegurar que el contenido principal no quede debajo del header */
+main.container {
+    margin-top: 140px; /* Ajustar según el alto del header + navbar */
+    padding: 20px;
+}

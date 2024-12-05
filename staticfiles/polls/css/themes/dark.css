@@ -1,0 +1,23 @@
+/* dark.css */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 0 0 5px #fff;
+}
+
+a, button {
+    color: #00e5ff;
+    text-shadow: 0 0 10px #00e5ff;
+}
+
+button {
+    background-color: transparent;
+    border: 2px solid #00e5ff;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #00e5ff;
+    color: #121212;
+}

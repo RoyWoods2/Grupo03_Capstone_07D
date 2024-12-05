@@ -1,0 +1,318 @@
+body {
+    background-color: #111;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+}
+.overview-section, .pros-cons-section, .info-card {
+    background-color: #222;
+    color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.info-card {
+    text-align: center;
+}
+.pros-cons-table {
+    color: #fff;
+    background-color: #333;
+}
+.pros-cons-table th, .pros-cons-table td {
+    padding: 10px;
+    border: 1px solid #444;
+    background-color: #333;
+
+}
+.pros, .cons {
+    font-weight: bold;
+}
+.character-image {
+    display: block;
+    margin: 10px auto;
+    max-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+/* Estilos para la barra de navegación en forma de tarjetas */
+.navbar-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.navbar-card {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+    color: #fff;
+    font-weight: bold;
+}
+.navbar-card:hover {
+    background-color: #444;
+    transform: translateY(-5px);
+}
+.navbar-card a {
+    text-decoration: none;
+}
+/* Ajustes para dispositivos móviles */
+@media (max-width: 767px) {
+    .navbar-grid {
+        grid-template-columns: repeat(2, 1fr); /* Reduce a 2 columnas en móviles */
+    }
+}
+
+.tab-content { display: none; } /* Oculta todas las secciones por defecto */
+.active { display: block; }     /* Muestra solo la sección activa */
+.navbar-card a {
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s;
+}
+.navbar-card a:hover, .navbar-card a.active-tab {
+    border-bottom: 2px solid #007bff;
+}
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 8px;
+    overflow: hidden;
+    --bs-table-bg: transparent;
+}
+
+.custom-table th, .custom-table td {
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background-color: #333;
+    color: #fff;
+
+    
+}
+
+.custom-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.custom-table th .custom-table td {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    font-weight: bold;
+    text-align: center;
+    background-color: #333;
+}
+
+
+/* Imagen del personaje */
+.character-image {
+    display: block;
+    margin: 10px auto;
+    max-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.table th {
+ 
+    font-weight: bold;
+    text-align: center;
+}
+.accordion {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    text-align: left;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.accordion:hover {
+    background-color: #0056b3;
+}
+
+.content-strategy {
+    padding: 0 15px;
+    display: none; /* Inicialmente oculto */
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.accordion-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.accordion-button .arrow {
+    transition: transform 0.3s ease;
+}
+
+.accordion-button.collapsed .arrow {
+    transform: rotate(0deg); /* Flecha apuntando hacia abajo cuando está cerrado */
+}
+
+.accordion-button:not(.collapsed) .arrow {
+    transform: rotate(180deg); /* Flecha apuntando hacia arriba cuando está abierto */
+}
+
+.accordion-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.accordion-body {
+    padding: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.accordion-button:hover {
+    background-color: #f7f7f7;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+.content-strategy{
+    color: #ddd;
+    width: 90%;
+    margin-left: 20px; /* Space for vertical navbar */
+    padding: 20px;
+    margin-left:20px;
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow */
+
+}
+.pros{
+    color:#20A007;
+    text-align: center;
+}
+
+.cons{
+    color:#7F0B0B;
+    text-align: center;
+
+}
+.table-container{
+
+    background-color: #333;
+}
+
+.FrameDataImagen {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.recurso {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.discord-btn, .twitter-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.discord-btn {
+    background-color: #333; /* Color oficial de Discord */
+}
+
+.twitter-btn {
+    background-color: #333; /* Color oficial de Twitter */
+}
+
+.discord-btn img, .twitter-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.discord-btn:hover, .twitter-btn:hover {
+    transform: scale(1.1);
+}
+
+.recurso {
+    background-color: #333;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.recurso .btn {
+    margin-right: 10px;
+}
+
+.recurso .btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.recurso .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.recurso .btn:hover {
+    opacity: 0.8;
+}
+
+.fixed-left {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.fixed-left:hover {
+    background-color: #218838;
+}
+
+.video-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+iframe {
+    max-width: 100%;
+}
+
+.btn-custom {
+    background-color: #007bff; /* Azul */
+    color: white; /* Texto blanco */
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    display: inline-block;
+    text-align: left;
+    margin-left: 1%;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+.recurso {
+    margin-bottom: 20px; /* Para separar cada recurso */
+}

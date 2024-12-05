@@ -1,6 +1,10 @@
 {% load static %}
 <html lang="en">
-<head>    
+<head>   
+    
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+
+    <meta name="theme-color" content="#ff0000"> 
     <title>{% block title %}FighterChile{% endblock %}</title>
 
      <!-- Font Awesome -->
@@ -11,9 +15,10 @@
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+     
 
      <!-- CSS personalizado -->
-    <link rel="stylesheet" href="{% static 'polls/css/stylehome.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/css/styleHome.css' %}">
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 </head>
@@ -108,7 +113,19 @@
     });
 </script>    
 
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("{% static 'service-worker.js' %}", { scope: '/static/' })
+          .then(function(registration) {
+            console.log('Service Worker registrado con éxito:', registration.scope);
+          })
+          .catch(function(error) {
+            console.error('Error al registrar el Service Worker:', error);
+          });
+    }
+</script>
 
+  
 
 </body>
 </html>

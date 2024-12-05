@@ -1,0 +1,77 @@
+/* Estilo general para el formulario */
+.content {
+    background-color: #333; /* Fondo oscuro */
+    color: white; /* Texto blanco */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    margin: 0 auto; /* Centrado automático */
+}
+
+/* Título */
+h2 h3   h4 h5 h6{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los campos de texto (input, textarea) */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #444;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: all 0.3s ease-in-out;
+}
+form input{
+
+    width: 95%;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #444444;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Estilo cuando el input está en foco */
+input:focus, textarea:focus {
+    border: 2px solid #ff6600;
+    box-shadow: 0 0 10px #ff6600;
+}
+
+/* Estilo de las etiquetas de los campos */
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Estilo de los botones */
+button {
+    background-color: #ff6600;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%; /* Botón de ancho completo */
+}
+
+/* Cambio de color del botón al pasar el mouse */
+button:hover {
+    background-color: #e65c00;
+}
+
+/* Estilo para los mensajes de error o validación */
+.error-text {
+    color: #ff6666;
+    font-size: 14px;
+    margin-top: 5px;
+}
